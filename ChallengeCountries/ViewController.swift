@@ -9,10 +9,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let countriesRepo = CountriesRepo()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        countriesRepo.updateCountries(handler: {  })
     }
 
     override func didReceiveMemoryWarning() {
