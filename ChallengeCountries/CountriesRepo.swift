@@ -13,6 +13,13 @@ struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
 }
 
+enum CountriesRepoError: Error {
+    case JSONCannotExtractMainDictionary
+    case JSONCannotExtractNextNode
+    case JSONCannotConvertNextToString
+    case JSONCannotExtractCountriesNode
+    case JSONCannotConvertCountriesToArray
+}
 
 class CountriesRepo {
     private var next: String = ""
@@ -23,9 +30,14 @@ class CountriesRepo {
         request(RepoConstants.InitialUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
-                let parsedResult = self.parseJSONResult(rawData: value)!
-                self.next = parsedResult.next
-                self.countries = parsedResult.countries
+                do {
+                    let parsedResult = try self.parseJSONResult(rawData: value)
+                    self.next = parsedResult.next
+                    self.countries = parsedResult.countries
+                } catch {
+                    
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -39,9 +51,15 @@ class CountriesRepo {
         handler()
     }
     
-    private func parseJSONResult(rawData: Any) -> (next: String, countries: [Country])? {
-        //guard let initialDictionary = rawData as? [String: Any] else { return nil }
+    private func parseJSONResult(rawData: Any) throws -> (next: String, countries: [Country]) {
+        guard let initialDictionary = rawData as? [String: Any] else { throw CountriesRepoError.JSONCannotExtractMainDictionary }
         
-        return nil
+        guard let nextRaw = initialDictionary["next"] else { throw CountriesRepoError.JSONCannotExtractNextNode }
+        guard let next = nextRaw as? String else { throw CountriesRepoError.JSONCannotConvertNextToString }
+
+        guard let countriesRaw = initialDictionary["countries"] else { throw CountriesRepoError.JSONCannotExtractCountriesNode }
+        guard let countries = countriesRaw as? [[String: Any]] else { throw CountriesRepoError.JSONCannotConvertCountriesToArray }
+        
+        return (next, [])
     }
 }
