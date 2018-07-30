@@ -14,11 +14,8 @@ struct RepoConstants {
 }
 
 enum CountriesRepoError: Error {
-    case JSONCannotExtractMainDictionary
-    case JSONCannotExtractNextNode
-    case JSONCannotConvertNextToString
-    case JSONCannotExtractCountriesNode
-    case JSONCannotConvertCountriesToArray
+    case JSONCannotExtractNode(name: String)
+    case JSONCannotExtractCountryNode(name: String, index: Int)
 }
 
 class CountriesRepo {
@@ -52,13 +49,34 @@ class CountriesRepo {
     }
     
     private func parseJSONResult(rawData: Any) throws -> (next: String, countries: [Country]) {
-        guard let initialDictionary = rawData as? [String: Any] else { throw CountriesRepoError.JSONCannotExtractMainDictionary }
-        
-        guard let nextRaw = initialDictionary["next"] else { throw CountriesRepoError.JSONCannotExtractNextNode }
-        guard let next = nextRaw as? String else { throw CountriesRepoError.JSONCannotConvertNextToString }
+        typealias JSONDictionary = [String:Any]
+        typealias JSONArray = [Any]
 
-        guard let countriesRaw = initialDictionary["countries"] else { throw CountriesRepoError.JSONCannotExtractCountriesNode }
-        guard let countries = countriesRaw as? [[String: Any]] else { throw CountriesRepoError.JSONCannotConvertCountriesToArray }
+        func getError(name: String, index: Int) -> CountriesRepoError {
+            return (index == 0) ?
+                .JSONCannotExtractNode(name: name) :
+                .JSONCannotExtractCountryNode(name: name, index: index)
+        }
+        
+        func extract<Type>(from data: Any, nodeName: String, index: Int = 0) throws -> Type {
+            guard let result = data as? Type else { throw getError(name: nodeName, index: index) }
+            return result
+        }
+        
+        func extractEntry<Type>(from dictionary: JSONDictionary,key: String, nodeName: String, index: Int = 0) throws -> Type {
+            guard let result = dictionary[key] as? Type else { throw getError(name: nodeName, index: index) }
+            return result
+        }
+        
+        let initialDictionary: JSONDictionary = try extract(from: rawData, nodeName: "Main")
+        
+        let next:String = try extractEntry(from: initialDictionary, key: "next", nodeName: "Next")
+        
+        let countries:JSONArray = try extract(from: initialDictionary, nodeName: "Countries")
+        
+        for (index, countryRaw) in countries.enumerated() {
+            let country: JSONDictionary = try extract(from: countryRaw, nodeName: "country", index: index)
+        }
         
         return (next, [])
     }
