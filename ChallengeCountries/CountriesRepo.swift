@@ -23,7 +23,7 @@ class CountriesRepo {
     
     var countries: [Country] = []
     
-    func updateCountries(handler: ()->Void) {
+    func updateCountries(handler: @escaping ()->Void) {
         request(RepoConstants.InitialUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
@@ -31,6 +31,7 @@ class CountriesRepo {
                     let parsedResult = try self.parseJSONResult(rawData: value)
                     self.next = parsedResult.next
                     self.countries = parsedResult.countries
+                    handler()
                 } catch {
                     print(error)
                 }
@@ -39,8 +40,6 @@ class CountriesRepo {
                 print(error)
             }
         }
-        
-        handler()
     }
     
     func getNextPage(handler: ()->Void) {
