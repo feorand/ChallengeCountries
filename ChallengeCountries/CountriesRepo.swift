@@ -25,16 +25,34 @@ class CountriesRepo {
     
     private(set) var countries: [Country] = []
     
-    func updateCountries(handler: @escaping ()->()) {
-        request(RepoConstants.InitialUrl).responseJSON{ response in
+    func updateCountries(completionHandler handler: @escaping ()->()) {
+        getCountries(fromUrl: RepoConstants.InitialUrl) { nextPageUrl, countries in
+            self.nextPageUrl = nextPageUrl
+            self.countries = countries
+            
+            handler()
+        }
+        
+    }
+    
+    func getNextPage(handler: ()->Void) {
+        //TODO: Actual get here
+        
+        handler()
+    }
+    
+    private func getCountries(fromUrl url: String,
+                              completionHandler handler: @escaping (_ nextPageUrl: String, _ countries: [Country])->()) {
+        
+        request(url).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 do {
-                    let parsedResult = try self.parseJSONResult(rawData: value)
+                    let (nextPageUrl, countries) = try self.parseJSONResult(rawData: value)
                     
                     let countriesHandlersGroup = DispatchGroup()
                     
-                    for country in parsedResult.countries {
+                    for country in countries {
                         countriesHandlersGroup.enter()
                         
                         self.getImage(fromUrl: country.flagUrl) { imageData in
@@ -44,10 +62,7 @@ class CountriesRepo {
                     }
                     
                     countriesHandlersGroup.notify(queue: .main) {
-                        self.nextPageUrl = parsedResult.next
-                        self.countries = parsedResult.countries
-
-                        handler()
+                        handler(nextPageUrl, countries)
                     }
                 } catch {
                     print(error)
@@ -57,12 +72,6 @@ class CountriesRepo {
                 print(error)
             }
         }
-    }
-    
-    func getNextPage(handler: ()->Void) {
-        //TODO: Actual get here
-        
-        handler()
     }
     
     private func getImage(fromUrl url: String, completionHandler: @escaping (_ imageData: Data?) -> ()) {
