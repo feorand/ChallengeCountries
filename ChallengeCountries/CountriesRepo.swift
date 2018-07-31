@@ -32,12 +32,29 @@ class CountriesRepo {
                               completionHandler handler: @escaping (String, [Country]) -> ()) {
         
         // Pack into closure with appropriate signature
-        let extractCountriesHandler: (Any) -> () = { value in
-            self.extractCountries(from: value, completionHandler: handler)
+        let countryListDownloadedHandler: (Any) -> () = { data in
+            var nextPageUrl = ""
+            var countries: [Country] = []
+            
+            do {
+                nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
+                countries = try CountriesJSONParser.GetCountries(from: data)
+            } catch {
+                print(error)
+                return
+            }
+            
+            //Pack into closure with appropriate signature
+            let getFlagsCompletionHandler: ([Country]) -> () = { countries in
+                handler(nextPageUrl, countries)
+            }
+            
+            //Dowaload and fill flags for countries
+            self.getFlags(for: countries, completionHandler: getFlagsCompletionHandler)
         }
 
         request(url).responseJSON{ response in
-            self.executeIfSuccess(response: response, handler: extractCountriesHandler)
+            self.executeIfSuccess(response: response, handler: countryListDownloadedHandler)
         }
     }
     
@@ -49,28 +66,6 @@ class CountriesRepo {
         case .failure(let error):
             print(error)
         }
-    }
-    
-    private func extractCountries(from data: Any,
-                                  completionHandler handler: @escaping (String, [Country])->()) {
-        var nextPageUrlMaybe: String? = nil
-        var countriesMaybe: [Country]? = nil
-        do {
-            nextPageUrlMaybe = try CountriesJSONParser.GetNextPageUrl(from: data)
-            countriesMaybe = try CountriesJSONParser.GetCountries(from: data)
-        } catch {
-            print(error)
-        }
-        
-        guard let nextPageUrl = nextPageUrlMaybe, let countries = countriesMaybe else {
-            return
-        }
-        
-        let getFlagsCompletionHandler: ([Country])->() = { countries in
-            handler(nextPageUrl, countries)
-        }
-        
-        self.getFlags(for: countries, completionHandler: getFlagsCompletionHandler)
     }
     
     private func getImage(fromUrl url: String, completionHandler: @escaping (Data?) -> ()) {
