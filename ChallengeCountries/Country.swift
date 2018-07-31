@@ -15,11 +15,12 @@ class Country {
     let population: Int
     let descriptionSmall: String
     let description: String
+    var flag: Data?
+    var photos: [Data] = []
     let flagUrl: String
+    let photosUrls: [String]
     
-    private let photosUrls: [String]?
-    
-    init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flagUrl: String, photosUrls: [String]?) {
+    init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flagUrl: String, photosUrls: [String]) {
         self.name = name
         self.continent = continent
         self.capital = capital
@@ -27,10 +28,6 @@ class Country {
         self.descriptionSmall = descriptionSmall
         self.description = description
         self.flagUrl = flagUrl
-        self.photosUrls = photosUrls
-    }
-    
-    var infoPhotosUrls: [String] {
-        return photosUrls ?? [flagUrl]
+        self.photosUrls = photosUrls.isEmpty ? [flagUrl] : photosUrls
     }
 }

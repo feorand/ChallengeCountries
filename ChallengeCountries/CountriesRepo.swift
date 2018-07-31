@@ -18,20 +18,37 @@ enum CountriesRepoError: Error {
     case JSONCannotExtractCountryNode(name: String, index: Int)
 }
 
+//TODO: Logging
+
 class CountriesRepo {
     private var next: String = ""
     
-    var countries: [Country] = []
+    private(set) var countries: [Country] = []
     
-    func updateCountries(handler: @escaping ()->Void) {
+    func updateCountries(handler: @escaping ()->()) {
         request(RepoConstants.InitialUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 do {
                     let parsedResult = try self.parseJSONResult(rawData: value)
-                    self.next = parsedResult.next
-                    self.countries = parsedResult.countries
-                    handler()
+                    
+                    let countriesHandlersGroup = DispatchGroup()
+                    
+                    for country in parsedResult.countries {
+                        countriesHandlersGroup.enter()
+                        
+                        self.getImage(fromUrl: country.flagUrl) { imageData in
+                            country.flag = imageData
+                            countriesHandlersGroup.leave()
+                        }
+                    }
+                    
+                    countriesHandlersGroup.notify(queue: .main) {
+                        self.next = parsedResult.next
+                        self.countries = parsedResult.countries
+
+                        handler()
+                    }
                 } catch {
                     print(error)
                 }
@@ -48,8 +65,19 @@ class CountriesRepo {
         handler()
     }
     
+    private func getImage(fromUrl url: String, completionHandler: @escaping (_ imageData: Data?) -> ()) {
+        request(url).responseData{ response in
+            switch response.result {
+            case .success(let value):
+                completionHandler(value)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func parseJSONResult(rawData: Any) throws -> (next: String, countries: [Country]) {
-        typealias JSONDictionary = [String:Any]
+        typealias JSONDictionary = [String: Any]
         typealias JSONArray = [Any]
 
         func getError(name: String, index: Int) -> CountriesRepoError {
