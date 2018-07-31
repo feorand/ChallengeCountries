@@ -30,31 +30,23 @@ class CountriesRepo {
     
     private func getCountries(from url: String,
                               completionHandler handler: @escaping (String, [Country]) -> ()) {
-        
-        // Pack into closure with appropriate signature
-        let countryListDownloadedHandler: (Any) -> () = { data in
-            var nextPageUrl = ""
-            var countries: [Country] = []
-            
-            do {
-                nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
-                countries = try CountriesJSONParser.GetCountries(from: data)
-            } catch {
-                print(error)
-                return
-            }
-            
-            //Pack into closure with appropriate signature
-            let getFlagsCompletionHandler: ([Country]) -> () = { countries in
-                handler(nextPageUrl, countries)
-            }
-            
-            //Dowaload and fill flags for countries
-            self.getFlags(for: countries, completionHandler: getFlagsCompletionHandler)
-        }
-
         request(url).responseJSON{ response in
-            self.executeIfSuccess(response: response, handler: countryListDownloadedHandler)
+            self.executeIfSuccess(response: response) { data in
+                var nextPageUrl = ""
+                var countries: [Country] = []
+                
+                do {
+                    nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
+                    countries = try CountriesJSONParser.GetCountries(from: data)
+                } catch {
+                    print(error)
+                    return
+                }
+                
+                self.getFlags(for: countries) { countries in
+                    handler(nextPageUrl, countries)
+                }
+            }
         }
     }
     
@@ -80,13 +72,13 @@ class CountriesRepo {
         
         for country in countries {
             countriesHandlersGroup.enter()
-            
             self.getImage(fromUrl: country.flagUrl) { imageData in
                 country.flag = imageData
                 countriesHandlersGroup.leave()
             }
         }
         
+        //Wait until all countries are updated
         countriesHandlersGroup.notify(queue: .main) {
             handler(countries)
         }
