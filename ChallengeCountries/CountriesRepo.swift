@@ -30,6 +30,8 @@ class CountriesRepo {
     
     private func getCountries(from url: String,
                               completionHandler handler: @escaping (String, [Country]) -> ()) {
+        
+        // Pack into closure with appropriate signature
         let extractCountriesHandler: (Any) -> () = { value in
             self.extractCountries(from: value, completionHandler: handler)
         }
@@ -39,12 +41,7 @@ class CountriesRepo {
         }
     }
     
-    private func getImage(fromUrl url: String, completionHandler: @escaping (Data?) -> ()) {
-        request(url).responseData{ response in
-            self.executeIfSuccess(response: response, handler: completionHandler)
-        }
-    }
-    
+    // Executes handler if response state is Success
     private func executeIfSuccess<T>(response: DataResponse<T>, handler: (T) -> ()) {
         switch response.result {
         case .success(let value):
@@ -69,6 +66,21 @@ class CountriesRepo {
             return
         }
         
+        let getFlagsCompletionHandler: ([Country])->() = { countries in
+            handler(nextPageUrl, countries)
+        }
+        
+        self.getFlags(for: countries, completionHandler: getFlagsCompletionHandler)
+    }
+    
+    private func getImage(fromUrl url: String, completionHandler: @escaping (Data?) -> ()) {
+        request(url).responseData{ response in
+            self.executeIfSuccess(response: response, handler: completionHandler)
+        }
+    }
+    
+    private func getFlags(for countries: [Country],
+                          completionHandler handler: @escaping ([Country])->()) {
         let countriesHandlersGroup = DispatchGroup()
         
         for country in countries {
@@ -81,7 +93,7 @@ class CountriesRepo {
         }
         
         countriesHandlersGroup.notify(queue: .main) {
-            handler(nextPageUrl, countries)
+            handler(countries)
         }
     }
 }
