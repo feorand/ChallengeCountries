@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        countriesRepo.updateCountries(handler: {  })
+        countriesRepo.updateCountries(completionHandler: {  })
     }
 
     override func didReceiveMemoryWarning() {

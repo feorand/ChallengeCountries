@@ -47,27 +47,25 @@ class CountriesRepo {
         request(url).responseJSON{ response in
             switch response.result {
             case .success(let value):
-                do {
-                    let (nextPageUrl, countries) = try self.parseJSONResult(rawData: value)
-                    
-                    let countriesHandlersGroup = DispatchGroup()
-                    
-                    for country in countries {
-                        countriesHandlersGroup.enter()
-                        
-                        self.getImage(fromUrl: country.flagUrl) { imageData in
-                            country.flag = imageData
-                            countriesHandlersGroup.leave()
-                        }
-                    }
-                    
-                    countriesHandlersGroup.notify(queue: .main) {
-                        handler(nextPageUrl, countries)
-                    }
-                } catch {
-                    print(error)
+                let parseResult = try? self.parseJSONResult(rawData: value)
+                guard let (nextPageUrl, countries) = parseResult else {
+                    return
                 }
                 
+                let countriesHandlersGroup = DispatchGroup()
+                
+                for country in countries {
+                    countriesHandlersGroup.enter()
+                    
+                    self.getImage(fromUrl: country.flagUrl) { imageData in
+                        country.flag = imageData
+                        countriesHandlersGroup.leave()
+                    }
+                }
+                
+                countriesHandlersGroup.notify(queue: .main) {
+                    handler(nextPageUrl, countries)
+                }
             case .failure(let error):
                 print(error)
             }
