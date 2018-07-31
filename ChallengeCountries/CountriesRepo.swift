@@ -18,10 +18,10 @@ enum CountriesRepoError: Error {
     case JSONCannotExtractCountryNode(name: String, index: Int)
 }
 
-//TODO: Logging
+//TODO: Changle all prints to logs
 
 class CountriesRepo {
-    private var next: String = ""
+    private var nextPageUrl: String = ""
     
     private(set) var countries: [Country] = []
     
@@ -44,7 +44,7 @@ class CountriesRepo {
                     }
                     
                     countriesHandlersGroup.notify(queue: .main) {
-                        self.next = parsedResult.next
+                        self.nextPageUrl = parsedResult.next
                         self.countries = parsedResult.countries
 
                         handler()
