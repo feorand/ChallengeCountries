@@ -9,12 +9,10 @@
 import UIKit
 
 struct CountriesListConstants {
-    static let FlagImageAspectRatio: CGFloat = 50.0 / 34.0
-    static let FlagToViewWidthAspectRatio: CGFloat = 50.0 / 320.0
-    
-    static let FlagTopSpacing: CGFloat = 16.0
-    static let FlagDescriptionSpacing: CGFloat = 11.0
-    static let DescriptionBottomSpacing: CGFloat = 16.0
+    static let FlagHeight:CGFloat = 34
+    static let FlagTopSpacing: CGFloat = 16
+    static let FlagDescriptionSpacing: CGFloat = 11
+    static let DescriptionBottomSpacing: CGFloat = 16
 }
 
 class CountriesListViewController: UIViewController {
@@ -59,12 +57,8 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                           context: nil)
         let descriptionHeight = descriptionBoundingRect.height
         
-        let flagHeight = view.bounds.width *
-            CountriesListConstants.FlagToViewWidthAspectRatio /
-            CountriesListConstants.FlagImageAspectRatio
-        
         let cellHeight = CountriesListConstants.FlagTopSpacing +
-            flagHeight +
+            CountriesListConstants.FlagHeight +
             CountriesListConstants.FlagDescriptionSpacing +
             descriptionHeight +
             CountriesListConstants.DescriptionBottomSpacing
