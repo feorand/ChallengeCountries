@@ -46,15 +46,20 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        // Nothing to do when countries haven't loaded yet
         guard countriesRepo.countries.count > 0 else { return 0 }
         
         let country = countriesRepo.countries[indexPath.row]
         
+        // Simplified height calculation for cells with no description
         if country.descriptionSmall.isEmpty {
             return CountriesListConstants.TopSpacing +
                 CountriesListConstants.FlagHeight +
                 CountriesListConstants.BottomSpacing
         }
+        
+        // Full height calculation
         
         let description = country.descriptionSmall as NSString
         
@@ -84,6 +89,8 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // Nothing to do when countries haven't loaded yet
         guard countriesRepo.countries.count > 0,
             let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
                                                      for: indexPath) as? CountryCell else {
