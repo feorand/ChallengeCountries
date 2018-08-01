@@ -11,8 +11,11 @@ import UIKit
 struct CountriesListConstants {
     static let FlagHeight:CGFloat = 34
     static let FlagTopSpacing: CGFloat = 16
-    static let FlagDescriptionSpacing: CGFloat = 11
+    
+    static let DescriptionTopSpacing: CGFloat = 11
     static let DescriptionBottomSpacing: CGFloat = 16
+    static let DescriptionLeftSpacing: CGFloat = 15
+    static let DescriprtionRightSpacing: CGFloat = 15
 }
 
 class CountriesListViewController: UIViewController {
@@ -46,20 +49,34 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         guard countriesRepo.countries.count > 0 else { return 0 }
         
         let country = countriesRepo.countries[indexPath.row]
+        
+        if country.descriptionSmall.isEmpty {
+            return CountriesListConstants.FlagTopSpacing +
+                CountriesListConstants.FlagHeight +
+                CountriesListConstants.DescriptionBottomSpacing
+        }
+        
         let countryDescription = country.descriptionSmall as NSString
         
         let descriptionStringAttributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)]
-        let descriptionStringSize = CGSize(width: view.bounds.width, height: CGFloat.infinity)
+        
+        let descriprtionWidth = view.bounds.width -
+            CountriesListConstants.DescriptionLeftSpacing -
+            CountriesListConstants.DescriprtionRightSpacing
+        
+        let descriptionStringSize = CGSize(width: descriprtionWidth, height: CGFloat.infinity)
+        
         let descriptionBoundingRect = countryDescription
             .boundingRect(with: descriptionStringSize,
                           options: .usesLineFragmentOrigin,
                           attributes: descriptionStringAttributes,
                           context: nil)
+        
         let descriptionHeight = descriptionBoundingRect.height
         
         let cellHeight = CountriesListConstants.FlagTopSpacing +
             CountriesListConstants.FlagHeight +
-            CountriesListConstants.FlagDescriptionSpacing +
+            CountriesListConstants.DescriptionTopSpacing +
             descriptionHeight +
             CountriesListConstants.DescriptionBottomSpacing
         

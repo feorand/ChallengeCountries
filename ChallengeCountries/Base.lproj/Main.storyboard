@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -55,7 +54,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uK7-ea-1PI">
-                                                    <rect key="frame" x="15" y="58" width="344" height="18"/>
+                                                    <rect key="frame" x="15" y="58" width="345" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -63,7 +62,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Je1-RJ-I9h" firstAttribute="leading" secondItem="LDd-uN-FKj" secondAttribute="trailing" constant="8" symbolic="YES" id="6p6-f0-Gmj"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="uK7-ea-1PI" secondAttribute="trailing" constant="1" id="9xH-fJ-6Pa"/>
+                                                <constraint firstAttribute="trailing" secondItem="uK7-ea-1PI" secondAttribute="trailing" constant="15" id="9xH-fJ-6Pa"/>
                                                 <constraint firstItem="LDd-uN-FKj" firstAttribute="leading" secondItem="5fC-64-sXM" secondAttribute="leading" constant="15" id="BQG-WH-O8E"/>
                                                 <constraint firstItem="uK7-ea-1PI" firstAttribute="top" secondItem="LDd-uN-FKj" secondAttribute="bottom" constant="8" symbolic="YES" id="Yyv-VE-7yd"/>
                                                 <constraint firstItem="uK7-ea-1PI" firstAttribute="leading" secondItem="5fC-64-sXM" secondAttribute="leading" constant="15" id="efO-KJ-lZX"/>
