@@ -60,9 +60,9 @@ class CountriesRepo {
         }
     }
     
-    private func getImage(fromUrl url: String, completionHandler: @escaping (Data?) -> ()) {
+    private func getImage(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
         request(url).responseData{ response in
-            self.executeIfSuccess(response: response, handler: completionHandler)
+            self.executeIfSuccess(response: response, handler: handler)
         }
     }
     
@@ -82,5 +82,9 @@ class CountriesRepo {
         countriesHandlersGroup.notify(queue: .main) {
             handler(countries)
         }
+    }
+    
+    func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
+        getImage(fromUrl: url, completionHandler: handler)
     }
 }
