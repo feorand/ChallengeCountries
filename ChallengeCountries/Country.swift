@@ -20,7 +20,6 @@ class Country {
 
     // fields for storing actual downloaded images
     var flag: Data?
-    var photos: [Data] = []
     
     init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flagUrl: String, photosUrls: [String]) {
         self.name = name
