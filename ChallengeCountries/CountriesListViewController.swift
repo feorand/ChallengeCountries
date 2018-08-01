@@ -10,12 +10,12 @@ import UIKit
 
 struct CountriesListConstants {
     static let FlagHeight:CGFloat = 34
-    static let FlagTopSpacing: CGFloat = 16
+    static let TopSpacing: CGFloat = 16
     
-    static let DescriptionTopSpacing: CGFloat = 11
-    static let DescriptionBottomSpacing: CGFloat = 16
-    static let DescriptionLeftSpacing: CGFloat = 15
-    static let DescriprtionRightSpacing: CGFloat = 15
+    static let MiddleSpacing: CGFloat = 11
+    static let BottomSpacing: CGFloat = 16
+    static let LeftSpacing: CGFloat = 15
+    static let RightSpacing: CGFloat = 15
 }
 
 class CountriesListViewController: UIViewController {
@@ -51,34 +51,34 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         let country = countriesRepo.countries[indexPath.row]
         
         if country.descriptionSmall.isEmpty {
-            return CountriesListConstants.FlagTopSpacing +
+            return CountriesListConstants.TopSpacing +
                 CountriesListConstants.FlagHeight +
-                CountriesListConstants.DescriptionBottomSpacing
+                CountriesListConstants.BottomSpacing
         }
         
-        let countryDescription = country.descriptionSmall as NSString
+        let description = country.descriptionSmall as NSString
         
-        let descriptionStringAttributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)]
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)]
         
-        let descriprtionWidth = view.bounds.width -
-            CountriesListConstants.DescriptionLeftSpacing -
-            CountriesListConstants.DescriprtionRightSpacing
+        let descriptionWidth = view.bounds.width -
+            CountriesListConstants.LeftSpacing -
+            CountriesListConstants.RightSpacing
         
-        let descriptionStringSize = CGSize(width: descriprtionWidth, height: CGFloat.infinity)
+        let sizeLimits = CGSize(width: descriptionWidth, height: CGFloat.infinity)
         
-        let descriptionBoundingRect = countryDescription
-            .boundingRect(with: descriptionStringSize,
+        let boundingRect = description
+            .boundingRect(with: sizeLimits,
                           options: .usesLineFragmentOrigin,
-                          attributes: descriptionStringAttributes,
+                          attributes: attributes,
                           context: nil)
         
-        let descriptionHeight = descriptionBoundingRect.height
+        let descriptionHeight = boundingRect.height
         
-        let cellHeight = CountriesListConstants.FlagTopSpacing +
+        let cellHeight = CountriesListConstants.TopSpacing +
             CountriesListConstants.FlagHeight +
-            CountriesListConstants.DescriptionTopSpacing +
+            CountriesListConstants.MiddleSpacing +
             descriptionHeight +
-            CountriesListConstants.DescriptionBottomSpacing
+            CountriesListConstants.BottomSpacing
         
         return cellHeight
     }
