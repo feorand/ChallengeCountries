@@ -17,6 +17,7 @@
 		7AFBC1B4210F035D00FDA653 /* CountriesRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC1B3210F035D00FDA653 /* CountriesRepo.swift */; };
 		7AFBC1B62110674800FDA653 /* CountriesJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC1B52110674800FDA653 /* CountriesJSONParser.swift */; };
 		7AFBC1B821119D5D00FDA653 /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC1B721119D5D00FDA653 /* CountryCell.swift */; };
+		7AFBC1BA2111D34200FDA653 /* CountryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC1B92111D34200FDA653 /* CountryDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		7AFBC1B3210F035D00FDA653 /* CountriesRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesRepo.swift; sourceTree = "<group>"; };
 		7AFBC1B52110674800FDA653 /* CountriesJSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesJSONParser.swift; sourceTree = "<group>"; };
 		7AFBC1B721119D5D00FDA653 /* CountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCell.swift; sourceTree = "<group>"; };
+		7AFBC1B92111D34200FDA653 /* CountryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailsViewController.swift; sourceTree = "<group>"; };
 		F639598D4DB6DD558913620C /* Pods-ChallengeCountries.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChallengeCountries.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChallengeCountries/Pods-ChallengeCountries.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 			children = (
 				7AFBC1A3210EF9CA00FDA653 /* Main.storyboard */,
 				7AFBC1A1210EF9CA00FDA653 /* CountriesListViewController.swift */,
+				7AFBC1B92111D34200FDA653 /* CountryDetailsViewController.swift */,
 				7AFBC1B721119D5D00FDA653 /* CountryCell.swift */,
 				7AFBC1B1210EFD2E00FDA653 /* Country.swift */,
 				7AFBC1B3210F035D00FDA653 /* CountriesRepo.swift */,
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AFBC1B62110674800FDA653 /* CountriesJSONParser.swift in Sources */,
+				7AFBC1BA2111D34200FDA653 /* CountryDetailsViewController.swift in Sources */,
 				7AFBC1A2210EF9CA00FDA653 /* CountriesListViewController.swift in Sources */,
 				7AFBC1B821119D5D00FDA653 /* CountryCell.swift in Sources */,
 				7AFBC1B2210EFD2E00FDA653 /* Country.swift in Sources */,

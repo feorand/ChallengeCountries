@@ -107,5 +107,20 @@
             </objects>
             <point key="canvasLocation" x="131" y="-311"/>
         </scene>
+        <!--Country Details View Controller-->
+        <scene sceneID="ynv-hC-CL7">
+            <objects>
+                <viewController id="Twh-pl-cCC" customClass="CountryDetailsViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UYF-Ut-KQJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="sfk-wq-QjI"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vdj-UE-11t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1186" y="-312"/>
+        </scene>
     </scenes>
 </document>
