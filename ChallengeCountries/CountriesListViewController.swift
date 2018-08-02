@@ -37,7 +37,7 @@ class CountriesListViewController: UIViewController {
     private func hideActivityIndicator() {
         self.activityIndicator.stopAnimating()
         self.tableView.separatorStyle = .singleLine
-    }
+    }    
 }
 
 extension CountriesListViewController: UITableViewDelegate, UITableViewDataSource {
