@@ -12,5 +12,16 @@ class CountryCell: UITableViewCell {
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    // Accessory button is first of buttons in a cell subviews
+    var accessoryButton: UIButton? {
+        return subviews.first(where: { $0 is UIButton }) as? UIButton
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        accessoryButton?.center.y = flagImageView.center.y
+    }
 }
