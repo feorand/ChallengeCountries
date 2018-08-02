@@ -16,13 +16,21 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var populationLabel: UILabel!
     @IBOutlet weak var continentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    var country: Country?
+    var country: Country!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateView(with: country)
+        
+        CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
+            if let data = photoData {
+                self.photoView.image = UIImage(data: data)
+                self.activityIndicator.stopAnimating()
+            }
+        }
     }
 
     private func updateView(with Country: Country?) {

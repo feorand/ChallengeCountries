@@ -152,7 +152,7 @@
                                                             <constraint firstAttribute="height" constant="22" id="s9m-Zr-GaL"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Capital" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0y-Wu-aHQ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Столица" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0y-Wu-aHQ">
                                                         <rect key="frame" x="29" y="11" width="182" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -188,7 +188,7 @@
                                                             <constraint firstAttribute="height" constant="22" id="rpN-qf-CRd"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Population" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0k-PK-Asy">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Население" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0k-PK-Asy">
                                                         <rect key="frame" x="29" y="12" width="204.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -222,7 +222,7 @@
                                                             <constraint firstAttribute="height" constant="22" id="xhd-XR-VKq"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Continent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwp-cf-hSy">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Континент" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwp-cf-hSy">
                                                         <rect key="frame" x="29" y="12" width="160.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -239,8 +239,8 @@
                                                     <constraint firstAttribute="height" constant="44" id="4Ay-t9-hcD"/>
                                                 </constraints>
                                             </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQG-kK-Vdc">
-                                                <rect key="frame" x="15" y="480" width="41.5" height="18"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Описание" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQG-kK-Vdc">
+                                                <rect key="frame" x="15" y="480" width="72" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -252,6 +252,9 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tdd-4R-GoW">
+                                                <rect key="frame" x="177" y="131" width="20" height="20"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -261,7 +264,7 @@
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="bottom" secondItem="4BL-48-aRP" secondAttribute="top" id="8rw-ag-Ph1"/>
                                             <constraint firstItem="6pd-9F-e2k" firstAttribute="top" secondItem="GIl-fF-LWv" secondAttribute="bottom" id="9Wk-g8-wDf"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="bottom" secondItem="yMZ-4O-kj6" secondAttribute="top" id="Cic-Kc-Rlf"/>
-                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iQG-kK-Vdc" secondAttribute="trailing" symbolic="YES" id="Cm0-nR-IWT"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iQG-kK-Vdc" secondAttribute="trailing" constant="20" symbolic="YES" id="Cm0-nR-IWT"/>
                                             <constraint firstAttribute="trailing" secondItem="FbZ-dG-8o0" secondAttribute="trailing" constant="15" id="Cmy-da-q6O"/>
                                             <constraint firstItem="FbZ-dG-8o0" firstAttribute="top" secondItem="iQG-kK-Vdc" secondAttribute="bottom" constant="8" id="E0g-Eo-hp3"/>
                                             <constraint firstAttribute="trailing" secondItem="GIl-fF-LWv" secondAttribute="trailing" constant="15" id="F01-L1-qQp"/>
@@ -269,6 +272,7 @@
                                             <constraint firstAttribute="trailing" secondItem="yMZ-4O-kj6" secondAttribute="trailing" constant="15" id="KAd-ok-OK0"/>
                                             <constraint firstItem="6pd-9F-e2k" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="MIL-Sg-oZL"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="Qsp-qY-gdS"/>
+                                            <constraint firstItem="tdd-4R-GoW" firstAttribute="centerX" secondItem="CLu-Sj-XVX" secondAttribute="centerX" id="UO7-V8-9DD"/>
                                             <constraint firstAttribute="trailing" secondItem="osR-FI-iAd" secondAttribute="trailing" constant="15" id="VAw-R5-ZAQ"/>
                                             <constraint firstItem="hCK-FV-5CX" firstAttribute="top" secondItem="zfG-wP-JIA" secondAttribute="bottom" constant="24" id="WHy-Q9-a4N"/>
                                             <constraint firstAttribute="trailing" secondItem="zfG-wP-JIA" secondAttribute="trailing" id="XSO-jK-fb7"/>
@@ -279,6 +283,7 @@
                                             <constraint firstItem="zfG-wP-JIA" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="nzr-wu-wJO"/>
                                             <constraint firstAttribute="trailing" secondItem="4BL-48-aRP" secondAttribute="trailing" constant="15" id="qJx-3L-m9M"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="top" secondItem="6pd-9F-e2k" secondAttribute="bottom" constant="8" id="qpK-Au-Bt9"/>
+                                            <constraint firstItem="tdd-4R-GoW" firstAttribute="centerY" secondItem="zfG-wP-JIA" secondAttribute="centerY" id="uFy-0w-aX4"/>
                                             <constraint firstAttribute="trailing" secondItem="6pd-9F-e2k" secondAttribute="trailing" constant="15" id="v4M-hb-HCx"/>
                                             <constraint firstItem="4BL-48-aRP" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="vu9-8h-DRQ"/>
                                             <constraint firstAttribute="bottom" secondItem="FbZ-dG-8o0" secondAttribute="bottom" constant="15" id="xfQ-9h-JFw"/>
@@ -304,6 +309,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="tdd-4R-GoW" id="Oai-pj-WlQ"/>
                         <outlet property="capitalLabel" destination="4d3-Yd-XQv" id="xyH-hA-iZC"/>
                         <outlet property="continentLabel" destination="ngB-Oh-73b" id="pdR-3F-DfT"/>
                         <outlet property="descriptionLabel" destination="FbZ-dG-8o0" id="gNH-QW-qdn"/>
