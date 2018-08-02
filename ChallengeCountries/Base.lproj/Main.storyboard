@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wT9-Ne-gdc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wT9-Ne-gdc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,10 +15,6 @@
         <scene sceneID="QCT-hs-Nh2">
             <objects>
                 <viewController id="Yug-OB-Yha" customClass="CountriesListViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Dvf-OQ-s4s"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZfS-wL-4v8"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="X68-OF-Xu7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,13 +91,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Zy5-Rg-Vgt" firstAttribute="leading" secondItem="X68-OF-Xu7" secondAttribute="leading" id="1Xr-ZK-952"/>
-                            <constraint firstItem="ZfS-wL-4v8" firstAttribute="top" secondItem="Zy5-Rg-Vgt" secondAttribute="bottom" id="Al1-ex-vaP"/>
-                            <constraint firstAttribute="trailing" secondItem="Zy5-Rg-Vgt" secondAttribute="trailing" id="J0B-Jq-Ck2"/>
-                            <constraint firstItem="cLA-pN-Oxw" firstAttribute="centerX" secondItem="X68-OF-Xu7" secondAttribute="centerX" id="MfF-1g-4Ee"/>
+                            <constraint firstItem="Zy5-Rg-Vgt" firstAttribute="leading" secondItem="RvC-fB-ggw" secondAttribute="leading" id="1Xr-ZK-952"/>
+                            <constraint firstItem="RvC-fB-ggw" firstAttribute="bottom" secondItem="Zy5-Rg-Vgt" secondAttribute="bottom" id="Al1-ex-vaP"/>
+                            <constraint firstItem="RvC-fB-ggw" firstAttribute="trailing" secondItem="Zy5-Rg-Vgt" secondAttribute="trailing" id="J0B-Jq-Ck2"/>
+                            <constraint firstItem="cLA-pN-Oxw" firstAttribute="centerX" secondItem="RvC-fB-ggw" secondAttribute="centerX" id="MfF-1g-4Ee"/>
                             <constraint firstItem="cLA-pN-Oxw" firstAttribute="centerY" secondItem="X68-OF-Xu7" secondAttribute="centerY" id="oGa-1l-u0F"/>
-                            <constraint firstItem="Zy5-Rg-Vgt" firstAttribute="top" secondItem="Dvf-OQ-s4s" secondAttribute="bottom" id="uxA-UN-Gww"/>
+                            <constraint firstItem="Zy5-Rg-Vgt" firstAttribute="top" secondItem="RvC-fB-ggw" secondAttribute="top" id="uxA-UN-Gww"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="RvC-fB-ggw"/>
                     </view>
                     <navigationItem key="navigationItem" title="Страны" id="wfP-2g-VXx"/>
                     <connections>
@@ -116,10 +114,6 @@
         <scene sceneID="ynv-hC-CL7">
             <objects>
                 <viewController id="Twh-pl-cCC" customClass="CountryDetailsViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tZw-4Y-OcL"/>
-                        <viewControllerLayoutGuide type="bottom" id="pF0-gD-qir"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kxd-pe-dO9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -301,12 +295,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="0SR-5e-ERC" secondAttribute="trailing" id="2oL-cD-4mR"/>
-                            <constraint firstItem="0SR-5e-ERC" firstAttribute="top" secondItem="tZw-4Y-OcL" secondAttribute="bottom" constant="-64" id="F3k-0i-YCv"/>
-                            <constraint firstItem="pF0-gD-qir" firstAttribute="top" secondItem="0SR-5e-ERC" secondAttribute="bottom" id="H2o-ou-dCg"/>
+                            <constraint firstItem="2G2-pI-07J" firstAttribute="trailing" secondItem="0SR-5e-ERC" secondAttribute="trailing" id="2oL-cD-4mR"/>
+                            <constraint firstItem="0SR-5e-ERC" firstAttribute="top" secondItem="2G2-pI-07J" secondAttribute="top" constant="-64" id="F3k-0i-YCv"/>
+                            <constraint firstItem="2G2-pI-07J" firstAttribute="bottom" secondItem="0SR-5e-ERC" secondAttribute="bottom" id="H2o-ou-dCg"/>
                             <constraint firstItem="CLu-Sj-XVX" firstAttribute="width" secondItem="kxd-pe-dO9" secondAttribute="width" id="bwe-NY-79P"/>
-                            <constraint firstItem="0SR-5e-ERC" firstAttribute="leading" secondItem="kxd-pe-dO9" secondAttribute="leading" id="vLy-kw-HRR"/>
+                            <constraint firstItem="0SR-5e-ERC" firstAttribute="leading" secondItem="2G2-pI-07J" secondAttribute="leading" id="vLy-kw-HRR"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="2G2-pI-07J"/>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="tdd-4R-GoW" id="Oai-pj-WlQ"/>

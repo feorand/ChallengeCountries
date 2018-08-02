@@ -29,8 +29,15 @@ class CountryDetailsViewController: UIViewController {
             if let data = photoData {
                 self.photoView.image = UIImage(data: data)
                 self.activityIndicator.stopAnimating()
+                self.updateNavigationBarColors()
             }
         }
+    }
+    
+    private func updateNavigationBarColors() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barStyle = .black
     }
 
     private func updateView(with Country: Country?) {

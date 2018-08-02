@@ -27,7 +27,7 @@ class CountriesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+            
         countriesRepo.updateCountries(completionHandler: {
             self.hideActivityIndicator()
             self.tableView.reloadData()
