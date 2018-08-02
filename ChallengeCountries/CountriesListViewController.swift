@@ -98,15 +98,8 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         let country = countriesRepo.countries[indexPath.row]
-        
-        if let flag = country.flag {
-            cell.flagImageView.image = UIImage(data: flag)
-        }
-        
-        cell.nameLabel.text = country.name
-        cell.capitalLabel.text = country.capital
-        cell.descriptionLabel.text = country.descriptionSmall
-        
+        cell.country = country
+                
         return cell
     }
 }

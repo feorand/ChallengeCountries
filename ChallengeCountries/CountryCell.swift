@@ -15,13 +15,26 @@ class CountryCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     // Accessory button is first of buttons in a cell subviews
-    var accessoryButton: UIButton? {
+    private var accessoryButton: UIButton? {
         return subviews.first(where: { $0 is UIButton }) as? UIButton
     }
+    
+    var country: Country? { didSet { updateCell(with: country )}}
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         accessoryButton?.center.y = flagImageView.center.y
+    }
+    
+    private func updateCell(with country: Country?) {
+        guard let country = country else { return }
+    
+        if let flag = country.flag {
+        flagImageView.image = UIImage(data: flag)
+        }
+        nameLabel.text = country.name
+        capitalLabel.text = country.capital
+        descriptionLabel.text = country.descriptionSmall
     }
 }
