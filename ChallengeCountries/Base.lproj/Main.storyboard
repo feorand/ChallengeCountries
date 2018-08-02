@@ -274,7 +274,7 @@
                                             <constraint firstAttribute="trailing" secondItem="zfG-wP-JIA" secondAttribute="trailing" id="XSO-jK-fb7"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="aew-ZK-J4y"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="top" secondItem="hCK-FV-5CX" secondAttribute="bottom" constant="8" id="ixs-wy-lQs"/>
-                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCK-FV-5CX" secondAttribute="trailing" symbolic="YES" id="jKu-oZ-V0M"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCK-FV-5CX" secondAttribute="trailing" constant="20" symbolic="YES" id="jKu-oZ-V0M"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="top" secondItem="osR-FI-iAd" secondAttribute="bottom" id="k1b-nv-aZG"/>
                                             <constraint firstItem="zfG-wP-JIA" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="nzr-wu-wJO"/>
                                             <constraint firstAttribute="trailing" secondItem="4BL-48-aRP" secondAttribute="trailing" constant="15" id="qJx-3L-m9M"/>
@@ -303,6 +303,14 @@
                             <constraint firstItem="0SR-5e-ERC" firstAttribute="leading" secondItem="kxd-pe-dO9" secondAttribute="leading" id="vLy-kw-HRR"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="capitalLabel" destination="4d3-Yd-XQv" id="xyH-hA-iZC"/>
+                        <outlet property="continentLabel" destination="ngB-Oh-73b" id="pdR-3F-DfT"/>
+                        <outlet property="descriptionLabel" destination="FbZ-dG-8o0" id="gNH-QW-qdn"/>
+                        <outlet property="nameLabel" destination="hCK-FV-5CX" id="HSP-n2-5H8"/>
+                        <outlet property="photoView" destination="zfG-wP-JIA" id="PsH-vZ-wZV"/>
+                        <outlet property="populationLabel" destination="2i3-NS-DAD" id="3wV-5a-T9s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdj-UE-11t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

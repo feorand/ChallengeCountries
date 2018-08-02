@@ -102,5 +102,17 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                 
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CountryDetails" {
+            if let destination = segue.destination as? CountryDetailsViewController,
+                let initiatorCell = sender as? CountryCell,
+                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
+                
+                let country = countriesRepo.countries[countryIndex]
+                destination.country = country
+            }
+        }
+    }
 }
 
