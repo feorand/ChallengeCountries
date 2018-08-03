@@ -291,6 +291,9 @@
                                     <constraint firstAttribute="trailing" secondItem="CLu-Sj-XVX" secondAttribute="trailing" id="uC4-HJ-WOU"/>
                                     <constraint firstItem="CLu-Sj-XVX" firstAttribute="leading" secondItem="0SR-5e-ERC" secondAttribute="leading" id="wg9-nY-cPT"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Twh-pl-cCC" id="Lmo-5j-b6j"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -304,6 +307,7 @@
                         <viewLayoutGuide key="safeArea" id="2G2-pI-07J"/>
                     </view>
                     <connections>
+                        <outlet property="aboutLabel" destination="iQG-kK-Vdc" id="vlO-Oe-Rtq"/>
                         <outlet property="activityIndicator" destination="tdd-4R-GoW" id="Oai-pj-WlQ"/>
                         <outlet property="capitalLabel" destination="4d3-Yd-XQv" id="xyH-hA-iZC"/>
                         <outlet property="continentLabel" destination="ngB-Oh-73b" id="pdR-3F-DfT"/>

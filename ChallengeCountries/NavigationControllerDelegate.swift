@@ -16,24 +16,22 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        switch viewController {
-        case is CountriesListViewController:
+        if viewController is CountriesListViewController {
             changeToBlack()
-        case is CountryDetailsViewController:
-            changeToWhite()
-        default:
-            print("Error: NavagationController - unknown ViewController type pushed: \(type(of: viewController))")
         }
     }
     
-    private func changeToWhite() {
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationBar.tintColor = .white
+    func changeToWhite() {
         navigationBar.barStyle = .black
+        navigationBar.tintColor = .white
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
     }
 
-    private func changeToBlack() {
+    func changeToBlack() {
         navigationBar.barStyle = .default
+        navigationBar.tintColor = nil
         navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+        navigationBar.shadowImage = nil
     }
 }

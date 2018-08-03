@@ -17,13 +17,23 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var continentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var aboutLabel: UILabel!
 
     var country: Country!
+    
+    var countriesNavigationController: NavigationController? {
+        return navigationController as? NavigationController
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateView(with: country)
+        
+        if let flagData = country.flag {
+            self.photoView.image = UIImage(data: flagData)
+            self.countriesNavigationController?.changeToWhite()
+        }
         
         CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
             if let data = photoData {
@@ -42,4 +52,14 @@ class CountryDetailsViewController: UIViewController {
         continentLabel.text = country.continent
         descriptionLabel.text = country.description
     }
+}
+
+extension CountryDetailsViewController : UIScrollViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if aboutLabel.frame.origin.x < 64 {
+//            countriesNavigationController?.changeToBlack()
+//        } else {
+//            countriesNavigationController?.changeToWhite()
+//        }
+//    }
 }
