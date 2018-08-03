@@ -32,6 +32,7 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
         navigationBar.barStyle = .default
         navigationBar.tintColor = nil
         navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+        navigationBar.setBackgroundImage(nil, for: .default)
         navigationBar.shadowImage = nil
     }
 }
