@@ -45,15 +45,17 @@ class CountryDetailsViewController: UIViewController {
         
         updateView(with: country)
         
-        CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
-            if let data = photoData, let image = UIImage(data: data) {
-                if !self.isImageDownloadComplete {
-                    self.isImageDownloadComplete = true
-                    self.activityIndicator.stopAnimating()
-                    self.countriesNavigationController.changeToWhite()
+        for url in country.photosUrls {
+            CountriesRepo.getPhoto(fromUrl: url) { photoData in
+                if let data = photoData, let image = UIImage(data: data) {
+                    if !self.isImageDownloadComplete {
+                        self.isImageDownloadComplete = true
+                        self.activityIndicator.stopAnimating()
+                        self.countriesNavigationController.changeToWhite()
+                    }
+                    
+                    self.imageSlider.images.append(image)
                 }
-                
-                self.imageSlider.images.append(image)
             }
         }
     }
