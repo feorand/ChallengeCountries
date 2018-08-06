@@ -8,29 +8,20 @@
 
 import UIKit
 
-class ImageSelectionController: UIViewController {
+class ImageSliderController: UIViewController {
     
-    @IBOutlet weak var photoView: DownloadingImageView!
+    @IBOutlet weak var imageView: UIImageView!
     
-    var photosUrls: [String] = []
-    var flag: UIImage? = nil
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updatePhotos()
-    }
-    
-    private func updatePhotos() {
-        photoView.backgroundImage = flag
-        
-        CountriesRepo.getPhoto(fromUrl: photosUrls[0]) { photoData in
-            if let data = photoData {
-                self.photoView.image = UIImage(data: data)
-            }
+    var images: [UIImage] = [] {
+        didSet {
+            imageView.image = images[0]
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+        
     @objc @IBAction private func swipe(gestureRecognizer: UISwipeGestureRecognizer) {
         switch gestureRecognizer.direction {
         case .left:

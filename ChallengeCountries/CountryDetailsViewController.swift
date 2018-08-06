@@ -12,40 +12,52 @@ struct CountryDetailsConstants {
     static let ScrollViewOffset: CGFloat = -64
     static let ViewOffset: CGFloat = -64
 }
-
 class CountryDetailsViewController: UIViewController {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
     @IBOutlet weak var populationLabel: UILabel!
     @IBOutlet weak var continentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var aboutLabel: UILabel!
-    @IBOutlet weak var imageSelector: UIView!
+    
+    var countriesNavigationController: NavigationController {
+        guard let result = navigationController as? NavigationController else {
+            fatalError("Missing View Controller - NavigationController")
+        }
+        return result
+    }
+    
+    var imageSlider: ImageSliderController {
+        guard let result = childViewControllers.first as? ImageSliderController else {
+            fatalError("Missing View Controller - ImageSelectionController")
+        }
+        return result
+    }
+    
     var country: Country!
     
-    var countriesNavigationController: NavigationController? {
-        return navigationController as? NavigationController
-    }
+    private var isImageDownloadComplete = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView(with: country)        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Photos" {
-            if let destination = segue.destination as? ImageSelectionController {
-                destination.photosUrls = country.photosUrls
-                
-                if let flagData = country.flag {
-                    destination.flag = UIImage(data: flagData)
+        updateView(with: country)
+        
+        CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
+            if let data = photoData, let image = UIImage(data: data) {
+                if !self.isImageDownloadComplete {
+                    self.isImageDownloadComplete = true
+                    self.activityIndicator.stopAnimating()
+                    self.countriesNavigationController.changeToWhite()
                 }
+                
+                self.imageSlider.images.append(image)
             }
         }
     }
-    
+        
     private func updateView(with Country: Country?) {
         guard let country = country else { return }
         
@@ -64,11 +76,13 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
             CountryDetailsConstants.ViewOffset
         
-        if  scrollView.contentOffset.y > imageSelector.frame.height + edgeOffset ||
-            scrollView.contentOffset.y < edgeOffset {
-            countriesNavigationController?.changeToBlack()
-        } else {
-            countriesNavigationController?.changeToWhite()
+        if isImageDownloadComplete {
+            if  scrollView.contentOffset.y > imageSlider.view.frame.height + edgeOffset ||
+                scrollView.contentOffset.y < edgeOffset {
+                countriesNavigationController.changeToBlack()
+            } else {
+                countriesNavigationController.changeToWhite()
+            }
         }
     }
 }
