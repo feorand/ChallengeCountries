@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -344,25 +345,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="282"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfG-wP-JIA" userLabel="Photo">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="zfG-wP-JIA" secondAttribute="height" multiplier="320:240" id="TqR-JX-CQz"/>
-                                </constraints>
-                            </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="thR-3z-DHE">
-                                <rect key="frame" x="177" y="131" width="20" height="20"/>
-                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Shd-vE-e4c" customClass="DownloadingImageView" customModule="ChallengeCountries" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="282"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="zfG-wP-JIA" firstAttribute="leading" secondItem="ALi-2G-hXy" secondAttribute="leading" id="6ie-Fb-WBl"/>
-                            <constraint firstAttribute="trailing" secondItem="zfG-wP-JIA" secondAttribute="trailing" id="h4W-yc-qnN"/>
-                            <constraint firstItem="thR-3z-DHE" firstAttribute="centerY" secondItem="ALi-2G-hXy" secondAttribute="centerY" id="s2m-Ci-qfA"/>
-                            <constraint firstItem="zfG-wP-JIA" firstAttribute="top" secondItem="ALi-2G-hXy" secondAttribute="top" id="sYr-gq-BEQ"/>
-                            <constraint firstItem="thR-3z-DHE" firstAttribute="centerX" secondItem="ALi-2G-hXy" secondAttribute="centerX" id="wE6-3P-WiN"/>
+                            <constraint firstItem="Shd-vE-e4c" firstAttribute="leading" secondItem="ALi-2G-hXy" secondAttribute="leading" id="4Mb-d8-kne"/>
+                            <constraint firstAttribute="trailing" secondItem="Shd-vE-e4c" secondAttribute="trailing" id="Nrz-35-XKY"/>
+                            <constraint firstItem="Shd-vE-e4c" firstAttribute="top" secondItem="ALi-2G-hXy" secondAttribute="topMargin" id="SbJ-jJ-Ani"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Shd-vE-e4c" secondAttribute="bottom" id="Wf6-s6-j7y"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="AzG-eW-6AP" appends="YES" id="OMG-8d-avT"/>
@@ -370,8 +364,7 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="thR-3z-DHE" id="6he-JX-YDV"/>
-                        <outlet property="photoView" destination="zfG-wP-JIA" id="fox-Q3-wo0"/>
+                        <outlet property="photoView" destination="Shd-vE-e4c" id="1Bz-YW-oHW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Di-hz-D01" userLabel="First Responder" sceneMemberID="firstResponder"/>

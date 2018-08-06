@@ -10,8 +10,7 @@ import UIKit
 
 class ImageSelectionController: UIViewController {
     
-    @IBOutlet weak var photoView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photoView: DownloadingImageView!
     
     var photosUrls: [String] = []
     var flag: UIImage? = nil
@@ -23,12 +22,11 @@ class ImageSelectionController: UIViewController {
     }
     
     private func updatePhotos() {
-        photoView.image = flag
+        photoView.backgroundImage = flag
         
         CountriesRepo.getPhoto(fromUrl: photosUrls[0]) { photoData in
             if let data = photoData {
                 self.photoView.image = UIImage(data: data)
-                self.activityIndicator.stopAnimating()
             }
         }
     }
