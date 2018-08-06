@@ -32,4 +32,15 @@ class ImageSelectionController: UIViewController {
             }
         }
     }
+    
+    @objc @IBAction private func swipe(gestureRecognizer: UISwipeGestureRecognizer) {
+        switch gestureRecognizer.direction {
+        case .left:
+            print("Swipe - Left")
+        case .right:
+            print("Swipe - right")
+        default:
+            print("Image Selection: unknown swipe")
+        }
+    }
 }

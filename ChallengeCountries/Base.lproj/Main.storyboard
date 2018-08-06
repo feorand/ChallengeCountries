@@ -346,6 +346,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfG-wP-JIA" userLabel="Photo">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zfG-wP-JIA" secondAttribute="height" multiplier="320:240" id="TqR-JX-CQz"/>
                                 </constraints>
@@ -355,6 +356,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="zfG-wP-JIA" firstAttribute="leading" secondItem="ALi-2G-hXy" secondAttribute="leading" id="6ie-Fb-WBl"/>
                             <constraint firstAttribute="trailing" secondItem="zfG-wP-JIA" secondAttribute="trailing" id="h4W-yc-qnN"/>
@@ -362,6 +364,10 @@
                             <constraint firstItem="zfG-wP-JIA" firstAttribute="top" secondItem="ALi-2G-hXy" secondAttribute="top" id="sYr-gq-BEQ"/>
                             <constraint firstItem="thR-3z-DHE" firstAttribute="centerX" secondItem="ALi-2G-hXy" secondAttribute="centerX" id="wE6-3P-WiN"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="AzG-eW-6AP" appends="YES" id="OMG-8d-avT"/>
+                            <outletCollection property="gestureRecognizers" destination="Tyr-Zh-O4T" appends="YES" id="WNY-Hx-D5c"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="thR-3z-DHE" id="6he-JX-YDV"/>
@@ -369,6 +375,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Di-hz-D01" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="Tyr-Zh-O4T">
+                    <connections>
+                        <action selector="swipeWithGestureRecognizer:" destination="puA-VJ-XS6" id="8ga-2s-0sl"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="AzG-eW-6AP">
+                    <connections>
+                        <action selector="swipeWithGestureRecognizer:" destination="puA-VJ-XS6" id="MZF-wH-zHz"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2898" y="-485"/>
         </scene>
