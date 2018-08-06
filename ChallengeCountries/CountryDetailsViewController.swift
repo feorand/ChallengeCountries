@@ -15,15 +15,13 @@ struct CountryDetailsConstants {
 
 class CountryDetailsViewController: UIViewController {
     
-    @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
     @IBOutlet weak var populationLabel: UILabel!
     @IBOutlet weak var continentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var aboutLabel: UILabel!
-
+    @IBOutlet weak var imageSelector: UIView!
     var country: Country!
     
     var countriesNavigationController: NavigationController? {
@@ -33,17 +31,17 @@ class CountryDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView(with: country)
-        
-        if let flagData = country.flag {
-            self.photoView.image = UIImage(data: flagData)
-            self.countriesNavigationController?.changeToWhite()
-        }
-        
-        CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
-            if let data = photoData {
-                self.photoView.image = UIImage(data: data)
-                self.activityIndicator.stopAnimating()
+        updateView(with: country)        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Photos" {
+            if let destination = segue.destination as? ImageSelectionController {
+                destination.photosUrls = country.photosUrls
+                
+                if let flagData = country.flag {
+                    destination.flag = UIImage(data: flagData)
+                }
             }
         }
     }
@@ -66,7 +64,7 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
             CountryDetailsConstants.ViewOffset
         
-        if  scrollView.contentOffset.y > photoView.frame.height + edgeOffset ||
+        if  scrollView.contentOffset.y > imageSelector.frame.height + edgeOffset ||
             scrollView.contentOffset.y < edgeOffset {
             countriesNavigationController?.changeToBlack()
         } else {
