@@ -14,7 +14,7 @@ struct CountryDetailsConstants {
 }
 class CountryDetailsViewController: UIViewController {
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var imageSlider: ImageSliderView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
     @IBOutlet weak var populationLabel: UILabel!
@@ -25,13 +25,6 @@ class CountryDetailsViewController: UIViewController {
     var countriesNavigationController: NavigationController {
         guard let result = navigationController as? NavigationController else {
             fatalError("Missing View Controller - NavigationController")
-        }
-        return result
-    }
-    
-    var imageSlider: ImageSliderController {
-        guard let result = childViewControllers.first as? ImageSliderController else {
-            fatalError("Missing View Controller - ImageSelectionController")
         }
         return result
     }
@@ -50,7 +43,6 @@ class CountryDetailsViewController: UIViewController {
                 if let data = photoData, let image = UIImage(data: data) {
                     if !self.isImageDownloadComplete {
                         self.isImageDownloadComplete = true
-                        self.activityIndicator.stopAnimating()
                         self.countriesNavigationController.changeToWhite()
                     }
                     
@@ -79,7 +71,7 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
             CountryDetailsConstants.ViewOffset
         
         if isImageDownloadComplete {
-            if  scrollView.contentOffset.y > imageSlider.view.frame.height + edgeOffset ||
+            if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
                 scrollView.contentOffset.y < edgeOffset {
                 countriesNavigationController.changeToBlack()
             } else {

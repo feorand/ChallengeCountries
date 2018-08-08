@@ -124,19 +124,13 @@
                                     <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLu-Sj-XVX" userLabel="Inside View">
                                         <rect key="frame" x="0.0" y="-64" width="375" height="718"/>
                                         <subviews>
-                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rwD-f5-Kw0">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNm-sC-33J" customClass="ImageSliderView" customModule="ChallengeCountries" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="rwD-f5-Kw0" secondAttribute="height" multiplier="320:240" id="1jZ-KX-0K3"/>
+                                                    <constraint firstAttribute="width" secondItem="fNm-sC-33J" secondAttribute="height" multiplier="320:240" id="dXE-A7-d5o"/>
                                                 </constraints>
-                                                <connections>
-                                                    <segue destination="puA-VJ-XS6" kind="embed" identifier="Photos" id="gd0-oi-diy"/>
-                                                </connections>
-                                            </containerView>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8OB-ao-wWy">
-                                                <rect key="frame" x="178" y="131" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </activityIndicatorView>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="((Country Name))" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCK-FV-5CX">
                                                 <rect key="frame" x="15" y="305.5" width="167.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -265,20 +259,20 @@
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iQG-kK-Vdc" secondAttribute="trailing" constant="20" symbolic="YES" id="Cm0-nR-IWT"/>
                                             <constraint firstAttribute="trailing" secondItem="FbZ-dG-8o0" secondAttribute="trailing" constant="15" id="Cmy-da-q6O"/>
                                             <constraint firstItem="FbZ-dG-8o0" firstAttribute="top" secondItem="iQG-kK-Vdc" secondAttribute="bottom" constant="8" id="E0g-Eo-hp3"/>
+                                            <constraint firstItem="fNm-sC-33J" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="Egv-cY-SrS"/>
                                             <constraint firstAttribute="trailing" secondItem="GIl-fF-LWv" secondAttribute="trailing" constant="15" id="F01-L1-qQp"/>
                                             <constraint firstItem="FbZ-dG-8o0" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="Flp-ui-eEf"/>
-                                            <constraint firstItem="rwD-f5-Kw0" firstAttribute="top" secondItem="CLu-Sj-XVX" secondAttribute="top" id="HsZ-uR-qJN"/>
+                                            <constraint firstItem="fNm-sC-33J" firstAttribute="top" secondItem="CLu-Sj-XVX" secondAttribute="top" id="JkW-ED-2zg"/>
                                             <constraint firstAttribute="trailing" secondItem="yMZ-4O-kj6" secondAttribute="trailing" constant="15" id="KAd-ok-OK0"/>
                                             <constraint firstItem="6pd-9F-e2k" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="MIL-Sg-oZL"/>
-                                            <constraint firstItem="rwD-f5-Kw0" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="QP3-wa-X7y"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="Qsp-qY-gdS"/>
                                             <constraint firstAttribute="trailing" secondItem="osR-FI-iAd" secondAttribute="trailing" constant="15" id="VAw-R5-ZAQ"/>
-                                            <constraint firstItem="hCK-FV-5CX" firstAttribute="top" secondItem="rwD-f5-Kw0" secondAttribute="bottom" constant="24" id="Wu6-Qm-QG8"/>
+                                            <constraint firstItem="hCK-FV-5CX" firstAttribute="top" secondItem="fNm-sC-33J" secondAttribute="bottom" constant="24" id="a1e-F7-84A"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="aew-ZK-J4y"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="top" secondItem="hCK-FV-5CX" secondAttribute="bottom" constant="8" id="ixs-wy-lQs"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCK-FV-5CX" secondAttribute="trailing" constant="20" symbolic="YES" id="jKu-oZ-V0M"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="top" secondItem="osR-FI-iAd" secondAttribute="bottom" id="k1b-nv-aZG"/>
-                                            <constraint firstAttribute="trailing" secondItem="rwD-f5-Kw0" secondAttribute="trailing" id="mWX-Mc-Vrx"/>
+                                            <constraint firstAttribute="trailing" secondItem="fNm-sC-33J" secondAttribute="trailing" id="pMq-gx-afU"/>
                                             <constraint firstAttribute="trailing" secondItem="4BL-48-aRP" secondAttribute="trailing" constant="15" id="qJx-3L-m9M"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="top" secondItem="6pd-9F-e2k" secondAttribute="bottom" constant="8" id="qpK-Au-Bt9"/>
                                             <constraint firstAttribute="trailing" secondItem="6pd-9F-e2k" secondAttribute="trailing" constant="15" id="v4M-hb-HCx"/>
@@ -310,10 +304,10 @@
                     </view>
                     <connections>
                         <outlet property="aboutLabel" destination="iQG-kK-Vdc" id="vlO-Oe-Rtq"/>
-                        <outlet property="activityIndicator" destination="8OB-ao-wWy" id="Jgb-Ry-Fyr"/>
                         <outlet property="capitalLabel" destination="4d3-Yd-XQv" id="xyH-hA-iZC"/>
                         <outlet property="continentLabel" destination="ngB-Oh-73b" id="pdR-3F-DfT"/>
                         <outlet property="descriptionLabel" destination="FbZ-dG-8o0" id="gNH-QW-qdn"/>
+                        <outlet property="imageSlider" destination="fNm-sC-33J" id="YzF-Ng-IB6"/>
                         <outlet property="nameLabel" destination="hCK-FV-5CX" id="HSP-n2-5H8"/>
                         <outlet property="populationLabel" destination="2i3-NS-DAD" id="3wV-5a-T9s"/>
                     </connections>
@@ -339,49 +333,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X97-7T-Ecd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="130.40000000000001" y="-311.69415292353824"/>
-        </scene>
-        <!--Image Slider Controller-->
-        <scene sceneID="2KD-4e-kqB">
-            <objects>
-                <viewController id="puA-VJ-XS6" customClass="ImageSliderController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ALi-2G-hXy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RQJ-UZ-EoZ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="RQJ-UZ-EoZ" firstAttribute="leading" secondItem="ALi-2G-hXy" secondAttribute="leading" id="1IL-Y3-urr"/>
-                            <constraint firstAttribute="trailing" secondItem="RQJ-UZ-EoZ" secondAttribute="trailing" id="1Lm-v4-rM0"/>
-                            <constraint firstAttribute="bottom" secondItem="RQJ-UZ-EoZ" secondAttribute="bottom" id="3yD-Zl-DwB"/>
-                            <constraint firstItem="RQJ-UZ-EoZ" firstAttribute="top" secondItem="ALi-2G-hXy" secondAttribute="top" id="r8S-Km-hhl"/>
-                        </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="AzG-eW-6AP" appends="YES" id="OMG-8d-avT"/>
-                            <outletCollection property="gestureRecognizers" destination="Tyr-Zh-O4T" appends="YES" id="WNY-Hx-D5c"/>
-                        </connections>
-                    </view>
-                    <connections>
-                        <outlet property="imageView" destination="RQJ-UZ-EoZ" id="ld7-UP-gdi"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Di-hz-D01" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="Tyr-Zh-O4T">
-                    <connections>
-                        <action selector="swipeWithGestureRecognizer:" destination="puA-VJ-XS6" id="8ga-2s-0sl"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="left" id="AzG-eW-6AP">
-                    <connections>
-                        <action selector="swipeWithGestureRecognizer:" destination="puA-VJ-XS6" id="MZF-wH-zHz"/>
-                    </connections>
-                </swipeGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="2898" y="-485"/>
         </scene>
     </scenes>
     <resources>
