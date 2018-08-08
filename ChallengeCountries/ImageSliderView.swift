@@ -8,11 +8,20 @@
 
 import UIKit
 
+struct ImageIndicatorConstants {
+    static let CirclesHeightWidth: CGFloat = 6
+    static let BottomOffset: CGFloat = 8
+    static let Spacing: CGFloat = 5
+}
+
 class ImageSliderView: UIView {
     
     private var imageView: UIImageView!
     private var activityIndicator: UIActivityIndicatorView!
     private var currentImageIndex = 0
+    private var imageIndexIndicator: UIView!
+    
+    private var circlesLayer: CAShapeLayer!
     
     var images: [UIImage] = [] {
         didSet {
@@ -20,6 +29,8 @@ class ImageSliderView: UIView {
                 imageView.image = images[0]
                 isIndicatorAnimating = false
             }
+            
+            drawCircles()
         }
     }
     
@@ -55,6 +66,12 @@ class ImageSliderView: UIView {
         activityIndicator.center = center
         isIndicatorAnimating = true
         addSubview(activityIndicator)
+        
+        imageIndexIndicator = UIView(frame: .zero)
+        addSubview(imageIndexIndicator)
+        
+        circlesLayer = CAShapeLayer()
+        layer.addSublayer(circlesLayer)
         
         let leftSwipeGestureRecognizer =
             UISwipeGestureRecognizer(target: self,
@@ -97,6 +114,7 @@ class ImageSliderView: UIView {
         substituteImageView.image = imageView.image
         addSubview(substituteImageView)
         bringSubview(toFront: substituteImageView)
+        bringSubview(toFront: imageIndexIndicator)
         
         imageView.frame.origin.x -= imageView.frame.width
         
@@ -110,5 +128,71 @@ class ImageSliderView: UIView {
             substituteImageView.removeFromSuperview()
         })
     }
-
+    
+    private func drawIndexIndicator() {
+        let circlesCount = images.count
+        guard circlesCount > 0 else { return }
+        
+        imageIndexIndicator.frame = getIndexIndicatorFrame()
+        
+        
+        imageIndexIndicator.backgroundColor = .red
+        
+        setNeedsDisplay(getRedrawRect())
+    }
+    
+    private func getIndexIndicatorFrame() -> CGRect {
+        guard images.count > 0 else { return CGRect.zero }
+        
+        let indicatorWidth =
+            ImageIndicatorConstants.CirclesHeightWidth * CGFloat(images.count) +
+            ImageIndicatorConstants.Spacing * CGFloat(images.count - 1)
+        
+        let indicatorHeight = ImageIndicatorConstants.CirclesHeightWidth
+        
+        let indicatorOriginX = (bounds.width - indicatorWidth) / 2
+        
+        let indicatorOriginY = bounds.origin.y + bounds.height -
+            ImageIndicatorConstants.BottomOffset -
+            indicatorHeight
+        
+        return CGRect(x: indicatorOriginX, y: indicatorOriginY,
+            width: indicatorWidth, height: indicatorHeight)
+    }
+    
+    private func getRedrawRect() -> CGRect {
+        return CGRect(x: bounds.origin.x, y: imageIndexIndicator.frame.origin.y,
+            width: bounds.width, height: imageIndexIndicator.frame.height)
+    }
+    
+    private func drawCircles() {
+        let boundsRect = getIndexIndicatorFrame()
+        
+        let circleCenterY = boundsRect.origin.y + boundsRect.height / 2
+        
+        let path = UIBezierPath()
+        
+        for index in 0..<images.count {
+            let circleCenterX = boundsRect.origin.x +
+                ImageIndicatorConstants.CirclesHeightWidth / 2 +
+                (ImageIndicatorConstants.CirclesHeightWidth + ImageIndicatorConstants.Spacing) * CGFloat(index)
+            
+            let center = CGPoint(x: circleCenterX, y: circleCenterY)
+            
+            let circlePath = UIBezierPath(arcCenter: center,
+                radius: ImageIndicatorConstants.CirclesHeightWidth / 2,
+                startAngle: 0,
+                endAngle: CGFloat.pi * 2,
+                clockwise: true)
+            
+            path.append(circlePath)
+        }
+        
+        path.close()
+        
+        circlesLayer.path = path.cgPath
+        
+        let color = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.7)
+        circlesLayer.fillColor = color.cgColor
+    }
 }
