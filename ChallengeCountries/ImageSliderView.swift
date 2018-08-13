@@ -67,7 +67,7 @@ class ImageSliderView: UIView {
         
         pageControl = UIPageControl(frame: .zero)
         pageControl.center.x = center.x
-        pageControl.frame = pageControl.frame.offsetBy(dx: 0, dy: bounds.maxY - PageControlConstants.CirclesHeightWidth - PageControlConstants.BottomOffset)
+        pageControl.frame = pageControl.frame.offsetBy(dx: 0, dy: getPageControlOffsetY())
         pageControl.hidesForSinglePage = true
         pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.4)
         pageControl.currentPageIndicatorTintColor = UIColor.white
@@ -86,13 +86,19 @@ class ImageSliderView: UIView {
         addGestureRecognizer(rightSwipeGestureRecognizer)
     }
     
+    private func getPageControlOffsetY() -> CGFloat {
+        return bounds.maxY -
+            PageControlConstants.CirclesHeightWidth -
+            PageControlConstants.BottomOffset
+    }
+    
     @objc private func showNextImage() {
         guard pageControl.currentPage < pageControl.numberOfPages - 1  else { return }
         
-        let new = UIImageView(frame: imageView.frame)
-        new.image = imageView.image
-        addSubview(new)
-        sendSubview(toBack: new)
+        let substititeImageView = UIImageView(frame: imageView.frame)
+        substititeImageView.image = imageView.image
+        addSubview(substititeImageView)
+        sendSubview(toBack: substititeImageView)
         
         imageView.frame.origin.x += imageView.frame.width
         
@@ -101,9 +107,9 @@ class ImageSliderView: UIView {
         
         UIView.animate(withDuration: 0.5, animations: {
             self.imageView.frame.origin.x -= self.imageView.frame.width
-            new.frame.origin.x -= new.frame.width
+            substititeImageView.frame.origin.x -= substititeImageView.frame.width
         }, completion: { completed in
-            new.removeFromSuperview()
+            substititeImageView.removeFromSuperview()
         })
     }
     
@@ -128,7 +134,7 @@ class ImageSliderView: UIView {
             substituteImageView.removeFromSuperview()
         })
     }
-    
+        
     private func updatePageControl() {
         let defaultControlSpacing: CGFloat = 7 // Apple default spacing
         
