@@ -9,6 +9,9 @@
 import UIKit
 
 class CountriesNavigationController: UINavigationController, UINavigationControllerDelegate {
+    enum CountriesNavigationControllerStyle {
+        case opaque, transparent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,24 +20,34 @@ class CountriesNavigationController: UINavigationController, UINavigationControl
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is CountriesListViewController {
-            styleOpaque()
+            setStyle(to: .opaque)
         } else if viewController is CountryDetailsViewController {
-            styleTransparent()
+            setStyle(to: .transparent)
         }
     }
     
-    func styleTransparent() {
-        navigationBar.barStyle = .black
-        navigationBar.tintColor = .white
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationBar.shadowImage = UIImage()
+    func setStyle(to style: CountriesNavigationControllerStyle) {
+        switch style {
+        case .opaque:
+            setStyleOpaque()
+        case .transparent:
+            setStyleTransparent()
+        }
     }
-
-    func styleOpaque() {
+    
+    private func setStyleOpaque() {
         navigationBar.barStyle = .default
         navigationBar.tintColor = nil
         navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
         navigationBar.setBackgroundImage(nil, for: .default)
         navigationBar.shadowImage = nil
     }
+    
+    private func setStyleTransparent() {
+        navigationBar.barStyle = .black
+        navigationBar.tintColor = .white
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
+    }
+
 }

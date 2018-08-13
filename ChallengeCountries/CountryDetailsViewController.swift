@@ -28,41 +28,56 @@ class CountryDetailsViewController: UIViewController {
     
     var country: Country!
     
-    private var isImageDownloadComplete = false
+    private var atLeastOneImageLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView(with: country)
-        
-        for url in country.photosUrls {
-            CountriesRepo.getPhoto(fromUrl: url) { photoData in
-                if let data = photoData, let image = UIImage(data: data) {
-                    if !self.isImageDownloadComplete {
-                        self.isImageDownloadComplete = true
-                        self.countriesNavigationController.styleTransparent()
-                    }
-                    
-                    self.imageSlider.images.append(image)
-                }
-            }
+        if let country = country {
+            updateView(with: country)
+            getPhotos(from: country, eachCompletionHandler: showPhotoFromData)
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if !isImageDownloadComplete{
-            countriesNavigationController.styleOpaque()
+        if !atLeastOneImageLoaded{
+            countriesNavigationController.setStyle(to: .opaque)
         }
     }
         
-    private func updateView(with Country: Country?) {
-        guard let country = country else { return }
-        
+    private func updateView(with Country: Country) {
         nameLabel.text = country.name
         capitalLabel.text = country.capital
         populationLabel.text = "\(country.population)"
         continentLabel.text = country.continent
         descriptionLabel.text = country.description
+    }
+    
+    private func getPhotos(from country: Country,
+        eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
+        
+        for url in country.photosUrls {
+            CountriesRepo.getPhoto(fromUrl: url, completionHandler: completionHandler)
+        }
+    }
+    
+    private func image(from data: Data?) -> UIImage? {
+        if let data = data, let image = UIImage(data: data) {
+            return image
+        } else {
+            return nil
+        }
+    }
+    
+    private func showPhotoFromData(data: Data?) {
+        if let image = image(from: data) {
+            if !self.atLeastOneImageLoaded {
+                atLeastOneImageLoaded = true
+                self.countriesNavigationController.setStyle(to: .transparent)
+            }
+            
+            imageSlider.images.append(image)
+        }
     }
 }
 
@@ -73,12 +88,12 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
             CountryDetailsConstants.ViewOffset
         
-        if isImageDownloadComplete {
+        if atLeastOneImageLoaded {
             if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
                 scrollView.contentOffset.y < edgeOffset {
-                countriesNavigationController.styleOpaque()
+                countriesNavigationController.setStyle(to: .opaque)
             } else {
-                countriesNavigationController.styleTransparent()
+                countriesNavigationController.setStyle(to: .transparent)
             }
         }
     }
