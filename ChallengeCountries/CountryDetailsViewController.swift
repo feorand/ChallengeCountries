@@ -12,65 +12,93 @@ struct CountryDetailsConstants {
     static let ScrollViewOffset: CGFloat = -64
     static let ViewOffset: CGFloat = -64
 }
-
 class CountryDetailsViewController: UIViewController {
     
-    @IBOutlet weak var photoView: UIImageView!
+    @IBOutlet weak var imageSlider: ImageSliderView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
     @IBOutlet weak var populationLabel: UILabel!
     @IBOutlet weak var continentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var aboutLabel: UILabel!
-
-    var country: Country!
     
-    var countriesNavigationController: NavigationController? {
-        return navigationController as? NavigationController
+    var country: Country?
+    
+    private var atLeastOneImageLoaded = false
+    
+    override var navigationController: CountriesNavigationController? {
+        return super.navigationController as? CountriesNavigationController
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView(with: country)
-        
-        if let flagData = country.flag {
-            self.photoView.image = UIImage(data: flagData)
-            self.countriesNavigationController?.changeToWhite()
-        }
-        
-        CountriesRepo.getPhoto(fromUrl: country.photosUrls[0]) { photoData in
-            if let data = photoData {
-                self.photoView.image = UIImage(data: data)
-                self.activityIndicator.stopAnimating()
-            }
+        if let country = country {
+            updateView(with: country)
+            getPhotos(from: country, eachCompletionHandler: showPhotoFromData)
         }
     }
     
-    private func updateView(with Country: Country?) {
-        guard let country = country else { return }
+    override func viewDidAppear(_ animated: Bool) {
+        if !atLeastOneImageLoaded{
+            navigationController?.setStyle(to: .opaque)
+        }
+    }
         
-        nameLabel.text = country.name
-        capitalLabel.text = country.capital
-        populationLabel.text = "\(country.population)"
-        continentLabel.text = country.continent
-        descriptionLabel.text = country.description
+    private func updateView(with Country: Country) {
+        nameLabel.text = country?.name
+        capitalLabel.text = country?.capital
+        populationLabel.text = "\(country?.population ?? 0)"
+        continentLabel.text = country?.continent
+        descriptionLabel.text = country?.description
+    }
+    
+    private func getPhotos(from country: Country,
+        eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
+        
+        for url in country.photosUrls {
+            CountriesRepo.getPhoto(fromUrl: url, completionHandler: completionHandler)
+        }
+    }
+    
+    private func image(from data: Data?) -> UIImage? {
+        if let data = data, let image = UIImage(data: data) {
+            return image
+        } else {
+            return nil
+        }
+    }
+    
+    private func showPhotoFromData(data: Data?) {
+        if let image = image(from: data) {
+            if !self.atLeastOneImageLoaded {
+                atLeastOneImageLoaded = true
+                self.navigationController?.setStyle(to: .transparent)
+            }
+            
+            imageSlider.images.append(image)
+        }
     }
 }
 
 extension CountryDetailsViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        setStyle(dependingOn: scrollView)
+    }
+    
+    private func setStyle(dependingOn scrollView: UIScrollView) {
+        //Nothing to inspect while no image loaded
+        guard atLeastOneImageLoaded else { return }
         
         // Change style of Navigation bar depending on Scroll offset
         let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
             CountryDetailsConstants.ViewOffset
         
-        if  scrollView.contentOffset.y > photoView.frame.height + edgeOffset ||
+        if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
             scrollView.contentOffset.y < edgeOffset {
-            countriesNavigationController?.changeToBlack()
+            navigationController?.setStyle(to: .opaque)
         } else {
-            countriesNavigationController?.changeToWhite()
+            navigationController?.setStyle(to: .transparent)
         }
     }
 }

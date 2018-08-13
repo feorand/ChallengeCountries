@@ -124,12 +124,13 @@
                                     <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLu-Sj-XVX" userLabel="Inside View">
                                         <rect key="frame" x="0.0" y="-64" width="375" height="718"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfG-wP-JIA" userLabel="Photo">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNm-sC-33J" customClass="ImageSliderView" customModule="ChallengeCountries" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="zfG-wP-JIA" secondAttribute="height" multiplier="320:240" id="TqR-JX-CQz"/>
+                                                    <constraint firstAttribute="width" secondItem="fNm-sC-33J" secondAttribute="height" multiplier="320:240" id="dXE-A7-d5o"/>
                                                 </constraints>
-                                            </imageView>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="((Country Name))" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCK-FV-5CX">
                                                 <rect key="frame" x="15" y="305.5" width="167.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -246,39 +247,34 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tdd-4R-GoW">
-                                                <rect key="frame" x="177" y="131" width="20" height="20"/>
-                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="FbZ-dG-8o0" secondAttribute="bottom" constant="15" id="2fN-f2-I3j"/>
                                             <constraint firstItem="hCK-FV-5CX" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="5MX-Tk-ZJ8"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="5xs-Bi-VgP"/>
-                                            <constraint firstItem="zfG-wP-JIA" firstAttribute="top" secondItem="CLu-Sj-XVX" secondAttribute="top" id="7by-wd-KCJ"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="bottom" secondItem="4BL-48-aRP" secondAttribute="top" id="8rw-ag-Ph1"/>
                                             <constraint firstItem="6pd-9F-e2k" firstAttribute="top" secondItem="GIl-fF-LWv" secondAttribute="bottom" id="9Wk-g8-wDf"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="bottom" secondItem="yMZ-4O-kj6" secondAttribute="top" id="Cic-Kc-Rlf"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iQG-kK-Vdc" secondAttribute="trailing" constant="20" symbolic="YES" id="Cm0-nR-IWT"/>
                                             <constraint firstAttribute="trailing" secondItem="FbZ-dG-8o0" secondAttribute="trailing" constant="15" id="Cmy-da-q6O"/>
                                             <constraint firstItem="FbZ-dG-8o0" firstAttribute="top" secondItem="iQG-kK-Vdc" secondAttribute="bottom" constant="8" id="E0g-Eo-hp3"/>
+                                            <constraint firstItem="fNm-sC-33J" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="Egv-cY-SrS"/>
                                             <constraint firstAttribute="trailing" secondItem="GIl-fF-LWv" secondAttribute="trailing" constant="15" id="F01-L1-qQp"/>
                                             <constraint firstItem="FbZ-dG-8o0" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="Flp-ui-eEf"/>
+                                            <constraint firstItem="fNm-sC-33J" firstAttribute="top" secondItem="CLu-Sj-XVX" secondAttribute="top" id="JkW-ED-2zg"/>
                                             <constraint firstAttribute="trailing" secondItem="yMZ-4O-kj6" secondAttribute="trailing" constant="15" id="KAd-ok-OK0"/>
                                             <constraint firstItem="6pd-9F-e2k" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="MIL-Sg-oZL"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="Qsp-qY-gdS"/>
-                                            <constraint firstItem="tdd-4R-GoW" firstAttribute="centerX" secondItem="CLu-Sj-XVX" secondAttribute="centerX" id="UO7-V8-9DD"/>
                                             <constraint firstAttribute="trailing" secondItem="osR-FI-iAd" secondAttribute="trailing" constant="15" id="VAw-R5-ZAQ"/>
-                                            <constraint firstItem="hCK-FV-5CX" firstAttribute="top" secondItem="zfG-wP-JIA" secondAttribute="bottom" constant="24" id="WHy-Q9-a4N"/>
-                                            <constraint firstAttribute="trailing" secondItem="zfG-wP-JIA" secondAttribute="trailing" id="XSO-jK-fb7"/>
+                                            <constraint firstItem="hCK-FV-5CX" firstAttribute="top" secondItem="fNm-sC-33J" secondAttribute="bottom" constant="24" id="a1e-F7-84A"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="aew-ZK-J4y"/>
                                             <constraint firstItem="osR-FI-iAd" firstAttribute="top" secondItem="hCK-FV-5CX" secondAttribute="bottom" constant="8" id="ixs-wy-lQs"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCK-FV-5CX" secondAttribute="trailing" constant="20" symbolic="YES" id="jKu-oZ-V0M"/>
                                             <constraint firstItem="GIl-fF-LWv" firstAttribute="top" secondItem="osR-FI-iAd" secondAttribute="bottom" id="k1b-nv-aZG"/>
-                                            <constraint firstItem="zfG-wP-JIA" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" id="nzr-wu-wJO"/>
+                                            <constraint firstAttribute="trailing" secondItem="fNm-sC-33J" secondAttribute="trailing" id="pMq-gx-afU"/>
                                             <constraint firstAttribute="trailing" secondItem="4BL-48-aRP" secondAttribute="trailing" constant="15" id="qJx-3L-m9M"/>
                                             <constraint firstItem="iQG-kK-Vdc" firstAttribute="top" secondItem="6pd-9F-e2k" secondAttribute="bottom" constant="8" id="qpK-Au-Bt9"/>
-                                            <constraint firstItem="tdd-4R-GoW" firstAttribute="centerY" secondItem="zfG-wP-JIA" secondAttribute="centerY" id="uFy-0w-aX4"/>
                                             <constraint firstAttribute="trailing" secondItem="6pd-9F-e2k" secondAttribute="trailing" constant="15" id="v4M-hb-HCx"/>
                                             <constraint firstItem="4BL-48-aRP" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="vu9-8h-DRQ"/>
                                             <constraint firstItem="yMZ-4O-kj6" firstAttribute="leading" secondItem="CLu-Sj-XVX" secondAttribute="leading" constant="15" id="xwD-V4-5MW"/>
@@ -308,12 +304,11 @@
                     </view>
                     <connections>
                         <outlet property="aboutLabel" destination="iQG-kK-Vdc" id="vlO-Oe-Rtq"/>
-                        <outlet property="activityIndicator" destination="tdd-4R-GoW" id="Oai-pj-WlQ"/>
                         <outlet property="capitalLabel" destination="4d3-Yd-XQv" id="xyH-hA-iZC"/>
                         <outlet property="continentLabel" destination="ngB-Oh-73b" id="pdR-3F-DfT"/>
                         <outlet property="descriptionLabel" destination="FbZ-dG-8o0" id="gNH-QW-qdn"/>
+                        <outlet property="imageSlider" destination="fNm-sC-33J" id="YzF-Ng-IB6"/>
                         <outlet property="nameLabel" destination="hCK-FV-5CX" id="HSP-n2-5H8"/>
-                        <outlet property="photoView" destination="zfG-wP-JIA" id="PsH-vZ-wZV"/>
                         <outlet property="populationLabel" destination="2i3-NS-DAD" id="3wV-5a-T9s"/>
                     </connections>
                 </viewController>
@@ -321,10 +316,10 @@
             </objects>
             <point key="canvasLocation" x="2004" y="-312.59370314842579"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Countries Navigation Controller-->
         <scene sceneID="Lzy-hr-3eD">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wT9-Ne-gdc" customClass="NavigationController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wT9-Ne-gdc" customClass="CountriesNavigationController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hIW-YO-25M">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
