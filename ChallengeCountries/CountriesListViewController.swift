@@ -27,17 +27,14 @@ class CountriesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-            
-        countriesRepo.updateCountries(completionHandler: {
-            self.hideActivityIndicator()
-            self.tableView.reloadData()
-        })
+        countriesRepo.updateCountries(completionHandler: showContent)
     }
     
-    private func hideActivityIndicator() {
-        self.activityIndicator.stopAnimating()
-        self.tableView.separatorStyle = .singleLine
-    }    
+    private func showContent() {
+        activityIndicator.stopAnimating()
+        tableView.separatorStyle = .singleLine
+        tableView.reloadData()
+    }
 }
 
 extension CountriesListViewController: UITableViewDelegate, UITableViewDataSource {
