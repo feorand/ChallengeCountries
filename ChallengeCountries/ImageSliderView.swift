@@ -29,7 +29,6 @@ class ImageSliderView: UIView {
             
             pageControl.numberOfPages = images.count
             updatePageControl()
-            setNeedsLayout()
         }
     }
     
@@ -63,6 +62,7 @@ class ImageSliderView: UIView {
         
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.center = center
+        isIndicatorAnimating = true
         addSubview(activityIndicator)
         
         pageControl = UIPageControl(frame: .zero)
@@ -71,18 +71,17 @@ class ImageSliderView: UIView {
         pageControl.hidesForSinglePage = true
         pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.4)
         pageControl.currentPageIndicatorTintColor = UIColor.white
-        
         addSubview(pageControl)
         
         let leftSwipeGestureRecognizer =
             UISwipeGestureRecognizer(target: self,
-                                     action: #selector(showNextImage))
+                action: #selector(showNextImage))
         leftSwipeGestureRecognizer.direction = .left
         addGestureRecognizer(leftSwipeGestureRecognizer)
 
         let rightSwipeGestureRecognizer =
             UISwipeGestureRecognizer(target: self,
-                                     action: #selector(showPreviousImage))
+                action: #selector(showPreviousImage))
         rightSwipeGestureRecognizer.direction = .right
         addGestureRecognizer(rightSwipeGestureRecognizer)
     }

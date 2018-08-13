@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavigationController: UINavigationController, UINavigationControllerDelegate {
+class CountriesNavigationController: UINavigationController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,18 +17,20 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is CountriesListViewController {
-            changeToBlack()
+            styleOpaque()
+        } else if viewController is CountryDetailsViewController {
+            styleTransparent()
         }
     }
     
-    func changeToWhite() {
+    func styleTransparent() {
         navigationBar.barStyle = .black
         navigationBar.tintColor = .white
         navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationBar.shadowImage = UIImage()
     }
 
-    func changeToBlack() {
+    func styleOpaque() {
         navigationBar.barStyle = .default
         navigationBar.tintColor = nil
         navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]

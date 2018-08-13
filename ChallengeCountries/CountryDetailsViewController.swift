@@ -22,11 +22,8 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var aboutLabel: UILabel!
     
-    var countriesNavigationController: NavigationController {
-        guard let result = navigationController as? NavigationController else {
-            fatalError("Missing View Controller - NavigationController")
-        }
-        return result
+    var countriesNavigationController: CountriesNavigationController {
+        return navigationController as! CountriesNavigationController
     }
     
     var country: Country!
@@ -43,12 +40,18 @@ class CountryDetailsViewController: UIViewController {
                 if let data = photoData, let image = UIImage(data: data) {
                     if !self.isImageDownloadComplete {
                         self.isImageDownloadComplete = true
-                        self.countriesNavigationController.changeToWhite()
+                        self.countriesNavigationController.styleTransparent()
                     }
                     
                     self.imageSlider.images.append(image)
                 }
             }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !isImageDownloadComplete{
+            countriesNavigationController.styleOpaque()
         }
     }
         
@@ -73,9 +76,9 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         if isImageDownloadComplete {
             if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
                 scrollView.contentOffset.y < edgeOffset {
-                countriesNavigationController.changeToBlack()
+                countriesNavigationController.styleOpaque()
             } else {
-                countriesNavigationController.changeToWhite()
+                countriesNavigationController.styleTransparent()
             }
         }
     }
