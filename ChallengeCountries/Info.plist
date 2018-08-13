@@ -34,23 +34,8 @@
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>flags.fmcdn.net</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<false/>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>www.flagistrany.ru</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<false/>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

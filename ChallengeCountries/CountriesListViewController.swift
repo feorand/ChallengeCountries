@@ -27,16 +27,13 @@ class CountriesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        countriesRepo.updateCountries(completionHandler: {
-            self.hideActivityIndicator()
-            self.tableView.reloadData()
-        })
+        countriesRepo.updateCountries(completionHandler: showContent)
     }
     
-    private func hideActivityIndicator() {
-        self.activityIndicator.stopAnimating()
-        self.tableView.separatorStyle = .singleLine
+    private func showContent() {
+        activityIndicator.stopAnimating()
+        tableView.separatorStyle = .singleLine
+        tableView.reloadData()
     }
 }
 
@@ -98,16 +95,21 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         let country = countriesRepo.countries[indexPath.row]
-        
-        if let flag = country.flag {
-            cell.flagImageView.image = UIImage(data: flag)
-        }
-        
-        cell.nameLabel.text = country.name
-        cell.capitalLabel.text = country.capital
-        cell.descriptionLabel.text = country.descriptionSmall
-        
+        cell.country = country
+                
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CountryDetails" {
+            if let destination = segue.destination as? CountryDetailsViewController,
+                let initiatorCell = sender as? CountryCell,
+                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
+                
+                let country = countriesRepo.countries[countryIndex]
+                destination.country = country
+            }
+        }
     }
 }
 

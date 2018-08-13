@@ -21,14 +21,14 @@ class CountriesRepo {
     private(set) var countries: [Country] = []
     
     func updateCountries(completionHandler handler: @escaping () -> ()) {
-        getCountries(from: RepoConstants.InitialUrl) { nextPageUrl, countries in
+        CountriesRepo.getCountries(from: RepoConstants.InitialUrl) { nextPageUrl, countries in
             self.nextPageUrl = nextPageUrl
             self.countries = countries
             handler()
         }
     }
     
-    private func getCountries(from url: String,
+    private class func getCountries(from url: String,
                               completionHandler handler: @escaping (String, [Country]) -> ()) {
         request(url).responseJSON{ response in
             self.executeIfSuccess(response: response) { data in
@@ -51,7 +51,7 @@ class CountriesRepo {
     }
     
     // Executes handler if response state is Success
-    private func executeIfSuccess<T>(response: DataResponse<T>, handler: (T) -> ()) {
+    private class func executeIfSuccess<T>(response: DataResponse<T>, handler: (T) -> ()) {
         switch response.result {
         case .success(let value):
             handler(value)
@@ -60,13 +60,13 @@ class CountriesRepo {
         }
     }
     
-    private func getImage(fromUrl url: String, completionHandler: @escaping (Data?) -> ()) {
+    private class func getImage(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
         request(url).responseData{ response in
-            self.executeIfSuccess(response: response, handler: completionHandler)
+            self.executeIfSuccess(response: response, handler: handler)
         }
     }
     
-    private func getFlags(for countries: [Country],
+    private class func getFlags(for countries: [Country],
                           completionHandler handler: @escaping ([Country])->()) {
         let countriesHandlersGroup = DispatchGroup()
         
@@ -82,5 +82,9 @@ class CountriesRepo {
         countriesHandlersGroup.notify(queue: .main) {
             handler(countries)
         }
+    }
+    
+    class func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
+        getImage(fromUrl: url, completionHandler: handler)
     }
 }
