@@ -16,9 +16,14 @@ struct RepoConstants {
 //TODO: Changle all prints to logs
 
 class CountriesRepo {
-    private var nextPageUrl: String = RepoConstants.InitialUrl
+    
+    var hasNextPage: Bool {
+        return !nextPageUrl.isEmpty
+    }
     
     private(set) var countries: [Country] = []
+    
+    private var nextPageUrl: String = RepoConstants.InitialUrl
     
     func getNextPageOfCountriesList(completionHandler handler: @escaping () -> ()) {
         guard !nextPageUrl.isEmpty else { return }

@@ -102,7 +102,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Страны" id="wfP-2g-VXx"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="cLA-pN-Oxw" id="hXb-An-761"/>
+                        <outlet property="spinner" destination="cLA-pN-Oxw" id="hXb-An-761"/>
                         <outlet property="tableView" destination="Zy5-Rg-Vgt" id="2Sp-Ol-Uja"/>
                     </connections>
                 </viewController>

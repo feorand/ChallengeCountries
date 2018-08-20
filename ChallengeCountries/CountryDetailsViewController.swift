@@ -12,6 +12,7 @@ struct CountryDetailsConstants {
     static let ScrollViewOffset: CGFloat = -64
     static let ViewOffset: CGFloat = -64
 }
+
 class CountryDetailsViewController: UIViewController {
     
     @IBOutlet weak var imageSlider: ImageSliderView!

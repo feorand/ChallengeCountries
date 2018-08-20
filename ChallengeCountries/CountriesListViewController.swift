@@ -23,19 +23,48 @@ struct CountriesListConstants {
 class CountriesListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-        
-    let countriesRepo = CountriesRepo()
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    private let countriesRepo = CountriesRepo()
+    
+    private var defaultCountryCellHeight: CGFloat {
+        return CountriesListConstants.TopSpacing +
+            CountriesListConstants.FlagHeight +
+            CountriesListConstants.BottomSpacing
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        countriesRepo.getNextPageOfCountriesList(completionHandler: showContent)
+        
+        countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
     }
     
-    private func showContent() {
-        activityIndicator.stopAnimating()
+    private func updateTable() {
+        spinner.stopAnimating()
         tableView.separatorStyle = .singleLine
         tableView.reloadData()
+        
+        updateCountryTableFooterView()
+    }
+    
+    private func updateCountryTableFooterView() {
+        if countriesRepo.hasNextPage {
+            showCountryTableFooterView()
+        }
+    }
+    
+    private func showCountryTableFooterView() {
+        let footerSpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        footerSpinner.hidesWhenStopped = true
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0,
+            width: tableView.frame.width, height: defaultCountryCellHeight))
+        footerView.addSubview(footerSpinner)
+        
+        footerSpinner.center = footerSpinner.superview!.center
+        footerSpinner.startAnimating()
+        
+        tableView.tableFooterView = footerView
     }
 }
 
@@ -52,7 +81,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         let country = countriesRepo.countries[indexPath.row]
         
         if country.descriptionSmall.isEmpty {
-            return heightForCountryWithNoSmallDescription()
+            return defaultCountryCellHeight
         } else {
             return heightForCountryWithSmallDescription(country: country)
         }
@@ -83,12 +112,6 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                 destination.country = country
             }
         }
-    }
-    
-    private func heightForCountryWithNoSmallDescription() -> CGFloat {
-        return CountriesListConstants.TopSpacing +
-            CountriesListConstants.FlagHeight +
-            CountriesListConstants.BottomSpacing
     }
     
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
