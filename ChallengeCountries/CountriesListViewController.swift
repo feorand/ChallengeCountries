@@ -16,6 +16,8 @@ struct CountriesListConstants {
     static let BottomSpacing: CGFloat = 16
     static let LeftSpacing: CGFloat = 15
     static let RightSpacing: CGFloat = 15
+    
+    static let DescriptionFontSize: CGFloat = 15
 }
 
 class CountriesListViewController: UIViewController {
@@ -27,7 +29,7 @@ class CountriesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        countriesRepo.updateCountries(completionHandler: showContent)
+        countriesRepo.getNextPageOfCountriesList(completionHandler: showContent)
     }
     
     private func showContent() {
@@ -49,40 +51,11 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let country = countriesRepo.countries[indexPath.row]
         
-        // Simplified height calculation for cells with no description
         if country.descriptionSmall.isEmpty {
-            return CountriesListConstants.TopSpacing +
-                CountriesListConstants.FlagHeight +
-                CountriesListConstants.BottomSpacing
+            return heightForCountryWithNoSmallDescription()
+        } else {
+            return heightForCountryWithSmallDescription(country: country)
         }
-        
-        // Full height calculation
-        
-        let description = country.descriptionSmall as NSString
-        
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)]
-        
-        let descriptionWidth = view.bounds.width -
-            CountriesListConstants.LeftSpacing -
-            CountriesListConstants.RightSpacing
-        
-        let sizeLimits = CGSize(width: descriptionWidth, height: CGFloat.infinity)
-        
-        let boundingRect = description
-            .boundingRect(with: sizeLimits,
-                          options: .usesLineFragmentOrigin,
-                          attributes: attributes,
-                          context: nil)
-        
-        let descriptionHeight = boundingRect.height
-        
-        let cellHeight = CountriesListConstants.TopSpacing +
-            CountriesListConstants.FlagHeight +
-            CountriesListConstants.MiddleSpacing +
-            descriptionHeight +
-            CountriesListConstants.BottomSpacing
-        
-        return cellHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,6 +83,40 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                 destination.country = country
             }
         }
+    }
+    
+    private func heightForCountryWithNoSmallDescription() -> CGFloat {
+        return CountriesListConstants.TopSpacing +
+            CountriesListConstants.FlagHeight +
+            CountriesListConstants.BottomSpacing
+    }
+    
+    private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
+        let description = country.descriptionSmall as NSString
+        
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesListConstants.DescriptionFontSize)]
+        
+        let descriptionWidth = view.bounds.width -
+            CountriesListConstants.LeftSpacing -
+            CountriesListConstants.RightSpacing
+        
+        let sizeLimits = CGSize(width: descriptionWidth, height: CGFloat.infinity)
+        
+        let boundingRect = description
+            .boundingRect(with: sizeLimits,
+                          options: .usesLineFragmentOrigin,
+                          attributes: attributes,
+                          context: nil)
+        
+        let descriptionHeight = boundingRect.height
+        
+        let cellHeight = CountriesListConstants.TopSpacing +
+            CountriesListConstants.FlagHeight +
+            CountriesListConstants.MiddleSpacing +
+            descriptionHeight +
+            CountriesListConstants.BottomSpacing
+        
+        return cellHeight
     }
 }
 
