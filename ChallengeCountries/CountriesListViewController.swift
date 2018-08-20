@@ -39,10 +39,14 @@ class CountriesListViewController: UIViewController {
         countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
     }
     
-    private func updateTable() {
+    private func updateTable(numberOfNewCountries: Int) {
         spinner.stopAnimating()
         tableView.separatorStyle = .singleLine
-        tableView.reloadData()
+        
+        let rowsCount = tableView.numberOfRows(inSection: 0)
+        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
+            .map { IndexPath(row: $0, section: 0) }
+        tableView.insertRows(at: indexPaths, with: .automatic)
         
         updateCountryTableFooterView()
     }
@@ -50,6 +54,8 @@ class CountriesListViewController: UIViewController {
     private func updateCountryTableFooterView() {
         if countriesRepo.hasNextPage {
             showCountryTableFooterView()
+        } else {
+            hideCountryTableFooterView()
         }
     }
     
@@ -65,6 +71,10 @@ class CountriesListViewController: UIViewController {
         footerSpinner.startAnimating()
         
         tableView.tableFooterView = footerView
+    }
+    
+    private func hideCountryTableFooterView() {
+        tableView.tableFooterView = nil
     }
 }
 
@@ -98,7 +108,11 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let country = countriesRepo.countries[indexPath.row]
         cell.country = country
-                
+        
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+                countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
+        }
+        
         return cell
     }
     

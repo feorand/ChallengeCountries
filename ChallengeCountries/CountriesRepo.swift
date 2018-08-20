@@ -25,13 +25,13 @@ class CountriesRepo {
     
     private var nextPageUrl: String = RepoConstants.InitialUrl
     
-    func getNextPageOfCountriesList(completionHandler handler: @escaping () -> ()) {
+    func getNextPageOfCountriesList(completionHandler handler: @escaping (Int) -> ()) {
         guard !nextPageUrl.isEmpty else { return }
         
         CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in
             self.nextPageUrl = nextPageUrl
-            self.countries = countries
-            handler()
+            self.countries += countries
+            handler(countries.count)
         }
     }
     
