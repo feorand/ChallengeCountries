@@ -16,35 +16,43 @@ struct RepoConstants {
 //TODO: Changle all prints to logs
 
 class CountriesRepo {
-    private var nextPageUrl: String = ""
+    
+    var hasNextPage: Bool {
+        return !nextPageUrl.isEmpty
+    }
     
     private(set) var countries: [Country] = []
     
-    func updateCountries(completionHandler handler: @escaping () -> ()) {
-        CountriesRepo.getCountries(from: RepoConstants.InitialUrl) { nextPageUrl, countries in
+    private var nextPageUrl: String = RepoConstants.InitialUrl
+    
+    func getNextPageOfCountriesList(completionHandler handler: @escaping (Int) -> ()) {
+        guard !nextPageUrl.isEmpty else { return }
+        
+        CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in
             self.nextPageUrl = nextPageUrl
-            self.countries = countries
-            handler()
+            self.countries += countries
+            handler(countries.count)
         }
     }
     
     private class func getCountries(from url: String,
-                              completionHandler handler: @escaping (String, [Country]) -> ()) {
+        completionHandler handler: @escaping (String, [Country]) -> ()) {
+        
         request(url).responseJSON{ response in
             self.executeIfSuccess(response: response) { data in
-                var nextPageUrl = ""
-                var countries: [Country] = []
+                var _nextPageUrl = ""
+                var _countries: [Country] = []
                 
                 do {
-                    nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
-                    countries = try CountriesJSONParser.GetCountries(from: data)
+                    _nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
+                    _countries = try CountriesJSONParser.GetCountries(from: data)
                 } catch {
                     print(error)
                     return
                 }
                 
-                self.getFlags(for: countries) { countries in
-                    handler(nextPageUrl, countries)
+                self.getFlags(for: _countries) { countries in
+                    handler(_nextPageUrl, countries)
                 }
             }
         }

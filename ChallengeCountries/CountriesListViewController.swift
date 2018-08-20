@@ -16,24 +16,65 @@ struct CountriesListConstants {
     static let BottomSpacing: CGFloat = 16
     static let LeftSpacing: CGFloat = 15
     static let RightSpacing: CGFloat = 15
+    
+    static let DescriptionFontSize: CGFloat = 15
 }
 
 class CountriesListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-        
-    let countriesRepo = CountriesRepo()
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    private let countriesRepo = CountriesRepo()
+    
+    private var defaultCountryCellHeight: CGFloat {
+        return CountriesListConstants.TopSpacing +
+            CountriesListConstants.FlagHeight +
+            CountriesListConstants.BottomSpacing
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        countriesRepo.updateCountries(completionHandler: showContent)
+        
+        countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
     }
     
-    private func showContent() {
-        activityIndicator.stopAnimating()
+    private func updateTable(numberOfNewCountries: Int) {
+        spinner.stopAnimating()
         tableView.separatorStyle = .singleLine
-        tableView.reloadData()
+        
+        let rowsCount = tableView.numberOfRows(inSection: 0)
+        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
+            .map { IndexPath(row: $0, section: 0) }
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        
+        updateCountryTableFooterView()
+    }
+    
+    private func updateCountryTableFooterView() {
+        if countriesRepo.hasNextPage {
+            showCountryTableFooterView()
+        } else {
+            hideCountryTableFooterView()
+        }
+    }
+    
+    private func showCountryTableFooterView() {
+        let footerSpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        footerSpinner.hidesWhenStopped = true
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0,
+            width: tableView.frame.width, height: defaultCountryCellHeight))
+        footerView.addSubview(footerSpinner)
+        
+        footerSpinner.center = footerSpinner.superview!.center
+        footerSpinner.startAnimating()
+        
+        tableView.tableFooterView = footerView
+    }
+    
+    private func hideCountryTableFooterView() {
+        tableView.tableFooterView = nil
     }
 }
 
@@ -49,18 +90,48 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let country = countriesRepo.countries[indexPath.row]
         
-        // Simplified height calculation for cells with no description
         if country.descriptionSmall.isEmpty {
-            return CountriesListConstants.TopSpacing +
-                CountriesListConstants.FlagHeight +
-                CountriesListConstants.BottomSpacing
+            return defaultCountryCellHeight
+        } else {
+            return heightForCountryWithSmallDescription(country: country)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // Nothing to do when countries haven't loaded yet
+        guard countriesRepo.countries.count > 0,
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
+                                                     for: indexPath) as? CountryCell else {
+            return UITableViewCell()
         }
         
-        // Full height calculation
+        let country = countriesRepo.countries[indexPath.row]
+        cell.country = country
         
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+                countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
+        }
+        
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CountryDetails" {
+            if let destination = segue.destination as? CountryDetailsViewController,
+                let initiatorCell = sender as? CountryCell,
+                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
+                
+                let country = countriesRepo.countries[countryIndex]
+                destination.country = country
+            }
+        }
+    }
+    
+    private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
         let description = country.descriptionSmall as NSString
         
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)]
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesListConstants.DescriptionFontSize)]
         
         let descriptionWidth = view.bounds.width -
             CountriesListConstants.LeftSpacing -
@@ -83,33 +154,6 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
             CountriesListConstants.BottomSpacing
         
         return cellHeight
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.countries.count > 0,
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
-                                                     for: indexPath) as? CountryCell else {
-            return UITableViewCell()
-        }
-        
-        let country = countriesRepo.countries[indexPath.row]
-        cell.country = country
-                
-        return cell
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "CountryDetails" {
-            if let destination = segue.destination as? CountryDetailsViewController,
-                let initiatorCell = sender as? CountryCell,
-                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
-                
-                let country = countriesRepo.countries[countryIndex]
-                destination.country = country
-            }
-        }
     }
 }
 
