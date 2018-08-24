@@ -25,7 +25,12 @@ class CountriesRepo {
     
     private var nextPageUrl: String = RepoConstants.InitialUrl
     
-    func getNextPageOfCountriesList(completionHandler handler: @escaping (Int) -> ()) {
+    func clearCountriesList() {
+        nextPageUrl = RepoConstants.InitialUrl
+        countries = []
+    }
+    
+    func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
         guard !nextPageUrl.isEmpty else { return }
         
         CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in

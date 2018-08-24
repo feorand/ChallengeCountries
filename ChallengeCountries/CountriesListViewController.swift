@@ -27,22 +27,30 @@ class CountriesListViewController: UIViewController {
     
     private let countriesRepo = CountriesRepo()
     
-    private var defaultCountryCellHeight: CGFloat {
+    private lazy var defaultCountryCellHeight = {
         return CountriesListConstants.TopSpacing +
             CountriesListConstants.FlagHeight +
             CountriesListConstants.BottomSpacing
-    }
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let _refreshControl = UIRefreshControl(frame: CGRect.zero)
+        _refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return _refreshControl
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
+        countriesRepo.getNextPageOfCurrentCountriesList{ numberOfContries in
+            self.tableView.addSubview(self.refreshControl)
+            self.spinner.stopAnimating()
+            self.tableView.separatorStyle = .singleLine
+            self.updateTable(numberOfNewCountries: numberOfContries)
+        }
     }
     
     private func updateTable(numberOfNewCountries: Int) {
-        spinner.stopAnimating()
-        tableView.separatorStyle = .singleLine
-        
         let rowsCount = tableView.numberOfRows(inSection: 0)
         let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
             .map { IndexPath(row: $0, section: 0) }
@@ -75,6 +83,14 @@ class CountriesListViewController: UIViewController {
     
     private func hideCountryTableFooterView() {
         tableView.tableFooterView = nil
+    }
+    
+    @objc private func refresh() {
+        countriesRepo.clearCountriesList()
+        countriesRepo.getNextPageOfCurrentCountriesList{ numberOfCountries in
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
     }
 }
 
@@ -110,7 +126,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         cell.country = country
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                countriesRepo.getNextPageOfCountriesList(completionHandler: updateTable)
+                countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: updateTable)
         }
         
         return cell
