@@ -146,8 +146,8 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                 let initiatorCell = sender as? CountryCell,
                 let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
                 
-                let country = countriesRepo.countries[countryIndex]
-                destination.country = country
+                destination.countriesRepo = countriesRepo
+                destination.countryIndex = countryIndex
             }
         }
     }

@@ -32,12 +32,12 @@ class CountriesRepo {
         if let storedData = CountriesRepo.getStoredData() {
             countriesListData = storedData
         } else {
-            countriesListData = CountriesListData(countries: [], nextPageUrl: RepoConstants.InitialUrl)
+            countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
         }
     }
     
     func clearCountriesList() {
-        countriesListData = CountriesListData(countries: [], nextPageUrl: RepoConstants.InitialUrl)
+        countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
     }
     
     func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
@@ -54,11 +54,37 @@ class CountriesRepo {
         }
     }
     
-    private static func store(data: CountriesListData) {
+    func getPhotosForCountry(index: Int?,
+                             eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
+        
+        guard let index = index,
+            index >= 0,
+            index < countries.count else {
+                
+            return
+        }
+        
+        let country = countries[index]
+        
+        for photo in country.photos {
+            if let imageData = photo.image {
+                completionHandler(imageData)
+            } else {
+                CountriesRepo.getPhoto(fromUrl: photo.url) { data in
+                    photo.image = data
+                    CountriesRepo.store(data: self.countriesListData)
+                    
+                    completionHandler(data)
+                }
+            }
+        }
+    }
+    
+    private class func store(data: CountriesListData) {
         NSKeyedArchiver.archiveRootObject(data, toFile: RepoConstants.PathToLocalCountriesStorage)
     }
     
-    private static func getStoredData() -> CountriesListData? {
+    private class func getStoredData() -> CountriesListData? {
         return NSKeyedUnarchiver
             .unarchiveObject(withFile: RepoConstants.PathToLocalCountriesStorage)
             as? CountriesListData
@@ -121,7 +147,7 @@ class CountriesRepo {
         }
     }
     
-    class func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
+    private class func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
         getImage(fromUrl: url, completionHandler: handler)
     }
 }

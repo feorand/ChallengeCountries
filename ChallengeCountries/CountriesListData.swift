@@ -14,8 +14,8 @@ struct CountriesListDataCoderConstants {
 }
 
 class CountriesListData: NSObject, NSCoding {
-    var countries: [Country] = []
-    var nextPageUrl = ""
+    var countries: [Country]
+    var nextPageUrl: String
     
     init(countries: [Country] = [], nextPageUrl:String = "") {
         self.countries = countries
@@ -34,6 +34,6 @@ class CountriesListData: NSObject, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(countries, forKey: CountriesListDataCoderConstants.Countries)
-        aCoder.encode(countries, forKey: CountriesListDataCoderConstants.NextPageURL)
+        aCoder.encode(nextPageUrl, forKey: CountriesListDataCoderConstants.NextPageURL)
     }
 }
