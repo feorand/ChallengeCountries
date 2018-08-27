@@ -51,7 +51,7 @@ class CountryDetailsViewController: UIViewController {
         capitalLabel.text = country?.capital
         populationLabel.text = "\(country?.population ?? 0)"
         continentLabel.text = country?.continent
-        descriptionLabel.text = country?.description
+        descriptionLabel.text = country?.countryDescription
     }
     
     private func getPhotos(from country: Country,

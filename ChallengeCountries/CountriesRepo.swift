@@ -11,6 +11,7 @@ import Alamofire
 
 struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
+    static let PathToLocalStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
 }
 
 //TODO: Changle all prints to logs
@@ -30,14 +31,27 @@ class CountriesRepo {
         countries = []
     }
     
+    func getLocalCountriesList() -> [Country]? {
+        return NSKeyedUnarchiver
+            .unarchiveObject(withFile: RepoConstants.PathToLocalStorage) as? [Country]
+    }
+    
     func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
+        
         guard !nextPageUrl.isEmpty else { return }
         
         CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in
             self.nextPageUrl = nextPageUrl
             self.countries += countries
+            
+            self.storeLocalCountriesList()
+            
             handler(countries.count)
         }
+    }
+    
+    private func storeLocalCountriesList() {
+        NSKeyedArchiver.archiveRootObject(countries, toFile: RepoConstants.PathToLocalStorage)
     }
     
     private class func getCountries(from url: String,

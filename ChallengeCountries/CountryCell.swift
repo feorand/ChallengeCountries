@@ -35,6 +35,6 @@ class CountryCell: UITableViewCell {
         }
         nameLabel.text = country.name
         capitalLabel.text = country.capital
-        descriptionLabel.text = country.descriptionSmall
+        descriptionLabel.text = country.countryDescriptionSmall
     }
 }

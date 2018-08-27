@@ -106,7 +106,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let country = countriesRepo.countries[indexPath.row]
         
-        if country.descriptionSmall.isEmpty {
+        if country.countryDescriptionSmall.isEmpty {
             return defaultCountryCellHeight
         } else {
             return heightForCountryWithSmallDescription(country: country)
@@ -145,7 +145,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
-        let description = country.descriptionSmall as NSString
+        let description = country.countryDescriptionSmall as NSString
         
         let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesListConstants.DescriptionFontSize)]
         

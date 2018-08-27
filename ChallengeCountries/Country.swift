@@ -20,13 +20,13 @@ struct CountryCoderConstants {
     static let Flag = "flag"
 }
 
-class Country: NSCoding {
+class Country: NSObject, NSCoding {
     let name: String
     let continent: String
     let capital: String
     let population: Int
-    let descriptionSmall: String
-    let description: String
+    let countryDescriptionSmall: String
+    let countryDescription: String
     let flagUrl: String
     let photosUrls: [String]
 
@@ -38,8 +38,8 @@ class Country: NSCoding {
         self.continent = continent
         self.capital = capital
         self.population = population
-        self.description = description
-        self.descriptionSmall = descriptionSmall
+        self.countryDescription = description
+        self.countryDescriptionSmall = descriptionSmall
         self.flagUrl = flagUrl
         self.photosUrls = photosUrls
     }
@@ -73,8 +73,8 @@ class Country: NSCoding {
         aCoder.encode(continent, forKey: CountryCoderConstants.Continent)
         aCoder.encode(capital, forKey: CountryCoderConstants.Capital)
         aCoder.encode(population, forKey: CountryCoderConstants.Population)
-        aCoder.encode(description, forKey: CountryCoderConstants.Description)
-        aCoder.encode(descriptionSmall, forKey: CountryCoderConstants.DescriptionSmall)
+        aCoder.encode(countryDescription, forKey: CountryCoderConstants.Description)
+        aCoder.encode(countryDescriptionSmall, forKey: CountryCoderConstants.DescriptionSmall)
         aCoder.encode(flagUrl, forKey: CountryCoderConstants.FlagURL)
         aCoder.encode(photosUrls, forKey: CountryCoderConstants.PhotosURLs)
     }
