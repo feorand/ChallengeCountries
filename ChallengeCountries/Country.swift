@@ -64,6 +64,8 @@ class Country: NSCoding {
                   description: description,
                   flagUrl: flagUrl,
                   photosUrls: photosUrls)
+        
+        self.flag = aDecoder.decodeObject(forKey: CountryCoderConstants.Flag) as? Data
     }
     
     func encode(with aCoder: NSCoder) {
