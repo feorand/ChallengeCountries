@@ -77,5 +77,6 @@ class Country: NSObject, NSCoding {
         aCoder.encode(countryDescriptionSmall, forKey: CountryCoderConstants.DescriptionSmall)
         aCoder.encode(flagUrl, forKey: CountryCoderConstants.FlagURL)
         aCoder.encode(photosUrls, forKey: CountryCoderConstants.PhotosURLs)
+        aCoder.encode(flag, forKey: CountryCoderConstants.Flag)
     }
 }

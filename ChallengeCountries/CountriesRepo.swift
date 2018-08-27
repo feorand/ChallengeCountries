@@ -11,47 +11,57 @@ import Alamofire
 
 struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
-    static let PathToLocalStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
+    static let PathToLocalCountriesStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
 }
 
 //TODO: Changle all prints to logs
 
 class CountriesRepo {
     
+    private var countriesListData: CountriesListData
+    
     var hasNextPage: Bool {
-        return !nextPageUrl.isEmpty
+        return !countriesListData.nextPageUrl.isEmpty
     }
     
-    private(set) var countries: [Country] = []
+    var countries: [Country] {
+        return countriesListData.countries
+    }
     
-    private var nextPageUrl: String = RepoConstants.InitialUrl
+    init() {
+        if let storedData = CountriesRepo.getStoredData() {
+            countriesListData = storedData
+        } else {
+            countriesListData = CountriesListData(countries: [], nextPageUrl: RepoConstants.InitialUrl)
+        }
+    }
     
     func clearCountriesList() {
-        nextPageUrl = RepoConstants.InitialUrl
-        countries = []
-    }
-    
-    func getLocalCountriesList() -> [Country]? {
-        return NSKeyedUnarchiver
-            .unarchiveObject(withFile: RepoConstants.PathToLocalStorage) as? [Country]
+        countriesListData = CountriesListData(countries: [], nextPageUrl: RepoConstants.InitialUrl)
     }
     
     func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
         
-        guard !nextPageUrl.isEmpty else { return }
+        guard hasNextPage else { return }
         
-        CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in
-            self.nextPageUrl = nextPageUrl
-            self.countries += countries
+        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { nextPageUrl, countries in
+            self.countriesListData.nextPageUrl = nextPageUrl
+            self.countriesListData.countries += countries
             
-            self.storeLocalCountriesList()
+            CountriesRepo.store(data: self.countriesListData)
             
             handler(countries.count)
         }
     }
     
-    private func storeLocalCountriesList() {
-        NSKeyedArchiver.archiveRootObject(countries, toFile: RepoConstants.PathToLocalStorage)
+    private static func store(data: CountriesListData) {
+        NSKeyedArchiver.archiveRootObject(data, toFile: RepoConstants.PathToLocalCountriesStorage)
+    }
+    
+    private static func getStoredData() -> CountriesListData? {
+        return NSKeyedUnarchiver
+            .unarchiveObject(withFile: RepoConstants.PathToLocalCountriesStorage)
+            as? CountriesListData
     }
     
     private class func getCountries(from url: String,

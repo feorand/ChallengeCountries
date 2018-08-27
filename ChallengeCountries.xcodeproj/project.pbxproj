@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		25D5036AB8B33C4006878EBA /* Pods_ChallengeCountries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D91832DDBA78183F7FAD727 /* Pods_ChallengeCountries.framework */; };
 		7A596E9A213452A900A57627 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E99213452A900A57627 /* FileManager+Extension.swift */; };
+		7A596E9C213464FC00A57627 /* CountriesListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E9B213464FC00A57627 /* CountriesListData.swift */; };
 		7AFBC1A0210EF9CA00FDA653 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC19F210EF9CA00FDA653 /* AppDelegate.swift */; };
 		7AFBC1A2210EF9CA00FDA653 /* CountriesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC1A1210EF9CA00FDA653 /* CountriesListViewController.swift */; };
 		7AFBC1A5210EF9CA00FDA653 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AFBC1A3210EF9CA00FDA653 /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 		36F3D6A79C74248C57313CDF /* Pods-ChallengeCountries.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChallengeCountries.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChallengeCountries/Pods-ChallengeCountries.debug.xcconfig"; sourceTree = "<group>"; };
 		4D91832DDBA78183F7FAD727 /* Pods_ChallengeCountries.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChallengeCountries.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A596E99213452A900A57627 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		7A596E9B213464FC00A57627 /* CountriesListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListData.swift; sourceTree = "<group>"; };
 		7AFBC19C210EF9CA00FDA653 /* ChallengeCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFBC19F210EF9CA00FDA653 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFBC1A1210EF9CA00FDA653 /* CountriesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				7AFBC1C5211ADA3F00FDA653 /* ImageSliderView.swift */,
 				7AFBC1B1210EFD2E00FDA653 /* Country.swift */,
 				7AFBC1B3210F035D00FDA653 /* CountriesRepo.swift */,
+				7A596E9B213464FC00A57627 /* CountriesListData.swift */,
 				7A596E99213452A900A57627 /* FileManager+Extension.swift */,
 				7AFBC1B52110674800FDA653 /* CountriesJSONParser.swift */,
 				7AFBC19F210EF9CA00FDA653 /* AppDelegate.swift */,
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AFBC1B62110674800FDA653 /* CountriesJSONParser.swift in Sources */,
+				7A596E9C213464FC00A57627 /* CountriesListData.swift in Sources */,
 				7A596E9A213452A900A57627 /* FileManager+Extension.swift in Sources */,
 				7AFBC1BA2111D34200FDA653 /* CountryDetailsViewController.swift in Sources */,
 				7AFBC1A2210EF9CA00FDA653 /* CountriesListViewController.swift in Sources */,
