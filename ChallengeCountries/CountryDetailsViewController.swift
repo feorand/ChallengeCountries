@@ -57,8 +57,8 @@ class CountryDetailsViewController: UIViewController {
     private func getPhotos(from country: Country,
         eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
         
-        for url in country.photosUrls {
-            CountriesRepo.getPhoto(fromUrl: url, completionHandler: completionHandler)
+        for photo in country.photos {
+            CountriesRepo.getPhoto(fromUrl: photo.url, completionHandler: completionHandler)
         }
     }
     

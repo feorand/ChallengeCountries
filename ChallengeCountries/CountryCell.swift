@@ -30,9 +30,10 @@ class CountryCell: UITableViewCell {
     private func updateCell(with country: Country?) {
         guard let country = country else { return }
     
-        if let flag = country.flag {
-        flagImageView.image = UIImage(data: flag)
+        if let flagData = country.flag.image {
+            flagImageView.image = UIImage(data: flagData)
         }
+        
         nameLabel.text = country.name
         capitalLabel.text = country.capital
         descriptionLabel.text = country.countryDescriptionSmall

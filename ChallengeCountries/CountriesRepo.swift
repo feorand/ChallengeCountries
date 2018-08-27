@@ -109,8 +109,8 @@ class CountriesRepo {
         
         for country in countries {
             countriesHandlersGroup.enter()
-            self.getImage(fromUrl: country.flagUrl) { imageData in
-                country.flag = imageData
+            self.getImage(fromUrl: country.flag.url) { imageData in
+                country.flag.image = imageData
                 countriesHandlersGroup.leave()
             }
         }
