@@ -11,33 +11,83 @@ import Alamofire
 
 struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
+    static let PathToLocalCountriesStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
 }
 
 //TODO: Changle all prints to logs
 
 class CountriesRepo {
     
+    private var countriesListData: CountriesListData
+    
     var hasNextPage: Bool {
-        return !nextPageUrl.isEmpty
+        return !countriesListData.nextPageUrl.isEmpty
     }
     
-    private(set) var countries: [Country] = []
+    var countries: [Country] {
+        return countriesListData.countries
+    }
     
-    private var nextPageUrl: String = RepoConstants.InitialUrl
+    init() {
+        if let storedData = CountriesRepo.getStoredData() {
+            countriesListData = storedData
+        } else {
+            countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
+        }
+    }
     
     func clearCountriesList() {
-        nextPageUrl = RepoConstants.InitialUrl
-        countries = []
+        countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
     }
     
     func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
-        guard !nextPageUrl.isEmpty else { return }
         
-        CountriesRepo.getCountries(from: self.nextPageUrl) { nextPageUrl, countries in
-            self.nextPageUrl = nextPageUrl
-            self.countries += countries
+        guard hasNextPage else { return }
+        
+        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { nextPageUrl, countries in
+            self.countriesListData.nextPageUrl = nextPageUrl
+            self.countriesListData.countries += countries
+            
+            CountriesRepo.store(data: self.countriesListData)
+            
             handler(countries.count)
         }
+    }
+    
+    func getPhotosForCountry(index: Int?,
+                             eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
+        
+        guard let index = index,
+            index >= 0,
+            index < countries.count else {
+                
+            return
+        }
+        
+        let country = countries[index]
+        
+        for photo in country.photos {
+            if let imageData = photo.image {
+                completionHandler(imageData)
+            } else {
+                CountriesRepo.getPhoto(fromUrl: photo.url) { data in
+                    photo.image = data
+                    CountriesRepo.store(data: self.countriesListData)
+                    
+                    completionHandler(data)
+                }
+            }
+        }
+    }
+    
+    private class func store(data: CountriesListData) {
+        NSKeyedArchiver.archiveRootObject(data, toFile: RepoConstants.PathToLocalCountriesStorage)
+    }
+    
+    private class func getStoredData() -> CountriesListData? {
+        return NSKeyedUnarchiver
+            .unarchiveObject(withFile: RepoConstants.PathToLocalCountriesStorage)
+            as? CountriesListData
     }
     
     private class func getCountries(from url: String,
@@ -85,8 +135,8 @@ class CountriesRepo {
         
         for country in countries {
             countriesHandlersGroup.enter()
-            self.getImage(fromUrl: country.flagUrl) { imageData in
-                country.flag = imageData
+            self.getImage(fromUrl: country.flag.url) { imageData in
+                country.flag.image = imageData
                 countriesHandlersGroup.leave()
             }
         }
@@ -97,7 +147,7 @@ class CountriesRepo {
         }
     }
     
-    class func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
+    private class func getPhoto(fromUrl url: String, completionHandler handler: @escaping (Data?) -> ()) {
         getImage(fromUrl: url, completionHandler: handler)
     }
 }

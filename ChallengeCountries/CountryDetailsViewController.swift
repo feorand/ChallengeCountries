@@ -23,7 +23,16 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var aboutLabel: UILabel!
     
-    var country: Country?
+    var countriesRepo: CountriesRepo?
+    var countryIndex: Int?
+    
+    var country: Country? {
+        if let index = countryIndex {
+            return countriesRepo?.countries[index]
+        } else {
+            return nil
+        }
+    }
     
     private var atLeastOneImageLoaded = false
     
@@ -34,10 +43,8 @@ class CountryDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let country = country {
-            updateView(with: country)
-            getPhotos(from: country, eachCompletionHandler: showPhotoFromData)
-        }
+        updateView(with: country)
+        countriesRepo?.getPhotosForCountry(index: countryIndex, eachCompletionHandler: showPhotoFromData)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,20 +53,12 @@ class CountryDetailsViewController: UIViewController {
         }
     }
         
-    private func updateView(with Country: Country) {
+    private func updateView(with country: Country?) {
         nameLabel.text = country?.name
         capitalLabel.text = country?.capital
         populationLabel.text = "\(country?.population ?? 0)"
         continentLabel.text = country?.continent
-        descriptionLabel.text = country?.description
-    }
-    
-    private func getPhotos(from country: Country,
-        eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
-        
-        for url in country.photosUrls {
-            CountriesRepo.getPhoto(fromUrl: url, completionHandler: completionHandler)
-        }
+        descriptionLabel.text = country?.countryDescription
     }
     
     private func image(from data: Data?) -> UIImage? {

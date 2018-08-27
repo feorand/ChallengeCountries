@@ -42,15 +42,23 @@ class CountriesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countriesRepo.getNextPageOfCurrentCountriesList{ numberOfContries in
-            self.tableView.addSubview(self.refreshControl)
-            self.spinner.stopAnimating()
-            self.tableView.separatorStyle = .singleLine
-            self.updateTable(numberOfNewCountries: numberOfContries)
+        if countriesRepo.countries.count > 0 {
+            countriesListDownloadingComplete()
+        } else {
+            countriesRepo.getNextPageOfCurrentCountriesList{ numberOfCountries in
+                self.countriesListDownloadingComplete()
+                self.insertRows(numberOfNewCountries: numberOfCountries)
+            }
         }
     }
     
-    private func updateTable(numberOfNewCountries: Int) {
+    private func countriesListDownloadingComplete() {
+        tableView.addSubview(self.refreshControl)
+        spinner.stopAnimating()
+        tableView.separatorStyle = .singleLine
+    }
+    
+    private func insertRows(numberOfNewCountries: Int) {
         let rowsCount = tableView.numberOfRows(inSection: 0)
         let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
             .map { IndexPath(row: $0, section: 0) }
@@ -106,7 +114,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let country = countriesRepo.countries[indexPath.row]
         
-        if country.descriptionSmall.isEmpty {
+        if country.countryDescriptionSmall.isEmpty {
             return defaultCountryCellHeight
         } else {
             return heightForCountryWithSmallDescription(country: country)
@@ -126,7 +134,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         cell.country = country
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: updateTable)
+                countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: insertRows)
         }
         
         return cell
@@ -138,14 +146,14 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
                 let initiatorCell = sender as? CountryCell,
                 let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
                 
-                let country = countriesRepo.countries[countryIndex]
-                destination.country = country
+                destination.countriesRepo = countriesRepo
+                destination.countryIndex = countryIndex
             }
         }
     }
     
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
-        let description = country.descriptionSmall as NSString
+        let description = country.countryDescriptionSmall as NSString
         
         let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesListConstants.DescriptionFontSize)]
         
