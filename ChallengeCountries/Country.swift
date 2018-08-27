@@ -8,7 +8,19 @@
 
 import Foundation
 
-class Country {
+struct CountryCoderConstants {
+    static let Name = "name"
+    static let Continent = "continent"
+    static let Capital = "capital"
+    static let Population = "population"
+    static let DescriptionSmall = "description_small"
+    static let Description = "description"
+    static let FlagURL = "flag_url"
+    static let PhotosURLs = "photos_urls"
+    static let Flag = "flag"
+}
+
+class Country: NSCoding {
     let name: String
     let continent: String
     let capital: String
@@ -30,5 +42,38 @@ class Country {
         self.descriptionSmall = descriptionSmall
         self.flagUrl = flagUrl
         self.photosUrls = photosUrls
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let name = aDecoder.decodeObject(forKey: CountryCoderConstants.Name) as? String,
+            let continent = aDecoder.decodeObject(forKey: CountryCoderConstants.Continent) as? String,
+            let capital = aDecoder.decodeObject(forKey: CountryCoderConstants.Capital) as? String,
+            let description = aDecoder.decodeObject(forKey: CountryCoderConstants.Description) as? String,
+            let descriptionSmall = aDecoder.decodeObject(forKey: CountryCoderConstants.DescriptionSmall) as? String,
+            let flagUrl = aDecoder.decodeObject(forKey: CountryCoderConstants.FlagURL) as? String,
+            let photosUrls = aDecoder.decodeObject(forKey: CountryCoderConstants.PhotosURLs) as? [String] else {
+            
+            return nil
+        }
+        
+        self.init(name: name,
+                  continent: continent,
+                  capital: capital,
+                  population: aDecoder.decodeInteger(forKey: CountryCoderConstants.Population),
+                  descriptionSmall: descriptionSmall,
+                  description: description,
+                  flagUrl: flagUrl,
+                  photosUrls: photosUrls)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: CountryCoderConstants.Name)
+        aCoder.encode(continent, forKey: CountryCoderConstants.Continent)
+        aCoder.encode(capital, forKey: CountryCoderConstants.Capital)
+        aCoder.encode(population, forKey: CountryCoderConstants.Population)
+        aCoder.encode(description, forKey: CountryCoderConstants.Description)
+        aCoder.encode(descriptionSmall, forKey: CountryCoderConstants.DescriptionSmall)
+        aCoder.encode(flagUrl, forKey: CountryCoderConstants.FlagURL)
+        aCoder.encode(photosUrls, forKey: CountryCoderConstants.PhotosURLs)
     }
 }
