@@ -52,15 +52,26 @@ class CountriesJSONParser {
         return Country(name: name, continent: continent, capital: capital, population: population, descriptionSmall: descriptionSmall, description: description, flagUrl: flagUrl, photosUrls: resultImagesUrls)
     }
     
-    class func GetCountries(from data: Any) throws -> [Country] {
-        let initialDictionary: JSONDictionary = try extract(from: data, nodeName: "main")
+    class func GetCountries(from data: Data) throws -> [Country] {
+        guard let initialDictionary = try JSONSerialization.jsonObject(with: data) as? JSONDictionary
+            else {
+                
+                throw JSONParsingError.CannotExtractNode(name: "main")
+        }
+
+        //let initialDictionary: JSONDictionary = try extract(from: data, nodeName: "main")
         let countriesRaw: JSONArray = try extractEntry(from: initialDictionary, key: "countries")
         let countries = try countriesRaw.enumerated().map { try parseCountry(countryRaw: $0.element, index: $0.offset) }
         return countries
     }
     
-    class func GetNextPageUrl(from data: Any) throws -> String {
-        let initialDictionary: JSONDictionary = try extract(from: data, nodeName: "main")
+    class func GetNextPageUrl(from data: Data) throws -> String {
+        guard let initialDictionary = try JSONSerialization.jsonObject(with: data) as? JSONDictionary
+            else {
+                
+            throw JSONParsingError.CannotExtractNode(name: "main")
+        }
+        //let initialDictionary: JSONDictionary = try extract(from: data, nodeName: "main")
         let nextPageUrl: String = try extractEntry(from: initialDictionary, key: "next")
         return nextPageUrl
     }
