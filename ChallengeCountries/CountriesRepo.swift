@@ -43,13 +43,13 @@ class CountriesRepo {
         
         guard hasNextPage else { return }
         
-        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { nextPageUrl, countries in
-            self.countriesListData.nextPageUrl = nextPageUrl
-            self.countriesListData.countries += countries
+        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { countriesListData in
+            self.countriesListData.nextPageUrl = countriesListData.nextPageUrl
+            self.countriesListData.countries += countriesListData.countries
             
             CountriesRepo.store(data: self.countriesListData)
             
-            handler(countries.count)
+            handler(countriesListData.countries.count)
         }
     }
     
@@ -97,22 +97,20 @@ class CountriesRepo {
     }
     
     private class func getCountries(from urlString: String,
-                                    completionHandler handler: @escaping (String, [Country]) -> ()) {
+                                    completionHandler handler: @escaping (CountriesListData) -> ()) {
         
         executeRequest(from: urlString) { data in
-            var _nextPageUrl = ""
-            var _countries: [Country] = []
-                        
+            var _countriesListData = CountriesListData()
+            
             do {
-                _nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
-                _countries = try CountriesJSONParser.GetCountries(from: data)
+                _countriesListData = try CountriesJSONParser().countriesListData(from: data)
             } catch {
                 print(error)
                 return
             }
             
-            self.getFlags(for: _countries) { countries in
-                handler(_nextPageUrl, countries)
+            self.getFlags(for: _countriesListData.countries) { countries in
+                handler(_countriesListData)
             }
         }
     }

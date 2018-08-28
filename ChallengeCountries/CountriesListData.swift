@@ -9,11 +9,10 @@
 import Foundation
 
 class CountriesListData: Codable {
-    var countries: [Country]
     var nextPageUrl: String
+    var countries: [Country] = []
     
-    init(countries: [Country] = [], nextPageUrl:String = "") {
-        self.countries = countries
+    init(nextPageUrl:String = "") {
         self.nextPageUrl = nextPageUrl
     }
 }

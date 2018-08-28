@@ -15,6 +15,7 @@ class Country: Codable {
     let population: Int
     let countryDescriptionSmall: String
     let countryDescription: String
+    
     let flag: DownloadablePhoto
     let photos: [DownloadablePhoto]
     
