@@ -10,7 +10,7 @@ import Foundation
 
 struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
-    static let PathToLocalCountriesStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
+    static let LocalCountriesStorageURL = FileManager.DocumentsDirectory.appendingPathComponent("Countries").appendingPathExtension("json")
 }
 
 //TODO: Changle all prints to logs
@@ -43,13 +43,13 @@ class CountriesRepo {
         
         guard hasNextPage else { return }
         
-        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { nextPageUrl, countries in
-            self.countriesListData.nextPageUrl = nextPageUrl
-            self.countriesListData.countries += countries
+        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { countriesListData in
+            self.countriesListData.nextPageUrl = countriesListData.nextPageUrl
+            self.countriesListData.countries += countriesListData.countries
             
             CountriesRepo.store(data: self.countriesListData)
             
-            handler(countries.count)
+            handler(countriesListData.countries.count)
         }
     }
     
@@ -80,32 +80,37 @@ class CountriesRepo {
     }
     
     private class func store(data: CountriesListData) {
-        NSKeyedArchiver.archiveRootObject(data, toFile: RepoConstants.PathToLocalCountriesStorage)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard let json = try? encoder.encode(data) else { return }
+        
+        try? json.write(to: RepoConstants.LocalCountriesStorageURL)
     }
     
     private class func getStoredData() -> CountriesListData? {
-        return NSKeyedUnarchiver
-            .unarchiveObject(withFile: RepoConstants.PathToLocalCountriesStorage)
-            as? CountriesListData
+        guard let json = try? Data(contentsOf: RepoConstants.LocalCountriesStorageURL) else {
+            return nil
+        }
+        
+        let result = try? JSONDecoder().decode(CountriesListData.self, from: json)
+        return result
     }
     
     private class func getCountries(from urlString: String,
-                                    completionHandler handler: @escaping (String, [Country]) -> ()) {
+                                    completionHandler handler: @escaping (CountriesListData) -> ()) {
         
         executeRequest(from: urlString) { data in
-            var _nextPageUrl = ""
-            var _countries: [Country] = []
-                        
+            var _countriesListData = CountriesListData()
+            
             do {
-                _nextPageUrl = try CountriesJSONParser.GetNextPageUrl(from: data)
-                _countries = try CountriesJSONParser.GetCountries(from: data)
+                _countriesListData = try CountriesJSONParser().countriesListData(from: data)
             } catch {
                 print(error)
                 return
             }
             
-            self.getFlags(for: _countries) { countries in
-                handler(_nextPageUrl, countries)
+            self.getFlags(for: _countriesListData.countries) { countries in
+                handler(_countriesListData)
             }
         }
     }
