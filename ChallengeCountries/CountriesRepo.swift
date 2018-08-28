@@ -10,7 +10,7 @@ import Foundation
 
 struct RepoConstants {
     static let InitialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
-    static let PathToLocalCountriesStorage = FileManager.DocumentsDirectory.appendingPathComponent("Countries").path
+    static let LocalCountriesStorageURL = FileManager.DocumentsDirectory.appendingPathComponent("Countries").appendingPathExtension("json")
 }
 
 //TODO: Changle all prints to logs
@@ -80,13 +80,20 @@ class CountriesRepo {
     }
     
     private class func store(data: CountriesListData) {
-        NSKeyedArchiver.archiveRootObject(data, toFile: RepoConstants.PathToLocalCountriesStorage)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard let json = try? encoder.encode(data) else { return }
+        
+        try? json.write(to: RepoConstants.LocalCountriesStorageURL)
     }
     
     private class func getStoredData() -> CountriesListData? {
-        return NSKeyedUnarchiver
-            .unarchiveObject(withFile: RepoConstants.PathToLocalCountriesStorage)
-            as? CountriesListData
+        guard let json = try? Data(contentsOf: RepoConstants.LocalCountriesStorageURL) else {
+            return nil
+        }
+        
+        let result = try? JSONDecoder().decode(CountriesListData.self, from: json)
+        return result
     }
     
     private class func getCountries(from urlString: String,
