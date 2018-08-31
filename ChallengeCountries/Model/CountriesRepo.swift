@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import CoreData
 
 //TODO: Changle all prints to logs
 
 class CountriesRepo {
     
+    var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
+
     private var countriesListData: CountriesListData
     
     var hasNextPage: Bool {
@@ -37,6 +40,7 @@ class CountriesRepo {
         CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { countriesListData in
             self.countriesListData.nextPageUrl = countriesListData.nextPageUrl
             self.countriesListData.countries += countriesListData.countries
+            self.updateDatabase(with: self.countriesListData)
             
             handler(countriesListData.countries.count)
         }
@@ -60,7 +64,6 @@ class CountriesRepo {
             } else {
                 CountriesRepo.executeRequest(from: photo.url) { data in
                     photo.image = data
-                    
                     completionHandler(data)
                 }
             }
@@ -129,6 +132,13 @@ class CountriesRepo {
         //Wait until all countries are updated
         countriesHandlersGroup.notify(queue: .main) {
             handler(countries)
+        }
+    }
+    
+    private func updateDatabase(with countriesListData: CountriesListData) {
+        container?.performBackgroundTask{ context in
+            //TODO: Actual error handling
+            try? StateData.setNextPageUrl(value: countriesListData.nextPageUrl, in: context)
         }
     }
 }

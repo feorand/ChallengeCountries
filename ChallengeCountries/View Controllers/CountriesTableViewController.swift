@@ -14,12 +14,12 @@ class CountriesTableViewController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private let countriesRepo = CountriesRepo()
-    
-    private lazy var defaultCountryCellHeight = {
+        
+    private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
             CountriesTableSettings.bottomSpacing
-    }()
+    }
     
     private lazy var refreshControl: UIRefreshControl = {
         let _refreshControl = UIRefreshControl(frame: CGRect.zero)
@@ -33,9 +33,9 @@ class CountriesTableViewController: UIViewController {
         if countriesRepo.countries.count > 0 {
             countriesListDownloadingComplete()
         } else {
-            countriesRepo.getNextPageOfCurrentCountriesList{ numberOfCountries in
-                self.countriesListDownloadingComplete()
-                self.insertRows(numberOfNewCountries: numberOfCountries)
+            countriesRepo.getNextPageOfCurrentCountriesList{ [weak self] numberOfCountries in
+                self?.countriesListDownloadingComplete()
+                self?.insertRows(numberOfNewCountries: numberOfCountries)
             }
         }
     }
@@ -83,9 +83,9 @@ class CountriesTableViewController: UIViewController {
     
     @objc private func refresh() {
         countriesRepo.clearCountriesList()
-        countriesRepo.getNextPageOfCurrentCountriesList{ numberOfCountries in
-            self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
+        countriesRepo.getNextPageOfCurrentCountriesList{ [weak self] numberOfCountries in
+            self?.tableView.reloadData()
+            self?.refreshControl.endRefreshing()
         }
     }
 }

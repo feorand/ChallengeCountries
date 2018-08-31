@@ -66,9 +66,9 @@ class CountryViewController: UIViewController {
     
     private func showPhotoFromData(data: Data?) {
         if let image = image(from: data) {
-            if !self.atLeastOneImageLoaded {
+            if !atLeastOneImageLoaded {
                 atLeastOneImageLoaded = true
-                self.navigationController?.setStyle(to: .transparent)
+                navigationController?.setStyle(to: .transparent)
             }
             
             imageSlider.images.append(image)

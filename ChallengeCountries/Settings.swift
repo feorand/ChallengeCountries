@@ -12,6 +12,10 @@ struct NetworkSettings {
     static let initialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
 }
 
+struct StorageSettings {
+    static let nextPageUrlKey = "next_page_url"
+}
+
 struct CountriesTableSettings {
     static let flagHeight:CGFloat = 34
     static let topSpacing: CGFloat = 16

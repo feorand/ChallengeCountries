@@ -15,12 +15,13 @@
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="country" maxCount="1" deletionRule="Nullify" destinationEntity="CountryData" inverseName="storedImages" inverseEntity="CountryData" syncable="YES"/>
     </entity>
-    <entity name="State" representedClassName=".State" syncable="YES" codeGenerationType="category">
-        <attribute name="nextPageUrl" attributeType="String" syncable="YES"/>
+    <entity name="StateData" representedClassName=".StateData" syncable="YES" codeGenerationType="category">
+        <attribute name="key" attributeType="String" syncable="YES"/>
+        <attribute name="value" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="CountryData" positionX="252" positionY="149" width="128" height="150"/>
         <element name="DownloadablePhotoData" positionX="466" positionY="203" width="128" height="105"/>
-        <element name="State" positionX="430" positionY="102" width="128" height="58"/>
+        <element name="StateData" positionX="430" positionY="102" width="128" height="75"/>
     </elements>
 </model>

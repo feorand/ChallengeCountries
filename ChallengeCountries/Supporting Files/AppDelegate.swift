@@ -72,6 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return container
     }()
     
+    class var sharedPersistenseContainer: NSPersistentContainer? {
+        return (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    }
+    
     // MARK: - Core Data Saving support
     
     func saveContext () {
