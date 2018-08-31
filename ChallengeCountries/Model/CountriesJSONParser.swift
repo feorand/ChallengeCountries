@@ -9,11 +9,11 @@
 import Foundation
 
 class CountriesJSONParser {
-    private struct CountriesData: Decodable {
+    private struct CountriesFromJSON: Decodable {
         let next: String
-        let countries: [CountryData]
+        let countries: [CountryFromJSON]
         
-        struct CountryData: Decodable {
+        struct CountryFromJSON: Decodable {
             let name: String
             let continent: String
             let capital: String
@@ -21,9 +21,9 @@ class CountriesJSONParser {
             let description_small: String
             let description: String
             let image: String
-            let country_info: CountryInfoData
+            let country_info: CountryInfoFromJSON
             
-            struct CountryInfoData: Decodable {
+            struct CountryInfoFromJSON: Decodable {
                 let images: [String]
                 let flag: String
             }
@@ -31,7 +31,7 @@ class CountriesJSONParser {
     }
     
     func countriesListData(from data: Data) throws -> CountriesListData {
-        let countriesData = try JSONDecoder().decode(CountriesData.self, from: data)
+        let countriesData = try JSONDecoder().decode(CountriesFromJSON.self, from: data)
         
         let countriesListData = CountriesListData(nextPageUrl: countriesData.next)
         countriesListData.countries = countriesData.countries.map(countryFromData)
@@ -39,7 +39,7 @@ class CountriesJSONParser {
         return countriesListData
     }
     
-    private func countryFromData(_ data: CountriesData.CountryData) -> Country {
+    private func countryFromData(_ data: CountriesFromJSON.CountryFromJSON) -> Country {
         let imagesUrls = data.country_info.images + [data.image]
         let nonEmptyImagesUrls = imagesUrls.filter{ !$0.isEmpty }
         

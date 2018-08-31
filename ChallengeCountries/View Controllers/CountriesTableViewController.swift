@@ -8,19 +8,7 @@
 
 import UIKit
 
-struct CountriesListConstants {
-    static let FlagHeight:CGFloat = 34
-    static let TopSpacing: CGFloat = 16
-    
-    static let MiddleSpacing: CGFloat = 11
-    static let BottomSpacing: CGFloat = 16
-    static let LeftSpacing: CGFloat = 15
-    static let RightSpacing: CGFloat = 15
-    
-    static let DescriptionFontSize: CGFloat = 15
-}
-
-class CountriesListViewController: UIViewController {
+class CountriesTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
@@ -28,9 +16,9 @@ class CountriesListViewController: UIViewController {
     private let countriesRepo = CountriesRepo()
     
     private lazy var defaultCountryCellHeight = {
-        return CountriesListConstants.TopSpacing +
-            CountriesListConstants.FlagHeight +
-            CountriesListConstants.BottomSpacing
+        return CountriesTableSettings.topSpacing +
+            CountriesTableSettings.flagHeight +
+            CountriesTableSettings.bottomSpacing
     }()
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -102,7 +90,7 @@ class CountriesListViewController: UIViewController {
     }
 }
 
-extension CountriesListViewController: UITableViewDelegate, UITableViewDataSource {
+extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countriesRepo.countries.count
     }
@@ -142,7 +130,7 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CountryDetails" {
-            if let destination = segue.destination as? CountryDetailsViewController,
+            if let destination = segue.destination as? CountryViewController,
                 let initiatorCell = sender as? CountryCell,
                 let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
                 
@@ -155,11 +143,11 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
         let description = country.countryDescriptionSmall as NSString
         
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesListConstants.DescriptionFontSize)]
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesTableSettings.descriptionFontSize)]
         
         let descriptionWidth = view.bounds.width -
-            CountriesListConstants.LeftSpacing -
-            CountriesListConstants.RightSpacing
+            CountriesTableSettings.leftSpacing -
+            CountriesTableSettings.rightSpacing
         
         let sizeLimits = CGSize(width: descriptionWidth, height: CGFloat.infinity)
         
@@ -171,11 +159,11 @@ extension CountriesListViewController: UITableViewDelegate, UITableViewDataSourc
         
         let descriptionHeight = boundingRect.height
         
-        let cellHeight = CountriesListConstants.TopSpacing +
-            CountriesListConstants.FlagHeight +
-            CountriesListConstants.MiddleSpacing +
+        let cellHeight = CountriesTableSettings.topSpacing +
+            CountriesTableSettings.flagHeight +
+            CountriesTableSettings.middleSpacing +
             descriptionHeight +
-            CountriesListConstants.BottomSpacing
+            CountriesTableSettings.bottomSpacing
         
         return cellHeight
     }

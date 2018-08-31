@@ -8,12 +8,7 @@
 
 import UIKit
 
-struct CountryDetailsConstants {
-    static let ScrollViewOffset: CGFloat = -64
-    static let ViewOffset: CGFloat = -64
-}
-
-class CountryDetailsViewController: UIViewController {
+class CountryViewController: UIViewController {
     
     @IBOutlet weak var imageSlider: ImageSliderView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -81,7 +76,7 @@ class CountryDetailsViewController: UIViewController {
     }
 }
 
-extension CountryDetailsViewController : UIScrollViewDelegate {
+extension CountryViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         setStyle(dependingOn: scrollView)
     }
@@ -91,8 +86,8 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         guard atLeastOneImageLoaded else { return }
         
         // Change style of Navigation bar depending on Scroll offset
-        let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
-            CountryDetailsConstants.ViewOffset
+        let edgeOffset = CountryDetailsSettings.scrollViewOffset +
+            CountryDetailsSettings.viewOffset
         
         if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
             scrollView.contentOffset.y < edgeOffset {

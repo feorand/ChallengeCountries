@@ -14,7 +14,7 @@
         <!--Страны-->
         <scene sceneID="QCT-hs-Nh2">
             <objects>
-                <viewController id="Yug-OB-Yha" customClass="CountriesListViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Yug-OB-Yha" customClass="CountriesTableViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X68-OF-Xu7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,10 +110,10 @@
             </objects>
             <point key="canvasLocation" x="1069.5999999999999" y="-311.69415292353824"/>
         </scene>
-        <!--Country Details View Controller-->
+        <!--Country View Controller-->
         <scene sceneID="ynv-hC-CL7">
             <objects>
-                <viewController id="Twh-pl-cCC" customClass="CountryDetailsViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Twh-pl-cCC" customClass="CountryViewController" customModule="ChallengeCountries" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kxd-pe-dO9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

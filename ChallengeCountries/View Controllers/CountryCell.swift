@@ -9,6 +9,7 @@
 import UIKit
 
 class CountryCell: UITableViewCell {
+    
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
