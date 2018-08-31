@@ -26,7 +26,7 @@ class CountryData: NSManagedObject {
         flag.isFlag = true
         countryData.addToStoredImages(flag)
     }
-    
+        
     private class func fetchCountry(named name: String, in context: NSManagedObjectContext) throws -> CountryData? {
         let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
         request.predicate = NSPredicate(format: "name = %@", name)

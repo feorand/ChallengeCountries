@@ -66,6 +66,8 @@ class CountriesRepo {
             } else {
                 CountriesRepo.executeRequest(from: photo.url) { data in
                     photo.image = data
+                    self.updateDatabase(with: photo)
+                    
                     completionHandler(data)
                 }
             }
@@ -140,12 +142,22 @@ class CountriesRepo {
     private func updateDatabase(with countriesListData: CountriesListData) {
         container?.performBackgroundTask{ context in
             //TODO: Actual error handling
+            
             try? StateData.setNextPageUrl(value: countriesListData.nextPageUrl, in: context)
             
             for country in countriesListData.countries {
                 try? CountryData.insertIfAbsent(country, in: context)
             }
             
+            try? context.save()
+        }
+    }
+    
+    private func updateDatabase(with photo: DownloadablePhoto) {
+        container?.performBackgroundTask{ context in
+            //TODO: Actual error handling
+            
+            try? DownloadablePhotoData.update(photo, in: context)
             try? context.save()
         }
     }
