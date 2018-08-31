@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 
 class Country {
     let name: String
