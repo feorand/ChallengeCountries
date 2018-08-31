@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import CoreData
 
-class DownloadablePhoto: Codable {
+class DownloadablePhoto {
     let url: String
     var image: Data?
     
