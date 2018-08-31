@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CountriesListData: Codable {
+class CountriesListData {
     var nextPageUrl: String
     var countries: [Country] = []
     

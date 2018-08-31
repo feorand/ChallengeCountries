@@ -28,11 +28,7 @@ class CountriesRepo {
     }
     
     init() {
-        if let storedData = CountriesRepo.getStoredData() {
-            countriesListData = storedData
-        } else {
-            countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
-        }
+        countriesListData = CountriesListData(nextPageUrl: RepoConstants.InitialUrl)
     }
     
     func clearCountriesList() {
@@ -46,8 +42,6 @@ class CountriesRepo {
         CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { countriesListData in
             self.countriesListData.nextPageUrl = countriesListData.nextPageUrl
             self.countriesListData.countries += countriesListData.countries
-            
-            CountriesRepo.store(data: self.countriesListData)
             
             handler(countriesListData.countries.count)
         }
@@ -71,29 +65,11 @@ class CountriesRepo {
             } else {
                 CountriesRepo.executeRequest(from: photo.url) { data in
                     photo.image = data
-                    CountriesRepo.store(data: self.countriesListData)
                     
                     completionHandler(data)
                 }
             }
         }
-    }
-    
-    private class func store(data: CountriesListData) {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        guard let json = try? encoder.encode(data) else { return }
-        
-        try? json.write(to: RepoConstants.LocalCountriesStorageURL)
-    }
-    
-    private class func getStoredData() -> CountriesListData? {
-        guard let json = try? Data(contentsOf: RepoConstants.LocalCountriesStorageURL) else {
-            return nil
-        }
-        
-        let result = try? JSONDecoder().decode(CountriesListData.self, from: json)
-        return result
     }
     
     private class func getCountries(from urlString: String,

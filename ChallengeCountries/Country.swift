@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Country: Codable {
+class Country {
     let name: String
     let continent: String
     let capital: String
