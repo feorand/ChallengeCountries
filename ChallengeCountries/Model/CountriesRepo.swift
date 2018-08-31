@@ -142,6 +142,11 @@ class CountriesRepo {
             //TODO: Actual error handling
             try? StateData.setNextPageUrl(value: countriesListData.nextPageUrl, in: context)
             
+            for country in countriesListData.countries {
+                try? CountryData.insertIfAbsent(country, in: context)
+            }
+            
+            try? context.save()
         }
     }
 }

@@ -10,5 +10,11 @@ import Foundation
 import CoreData
 
 class DownloadablePhotoData: NSManagedObject {
-    
+    class func from(photo: DownloadablePhoto, in context: NSManagedObjectContext) -> DownloadablePhotoData {
+        let photoData = DownloadablePhotoData(context: context)
+        photoData.url = photo.url
+        photoData.image = photo.image
+        
+        return photoData
+    }
 }
