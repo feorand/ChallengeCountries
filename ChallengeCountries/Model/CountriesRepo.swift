@@ -13,6 +13,8 @@ import CoreData
 
 class CountriesRepo {
     
+    typealias CountriesListData = (countries: [Country], nextPageUrl: String)
+    
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
 
     private var countriesListData: CountriesListData
@@ -26,11 +28,11 @@ class CountriesRepo {
     }
     
     init() {
-        countriesListData = CountriesListData(nextPageUrl: NetworkSettings.initialUrl)
+        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
     }
     
     func clearCountriesList() {
-        countriesListData = CountriesListData(nextPageUrl: NetworkSettings.initialUrl)
+        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
     }
     
     func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
@@ -74,7 +76,7 @@ class CountriesRepo {
                                     completionHandler handler: @escaping (CountriesListData) -> ()) {
         
         executeRequest(from: urlString) { data in
-            var _countriesListData = CountriesListData()
+            var _countriesListData = CountriesListData([], "")
             
             do {
                 _countriesListData = try CountriesJSONParser().countriesListData(from: data)
@@ -139,6 +141,7 @@ class CountriesRepo {
         container?.performBackgroundTask{ context in
             //TODO: Actual error handling
             try? StateData.setNextPageUrl(value: countriesListData.nextPageUrl, in: context)
+            
         }
     }
 }

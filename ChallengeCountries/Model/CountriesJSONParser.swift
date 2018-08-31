@@ -30,13 +30,13 @@ class CountriesJSONParser {
         }
     }
     
-    func countriesListData(from data: Data) throws -> CountriesListData {
+    func countriesListData(from data: Data) throws -> ([Country], String) {
         let countriesData = try JSONDecoder().decode(CountriesFromJSON.self, from: data)
         
-        let countriesListData = CountriesListData(nextPageUrl: countriesData.next)
-        countriesListData.countries = countriesData.countries.map(countryFromData)
-        
-        return countriesListData
+        let countries = countriesData.countries.map(countryFromData)
+        let next = countriesData.next
+
+        return (countries, next)
     }
     
     private func countryFromData(_ data: CountriesFromJSON.CountryFromJSON) -> Country {
