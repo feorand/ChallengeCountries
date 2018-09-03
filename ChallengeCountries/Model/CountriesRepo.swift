@@ -55,13 +55,11 @@ class CountriesRepo {
         }
     }
     
-    func getPhotosForCountry(index: Int?,
+    func getPhotosForCountry(at indexPath: IndexPath?,
                              eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
         
-        guard let index = index,
-            index >= 0,
-            index < numberOfCountries(),
-            let country = country(at: IndexPath(row: index, section: 0))
+        guard let indexPath = indexPath,
+            let country = country(at: indexPath)
         else {
             return
         }

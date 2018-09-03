@@ -19,11 +19,12 @@ class CountryViewController: UIViewController {
     @IBOutlet weak var aboutLabel: UILabel!
     
     var countriesRepo: CountriesRepo?
-    var countryIndex: Int?
+    //var countryIndex: Int?
+    var countryIndexPath: IndexPath?
     
     var country: Country? {
-        if let index = countryIndex {
-            return countriesRepo?.country(at: IndexPath(row: index, section: 0))
+        if let indexPath = countryIndexPath {
+            return countriesRepo?.country(at: indexPath)
         } else {
             return nil
         }
@@ -39,7 +40,7 @@ class CountryViewController: UIViewController {
         super.viewDidLoad()
         
         updateView(with: country)
-        countriesRepo?.getPhotosForCountry(index: countryIndex, eachCompletionHandler: showPhotoFromData)
+        countriesRepo?.getPhotosForCountry(at: countryIndexPath, eachCompletionHandler: showPhotoFromData)
     }
     
     override func viewDidAppear(_ animated: Bool) {

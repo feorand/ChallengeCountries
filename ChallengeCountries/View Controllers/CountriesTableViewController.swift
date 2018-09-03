@@ -45,10 +45,10 @@ class CountriesTableViewController: UIViewController {
         if segue.identifier == "CountryDetails" {
             if let destination = segue.destination as? CountryViewController,
                 let initiatorCell = sender as? CountryCell,
-                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
+                let countryIndexPath = tableView.indexPath(for: initiatorCell) {
                 
                 destination.countriesRepo = countriesRepo
-                destination.countryIndex = countryIndex
+                destination.countryIndexPath = countryIndexPath
             }
         }
     }
