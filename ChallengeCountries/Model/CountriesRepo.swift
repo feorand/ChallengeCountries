@@ -16,15 +16,22 @@ class CountriesRepo {
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
+    var fetchedResultController: NSFetchedResultsController<CountryData>?
 
     private var countriesListData: CountriesListData
     
     var hasNextPage: Bool {
         return !countriesListData.nextPageUrl.isEmpty
     }
+        
+    func numberOfCountries(in section: Int = 0) -> Int {
+        //return fetchedResultController?.sections?[section].numberOfObjects ?? 0
+        return countriesListData.countries.count
+    }
     
-    var countries: [Country] {
-        return countriesListData.countries
+    func country(at indexPath: IndexPath) -> Country? {
+        //return fetchedResultController?.object(at: indexPath)
+        return countriesListData.countries[indexPath.row]
     }
     
     init() {
@@ -53,12 +60,11 @@ class CountriesRepo {
         
         guard let index = index,
             index >= 0,
-            index < countries.count else {
-                
+            index < numberOfCountries(),
+            let country = country(at: IndexPath(row: index, section: 0))
+        else {
             return
         }
-        
-        let country = countries[index]
         
         for photo in country.photos {
             if let imageData = photo.image {

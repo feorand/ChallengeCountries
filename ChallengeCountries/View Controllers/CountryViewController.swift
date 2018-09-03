@@ -23,7 +23,7 @@ class CountryViewController: UIViewController {
     
     var country: Country? {
         if let index = countryIndex {
-            return countriesRepo?.countries[index]
+            return countriesRepo?.country(at: IndexPath(row: index, section: 0))
         } else {
             return nil
         }

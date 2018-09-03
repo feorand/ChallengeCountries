@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CountriesTableViewController: UIViewController {
     
@@ -14,7 +15,7 @@ class CountriesTableViewController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private let countriesRepo = CountriesRepo()
-        
+    
     private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
@@ -30,12 +31,24 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if countriesRepo.countries.count > 0 {
+        if countriesRepo.numberOfCountries() > 0 {
             countriesListDownloadingComplete()
         } else {
             countriesRepo.getNextPageOfCurrentCountriesList{ [weak self] numberOfCountries in
                 self?.countriesListDownloadingComplete()
                 self?.insertRows(numberOfNewCountries: numberOfCountries)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CountryDetails" {
+            if let destination = segue.destination as? CountryViewController,
+                let initiatorCell = sender as? CountryCell,
+                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
+                
+                destination.countriesRepo = countriesRepo
+                destination.countryIndex = countryIndex
             }
         }
     }
@@ -91,16 +104,19 @@ class CountriesTableViewController: UIViewController {
 }
 
 extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countriesRepo.countries.count
+        return countriesRepo.numberOfCountries(in: section)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.countries.count > 0 else { return 0 }
-        
-        let country = countriesRepo.countries[indexPath.row]
+        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
+            let country = countriesRepo.country(at: indexPath)
+        else {
+            return 0
+        }
         
         if country.countryDescriptionSmall.isEmpty {
             return defaultCountryCellHeight
@@ -112,32 +128,21 @@ extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.countries.count > 0,
+        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
             let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
                                                      for: indexPath) as? CountryCell else {
             return UITableViewCell()
         }
         
-        let country = countriesRepo.countries[indexPath.row]
-        cell.country = country
+        if let country = countriesRepo.country(at: indexPath) {
+            cell.country = country
+        }
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
                 countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: insertRows)
         }
         
         return cell
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "CountryDetails" {
-            if let destination = segue.destination as? CountryViewController,
-                let initiatorCell = sender as? CountryCell,
-                let countryIndex = tableView.indexPath(for: initiatorCell)?.row {
-                
-                destination.countriesRepo = countriesRepo
-                destination.countryIndex = countryIndex
-            }
-        }
     }
     
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
