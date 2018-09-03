@@ -31,6 +31,8 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        countriesRepo.delegate = self
+        
         if countriesRepo.numberOfCountries() > 0 {
             countriesListDownloadingComplete()
         } else {
@@ -103,11 +105,7 @@ class CountriesTableViewController: UIViewController {
     }
 }
 
-extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countriesRepo.numberOfCountries(in: section)
-    }
+extension CountriesTableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -123,26 +121,6 @@ extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSour
         } else {
             return heightForCountryWithSmallDescription(country: country)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
-                                                     for: indexPath) as? CountryCell else {
-            return UITableViewCell()
-        }
-        
-        if let country = countriesRepo.country(at: indexPath) {
-            cell.country = country
-        }
-        
-        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: insertRows)
-        }
-        
-        return cell
     }
     
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
@@ -171,6 +149,55 @@ extension CountriesTableViewController: UITableViewDelegate, UITableViewDataSour
             CountriesTableSettings.bottomSpacing
         
         return cellHeight
+    }
+}
+
+extension CountriesTableViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return countriesRepo.numberOfCountries(in: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // Nothing to do when countries haven't loaded yet
+        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
+                                                     for: indexPath) as? CountryCell else {
+                                                        return UITableViewCell()
+        }
+        
+        if let country = countriesRepo.country(at: indexPath) {
+            cell.country = country
+        }
+        
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: insertRows)
+        }
+        
+        return cell
+    }
+}
+
+extension CountriesTableViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }
 

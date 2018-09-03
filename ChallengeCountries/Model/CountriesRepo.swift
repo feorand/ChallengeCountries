@@ -16,7 +16,15 @@ class CountriesRepo {
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
-    var fetchedResultController: NSFetchedResultsController<CountryData>?
+    
+    var delegate: NSFetchedResultsControllerDelegate? {
+        didSet {
+            fetchedResultController?.delegate = delegate
+            try? fetchedResultController?.performFetch()
+        }
+    }
+    
+    private var fetchedResultController: NSFetchedResultsController<CountryData>?
 
     private var countriesListData: CountriesListData
     
@@ -36,6 +44,18 @@ class CountriesRepo {
     
     init() {
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
+        
+        if let context = container?.viewContext {
+            let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+
+            fetchedResultController = NSFetchedResultsController<CountryData>(
+                fetchRequest: request,
+                managedObjectContext: context,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+        }
     }
     
     func clearCountriesList() {

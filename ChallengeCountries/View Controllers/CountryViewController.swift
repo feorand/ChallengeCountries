@@ -48,7 +48,7 @@ class CountryViewController: UIViewController {
             navigationController?.setStyle(to: .opaque)
         }
     }
-        
+    
     private func updateView(with country: Country?) {
         nameLabel.text = country?.name
         capitalLabel.text = country?.capital
