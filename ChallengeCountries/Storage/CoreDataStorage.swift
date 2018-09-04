@@ -13,7 +13,7 @@ class CoreDataStorage {
     
     private var container: NSPersistentContainer?
     
-    private var fetchedResultController: NSFetchedResultsController<CountryData>?
+    var fetchedResultController: NSFetchedResultsController<CountryData>?
     
     var delegate: NSFetchedResultsControllerDelegate? {
         didSet {

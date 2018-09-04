@@ -62,10 +62,10 @@ class CountriesTableViewController: UIViewController {
     }
     
     private func insertRows(numberOfNewCountries: Int) {
-        let rowsCount = tableView.numberOfRows(inSection: 0)
-        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
-            .map { IndexPath(row: $0, section: 0) }
-        tableView.insertRows(at: indexPaths, with: .automatic)
+//        let rowsCount = tableView.numberOfRows(inSection: 0)
+//        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
+//            .map { IndexPath(row: $0, section: 0) }
+//        tableView.insertRows(at: indexPaths, with: .automatic)
         
         updateCountryTableFooterView()
     }

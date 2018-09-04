@@ -24,13 +24,13 @@ class CountriesRepo {
     }
         
     func numberOfCountries(in section: Int = 0) -> Int {
-        //return fetchedResultController?.sections?[section].numberOfObjects ?? 0
-        return countriesListData.countries.count
+        return storage.fetchedResultController?.sections?[section].numberOfObjects ?? 0
+        //return countriesListData.countries.count
     }
     
     func country(at indexPath: IndexPath) -> Country? {
-        //return fetchedResultController?.object(at: indexPath)
-        return countriesListData.countries[indexPath.row]
+        return Country(from: storage.fetchedResultController?.object(at: indexPath))
+        //return countriesListData.countries[indexPath.row]
     }
     
     init(provider: CountriesProvider = CountriesNetworkProvider(),
