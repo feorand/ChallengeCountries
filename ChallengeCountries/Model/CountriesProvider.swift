@@ -12,7 +12,7 @@ protocol CountriesProvider {
     func nextPageUrl(from url: String,
                      completionHandler: @escaping (String) -> ())
     
-    func countries(from urlString: String,
+    func countries(from url: String,
                    completionHandler: @escaping ([Country]) -> ()) 
     
     func photo(from url:String,

@@ -16,18 +16,8 @@ class CountriesRepo {
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
     var provider: CountriesProvider
-        
-    var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
+    var storage: CoreDataStorage
     
-    var delegate: NSFetchedResultsControllerDelegate? {
-        didSet {
-            fetchedResultController?.delegate = delegate
-            try? fetchedResultController?.performFetch()
-        }
-    }
-    
-    private var fetchedResultController: NSFetchedResultsController<CountryData>?
-
     private var countriesListData: CountriesListData
     
     var hasNextPage: Bool {
@@ -44,22 +34,12 @@ class CountriesRepo {
         return countriesListData.countries[indexPath.row]
     }
     
-    init(provider: CountriesProvider? = nil) {
-        self.provider = provider ?? CountriesNetworkProvider()
+    init(provider: CountriesProvider = CountriesNetworkProvider(),
+         storage: CoreDataStorage = CoreDataStorage()) {
+        self.provider = provider
+        self.storage = storage
         
-        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
-        
-        if let context = container?.viewContext {
-            let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-
-            fetchedResultController = NSFetchedResultsController<CountryData>(
-                fetchRequest: request,
-                managedObjectContext: context,
-                sectionNameKeyPath: nil,
-                cacheName: nil
-            )
-        }
+        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)        
     }
     
     func clearCountriesList() {
@@ -71,13 +51,14 @@ class CountriesRepo {
                 
         getCountries() { countries in
             self.countriesListData.countries += countries
-            self.updateDatabase(with: self.countriesListData)
+            self.storage.store(countries)
             
             completionHandler(countries.count)
         }
         
         provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
             self.countriesListData.nextPageUrl = nextPageUrl
+            self.storage.store(nextPageUrl)
         }
     }
     
@@ -95,6 +76,7 @@ class CountriesRepo {
             } else {
                 provider.photo(from: photo.url) { imageData in
                     photo.image = imageData
+                    self.storage.store(photo)
                     completionHandler(imageData)
                 }
             }
@@ -133,29 +115,6 @@ class CountriesRepo {
         provider.photo(from: country.flag.url) { imageData in
             country.flag.image = imageData
             completionHandler()
-        }
-    }
-    
-    private func updateDatabase(with countriesListData: CountriesListData) {
-        container?.performBackgroundTask{ context in
-            //TODO: Actual error handling
-            
-            try? StateData.setNextPageUrl(value: countriesListData.nextPageUrl, in: context)
-            
-            for country in countriesListData.countries {
-                try? CountryData.insertIfAbsent(country, in: context)
-            }
-            
-            try? context.save()
-        }
-    }
-    
-    private func updateDatabase(with photo: DownloadablePhoto) {
-        container?.performBackgroundTask{ context in
-            //TODO: Actual error handling
-            
-            try? DownloadablePhotoData.update(photo, in: context)
-            try? context.save()
         }
     }
 }

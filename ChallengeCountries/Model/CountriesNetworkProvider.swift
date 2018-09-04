@@ -24,10 +24,10 @@ class CountriesNetworkProvider: CountriesProvider {
         }
     }
     
-    func countries(from urlString: String,
+    func countries(from url: String,
                      completionHandler: @escaping ([Country]) -> ()) {
         
-        executeRequest(from: urlString) { data in
+        executeRequest(from: url) { data in
             var countries: [Country]
             
             do {

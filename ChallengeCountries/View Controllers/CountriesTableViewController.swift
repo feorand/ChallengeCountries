@@ -31,7 +31,7 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countriesRepo.delegate = self
+        countriesRepo.storage.delegate = self
         
         if countriesRepo.numberOfCountries() > 0 {
             countriesListDownloadingComplete()
