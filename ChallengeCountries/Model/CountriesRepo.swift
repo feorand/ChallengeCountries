@@ -68,8 +68,8 @@ class CountriesRepo {
     
     func nextPage(completionHandler: @escaping (Int) -> ()) {
         guard hasNextPage else { return }
-        
-        provider.countries(from: self.countriesListData.nextPageUrl) { countries in
+                
+        getCountries() { countries in
             self.countriesListData.countries += countries
             self.updateDatabase(with: self.countriesListData)
             
@@ -101,21 +101,18 @@ class CountriesRepo {
         }
     }
 
-    private func getCountries(completionHandler: @escaping (Int) -> ()) {
+    private func getCountries(completionHandler: @escaping ([Country]) -> ()) {
         guard hasNextPage else { return }
         
-        provider.countries(from: self.countriesListData.nextPageUrl) { countries in
-            
-            
-            self.countriesListData.countries += countries
-            self.updateDatabase(with: self.countriesListData)
-            
-            completionHandler(countries.count)
+        provider.countries(from: self.countriesListData.nextPageUrl) { [weak self] countries in
+            self?.attachFlags(to: countries) {
+                completionHandler(countries)
+            }
         }
     }
     
     private func attachFlags(to countries: [Country],
-                             completionHandler handler: @escaping ([Country])->()) {
+                             completionHandler handler: @escaping ()->()) {
         let countriesHandlersGroup = DispatchGroup()
         
         for country in countries {
@@ -127,7 +124,7 @@ class CountriesRepo {
         
         //Wait until all countries are updated
         countriesHandlersGroup.notify(queue: .main) {
-            handler(countries)
+            handler()
         }
     }
     
