@@ -19,8 +19,13 @@ class CountriesRepo {
     
     private var countriesListData: CountriesListData
     
+    private var nextPageUrl: String {
+        get { return storage.widthrawNextPageUrl() ?? "" }
+        set { storage.store(newValue) }
+    }
+    
     var hasNextPage: Bool {
-        return !countriesListData.nextPageUrl.isEmpty
+        return !nextPageUrl.isEmpty
     }
         
     func numberOfCountries(in section: Int = 0) -> Int {
@@ -55,9 +60,8 @@ class CountriesRepo {
             completionHandler(countries.count)
         }
         
-        provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
-            self.countriesListData.nextPageUrl = nextPageUrl
-            self.storage.store(nextPageUrl)
+        provider.nextPageUrl(from: nextPageUrl) { nextPageUrl in
+            self.nextPageUrl = nextPageUrl
         }
     }
     
@@ -85,7 +89,7 @@ class CountriesRepo {
     private func getCountries(completionHandler: @escaping ([Country]) -> ()) {
         guard hasNextPage else { return }
         
-        provider.countries(from: self.countriesListData.nextPageUrl) { [weak self] countries in
+        provider.countries(from: nextPageUrl) { [weak self] countries in
             self?.attachFlags(to: countries) {
                 completionHandler(countries)
             }

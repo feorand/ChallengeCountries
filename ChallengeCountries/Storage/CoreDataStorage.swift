@@ -59,6 +59,15 @@ class CoreDataStorage {
         }
     }
     
+    func widthrawNextPageUrl() -> String? {
+        if let context = container?.viewContext {
+            let nextPageUrl = try? StateData.getNextPageUrl(in: context)
+            return nextPageUrl
+        }
+        
+        return nil
+    }
+    
     private func storeInBackground(handler: @escaping (NSManagedObjectContext) throws ->()) {
         container?.performBackgroundTask { context in
             //TODO: Actual error handling
