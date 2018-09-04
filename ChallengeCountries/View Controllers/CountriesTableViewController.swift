@@ -36,7 +36,7 @@ class CountriesTableViewController: UIViewController {
         if countriesRepo.numberOfCountries() > 0 {
             countriesListDownloadingComplete()
         } else {
-            countriesRepo.getNextPageOfCurrentCountriesList{ [weak self] numberOfCountries in
+            countriesRepo.nextPage{ [weak self] numberOfCountries in
                 self?.countriesListDownloadingComplete()
                 self?.insertRows(numberOfNewCountries: numberOfCountries)
             }
@@ -98,7 +98,7 @@ class CountriesTableViewController: UIViewController {
     
     @objc private func refresh() {
         countriesRepo.clearCountriesList()
-        countriesRepo.getNextPageOfCurrentCountriesList{ [weak self] numberOfCountries in
+        countriesRepo.nextPage{ [weak self] numberOfCountries in
             self?.tableView.reloadData()
             self?.refreshControl.endRefreshing()
         }
@@ -172,7 +172,7 @@ extension CountriesTableViewController: UITableViewDataSource {
         }
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            countriesRepo.getNextPageOfCurrentCountriesList(completionHandler: insertRows)
+            countriesRepo.nextPage(completionHandler: insertRows)
         }
         
         return cell

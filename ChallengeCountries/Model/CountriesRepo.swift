@@ -66,8 +66,7 @@ class CountriesRepo {
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
     }
     
-    func getNextPageOfCurrentCountriesList(completionHandler handler: @escaping (Int) -> ()) {
-        
+    func nextPage(completionHandler handler: @escaping (Int) -> ()) {
         guard hasNextPage else { return }
         
         provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
@@ -82,9 +81,8 @@ class CountriesRepo {
         }
     }
     
-    func getPhotosForCountry(at indexPath: IndexPath?,
+    func photosForCountry(at indexPath: IndexPath?,
                              eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
-        
         guard let indexPath = indexPath,
             let country = country(at: indexPath)
         else {
@@ -95,11 +93,9 @@ class CountriesRepo {
             if let imageData = photo.image {
                 completionHandler(imageData)
             } else {
-                provider.executeRequest(from: photo.url) { data in
-                    photo.image = data
-                    self.updateDatabase(with: photo)
-                    
-                    completionHandler(data)
+                provider.photo(from: photo.url) { imageData in
+                    photo.image = imageData
+                    completionHandler(imageData)
                 }
             }
         }

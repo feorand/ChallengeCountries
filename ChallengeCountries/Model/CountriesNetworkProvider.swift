@@ -40,6 +40,12 @@ class CountriesNetworkProvider {
             self.attachFlags(to: countries, completionHandler: completionHandler)
         }
     }
+    
+    func photo(from url:String, completionHandler: @escaping (Data)->()) {
+        executeRequest(from: url) { data in
+            completionHandler(data)
+        }
+    }
         
     private func attachFlags(to countries: [Country],
                                 completionHandler handler: @escaping ([Country])->()) {
@@ -66,7 +72,7 @@ class CountriesNetworkProvider {
         }
     }
 
-    func executeRequest(from urlString: String,
+    private func executeRequest(from urlString: String,
                                       completionHandler handler: @escaping (Data) -> ()) {
         
         guard let url = URL(string: urlString) else { return }

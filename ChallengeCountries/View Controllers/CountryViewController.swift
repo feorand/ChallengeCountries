@@ -40,7 +40,7 @@ class CountryViewController: UIViewController {
         super.viewDidLoad()
         
         updateView(with: country)
-        countriesRepo?.getPhotosForCountry(at: countryIndexPath, eachCompletionHandler: showPhotoFromData)
+        countriesRepo?.photosForCountry(at: countryIndexPath, eachCompletionHandler: showPhotoFromData)
     }
     
     override func viewDidAppear(_ animated: Bool) {
