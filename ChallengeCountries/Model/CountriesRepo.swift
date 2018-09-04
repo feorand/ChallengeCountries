@@ -15,7 +15,7 @@ class CountriesRepo {
     
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
-    var provider: CountriesNetworkProvider
+    var provider: CountriesProvider
         
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
     
@@ -44,7 +44,7 @@ class CountriesRepo {
         return countriesListData.countries[indexPath.row]
     }
     
-    init(provider: CountriesNetworkProvider? = nil) {
+    init(provider: CountriesProvider? = nil) {
         self.provider = provider ?? CountriesNetworkProvider()
         
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
@@ -66,27 +66,27 @@ class CountriesRepo {
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
     }
     
-    func nextPage(completionHandler handler: @escaping (Int) -> ()) {
+    func nextPage(completionHandler: @escaping (Int) -> ()) {
         guard hasNextPage else { return }
         
-        provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
-            self.countriesListData.nextPageUrl = nextPageUrl
-        }
-
         provider.countries(from: self.countriesListData.nextPageUrl) { countries in
             self.countriesListData.countries += countries
             self.updateDatabase(with: self.countriesListData)
             
-            handler(countries.count)
+            completionHandler(countries.count)
+        }
+        
+        provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
+            self.countriesListData.nextPageUrl = nextPageUrl
         }
     }
     
     func photosForCountry(at indexPath: IndexPath?,
-                             eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
+                          eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
         guard let indexPath = indexPath,
             let country = country(at: indexPath)
-        else {
-            return
+            else {
+                return
         }
         
         for photo in country.photos {
@@ -98,6 +98,44 @@ class CountriesRepo {
                     completionHandler(imageData)
                 }
             }
+        }
+    }
+
+    private func getCountries(completionHandler: @escaping (Int) -> ()) {
+        guard hasNextPage else { return }
+        
+        provider.countries(from: self.countriesListData.nextPageUrl) { countries in
+            
+            
+            self.countriesListData.countries += countries
+            self.updateDatabase(with: self.countriesListData)
+            
+            completionHandler(countries.count)
+        }
+    }
+    
+    private func attachFlags(to countries: [Country],
+                             completionHandler handler: @escaping ([Country])->()) {
+        let countriesHandlersGroup = DispatchGroup()
+        
+        for country in countries {
+            countriesHandlersGroup.enter()
+            attachFlag(to: country) {
+                countriesHandlersGroup.leave()
+            }
+        }
+        
+        //Wait until all countries are updated
+        countriesHandlersGroup.notify(queue: .main) {
+            handler(countries)
+        }
+    }
+    
+    private func attachFlag(to country: Country,
+                            completionHandler: @escaping ()->()) {
+        provider.photo(from: country.flag.url) { imageData in
+            country.flag.image = imageData
+            completionHandler()
         }
     }
     

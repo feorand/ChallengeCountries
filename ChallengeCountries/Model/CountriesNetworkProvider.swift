@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CountriesNetworkProvider {
+class CountriesNetworkProvider: CountriesProvider {
     
     func nextPageUrl(from url: String,
                      completionHandler: @escaping (String) -> ()) {
@@ -32,12 +32,11 @@ class CountriesNetworkProvider {
             
             do {
                 countries = try CountriesJSONParser().countries(from: data)
+                completionHandler(countries)
             } catch {
                 print(error)
                 return
             }
-            
-            self.attachFlags(to: countries, completionHandler: completionHandler)
         }
     }
     
@@ -47,31 +46,6 @@ class CountriesNetworkProvider {
         }
     }
         
-    private func attachFlags(to countries: [Country],
-                                completionHandler handler: @escaping ([Country])->()) {
-        let countriesHandlersGroup = DispatchGroup()
-        
-        for country in countries {
-            countriesHandlersGroup.enter()
-            attachFlag(to: country) {
-                countriesHandlersGroup.leave()
-            }
-        }
-        
-        //Wait until all countries are updated
-        countriesHandlersGroup.notify(queue: .main) {
-            handler(countries)
-        }
-    }
-    
-    private func attachFlag(to country: Country,
-                            completionHandler: @escaping ()->()) {
-        executeRequest(from: country.flag.url) { imageData in
-            country.flag.image = imageData
-            completionHandler()
-        }
-    }
-
     private func executeRequest(from urlString: String,
                                       completionHandler handler: @escaping (Data) -> ()) {
         
