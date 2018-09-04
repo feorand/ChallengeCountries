@@ -15,6 +15,8 @@ class CountriesRepo {
     
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
+    var provider: CountriesProvider
+        
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
     
     var delegate: NSFetchedResultsControllerDelegate? {
@@ -42,7 +44,9 @@ class CountriesRepo {
         return countriesListData.countries[indexPath.row]
     }
     
-    init() {
+    init(provider: CountriesProvider? = nil) {
+        self.provider = provider ?? CountriesNetworkProvider()
+        
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
         
         if let context = container?.viewContext {
@@ -66,12 +70,12 @@ class CountriesRepo {
         
         guard hasNextPage else { return }
         
-        CountriesRepo.getCountries(from: self.countriesListData.nextPageUrl) { countriesListData in
-            self.countriesListData.nextPageUrl = countriesListData.nextPageUrl
-            self.countriesListData.countries += countriesListData.countries
+        provider.getCountriesList(from: self.countriesListData.nextPageUrl) { countries, nextPageUrl in
+            self.countriesListData.nextPageUrl = nextPageUrl
+            self.countriesListData.countries += countries
             self.updateDatabase(with: self.countriesListData)
             
-            handler(countriesListData.countries.count)
+            handler(countries.count)
         }
     }
     
@@ -88,78 +92,13 @@ class CountriesRepo {
             if let imageData = photo.image {
                 completionHandler(imageData)
             } else {
-                CountriesRepo.executeRequest(from: photo.url) { data in
+                provider.executeRequest(from: photo.url) { data in
                     photo.image = data
                     self.updateDatabase(with: photo)
                     
                     completionHandler(data)
                 }
             }
-        }
-    }
-    
-    private class func getCountries(from urlString: String,
-                                    completionHandler handler: @escaping (CountriesListData) -> ()) {
-        
-        executeRequest(from: urlString) { data in
-            var _countriesListData = CountriesListData([], "")
-            
-            do {
-                _countriesListData = try CountriesJSONParser().countriesListData(from: data)
-            } catch {
-                print(error)
-                return
-            }
-            
-            self.getFlags(for: _countriesListData.countries) { countries in
-                handler(_countriesListData)
-            }
-        }
-    }
-    
-    private class func executeRequest(from urlString: String,
-                                       completionHandler handler: @escaping (Data) -> ()) {
-        
-        guard let url = URL(string: urlString) else { return }
-        
-        let urlRequest = URLRequest(url: url)
-        
-        let urlSession = URLSession.shared.dataTask(with: urlRequest) {
-            (data, urlResponse, error) in
-            
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            guard let data = data else {
-                print("Empty data received")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                handler(data)
-            }
-        }
-        
-        urlSession.resume()
-    }
-    
-    private class func getFlags(for countries: [Country],
-                          completionHandler handler: @escaping ([Country])->()) {
-        let countriesHandlersGroup = DispatchGroup()
-        
-        for country in countries {
-            countriesHandlersGroup.enter()
-            executeRequest(from: country.flag.url) { imageData in
-                country.flag.image = imageData
-                countriesHandlersGroup.leave()
-            }
-        }
-        
-        //Wait until all countries are updated
-        countriesHandlersGroup.notify(queue: .main) {
-            handler(countries)
         }
     }
     
