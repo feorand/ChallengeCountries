@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 
 //TODO: Changle all prints to logs
 

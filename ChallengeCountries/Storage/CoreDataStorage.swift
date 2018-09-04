@@ -39,31 +39,30 @@ class CoreDataStorage {
     }
     
     func store(_ nextPageUrl: String) {
-        container?.performBackgroundTask{ context in
-            //TODO: Actual error handling
-            
-            try? StateData.setNextPageUrl(value: nextPageUrl, in: context)
-            try? context.save()
+        storeInBackground{ context in
+            try StateData.setNextPageUrl(value: nextPageUrl, in: context)
         }
+
     }
     
     func store(_ countries: [Country]) {
-        container?.performBackgroundTask{ context in
-            //TODO: Actual error handling
-            
+        storeInBackground{ context in
             for country in countries {
-                try? CountryData.insertIfAbsent(country, in: context)
+                try CountryData.insertIfAbsent(country, in: context)
             }
-            
-            try? context.save()
         }
     }
     
     func store(_ photo: DownloadablePhoto) {
-        container?.performBackgroundTask{ context in
+        storeInBackground { context in
+            try DownloadablePhotoData.update(photo, in: context)
+        }
+    }
+    
+    private func storeInBackground(handler: @escaping (NSManagedObjectContext) throws ->()) {
+        container?.performBackgroundTask { context in
             //TODO: Actual error handling
-            
-            try? DownloadablePhotoData.update(photo, in: context)
+            try? handler(context)
             try? context.save()
         }
     }
