@@ -9,6 +9,8 @@
 import Foundation
 
 protocol CountriesProvider {
+    //TODO: Return protocol usage
+    
     func getCountriesList(from urlString: String,
                           completionHandler handler: @escaping ([Country], String) -> ())
     

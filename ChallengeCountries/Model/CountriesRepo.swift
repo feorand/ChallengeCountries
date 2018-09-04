@@ -15,7 +15,7 @@ class CountriesRepo {
     
     typealias CountriesListData = (countries: [Country], nextPageUrl: String)
     
-    var provider: CountriesProvider
+    var provider: CountriesNetworkProvider
         
     var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer
     
@@ -44,7 +44,7 @@ class CountriesRepo {
         return countriesListData.countries[indexPath.row]
     }
     
-    init(provider: CountriesProvider? = nil) {
+    init(provider: CountriesNetworkProvider? = nil) {
         self.provider = provider ?? CountriesNetworkProvider()
         
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
@@ -70,8 +70,11 @@ class CountriesRepo {
         
         guard hasNextPage else { return }
         
-        provider.getCountriesList(from: self.countriesListData.nextPageUrl) { countries, nextPageUrl in
+        provider.nextPageUrl(from: self.countriesListData.nextPageUrl) { nextPageUrl in
             self.countriesListData.nextPageUrl = nextPageUrl
+        }
+
+        provider.countries(from: self.countriesListData.nextPageUrl) { countries in
             self.countriesListData.countries += countries
             self.updateDatabase(with: self.countriesListData)
             

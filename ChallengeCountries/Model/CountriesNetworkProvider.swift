@@ -8,34 +8,46 @@
 
 import Foundation
 
-class CountriesNetworkProvider: CountriesProvider {
+class CountriesNetworkProvider {
     
-    func getCountriesList(from urlString: String,
-                                    completionHandler handler: @escaping ([Country], String) -> ()) {
+    func nextPageUrl(from url: String,
+                     completionHandler: @escaping (String) -> ()) {
+        
+        executeRequest(from: url) { data in
+            do {
+                let nextPageUrl = try CountriesJSONParser().nextPageUrl(from: data)
+                completionHandler(nextPageUrl)
+            } catch {
+                print(error)
+                return
+            }
+        }
+    }
+    
+    func countries(from urlString: String,
+                     completionHandler: @escaping ([Country]) -> ()) {
         
         executeRequest(from: urlString) { data in
-            var _countriesListData:([Country], String)
+            var countries: [Country]
+            
             do {
-                _countriesListData = try CountriesJSONParser().countriesListData(from: data)
+                countries = try CountriesJSONParser().countries(from: data)
             } catch {
                 print(error)
                 return
             }
             
-            self.getFlags(for: _countriesListData.0) { countries in
-                handler(_countriesListData.0, _countriesListData.1)
-            }
+            self.attachFlags(to: countries, completionHandler: completionHandler)
         }
     }
-    
-    private func getFlags(for countries: [Country],
+        
+    private func attachFlags(to countries: [Country],
                                 completionHandler handler: @escaping ([Country])->()) {
         let countriesHandlersGroup = DispatchGroup()
         
         for country in countries {
             countriesHandlersGroup.enter()
-            executeRequest(from: country.flag.url) { imageData in
-                country.flag.image = imageData
+            attachFlag(to: country) {
                 countriesHandlersGroup.leave()
             }
         }
@@ -43,6 +55,14 @@ class CountriesNetworkProvider: CountriesProvider {
         //Wait until all countries are updated
         countriesHandlersGroup.notify(queue: .main) {
             handler(countries)
+        }
+    }
+    
+    private func attachFlag(to country: Country,
+                            completionHandler: @escaping ()->()) {
+        executeRequest(from: country.flag.url) { imageData in
+            country.flag.image = imageData
+            completionHandler()
         }
     }
 
