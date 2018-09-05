@@ -19,7 +19,6 @@ class CountryViewController: UIViewController {
     @IBOutlet weak var aboutLabel: UILabel!
     
     var countriesRepo: CountriesRepo?
-    //var countryIndex: Int?
     var country: Country?
         
     private var atLeastOneImageLoaded = false

@@ -46,9 +46,14 @@ class CountryData: NSManagedObject {
         countryData.countryDescription = country.countryDescription
         countryData.countryDescriptionSmall = country.countryDescriptionSmall
         
-        let flag = DownloadablePhotoData.from(photo: country.flag, in: context)
+        let flag = DownloadablePhotoData.from(country.flag, in: context)
         flag.isFlag = true
         countryData.addToStoredImages(flag)
+        
+        for photo in country.photos {
+            let photoData = DownloadablePhotoData.from(photo, in: context)
+            countryData.addToStoredImages(photoData)
+        }
     }
         
     private class func fetchCountry(named name: String, in context: NSManagedObjectContext) throws -> CountryData? {
