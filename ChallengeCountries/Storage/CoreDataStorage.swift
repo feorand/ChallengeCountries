@@ -13,29 +13,8 @@ class CoreDataStorage {
     
     private var container: NSPersistentContainer?
     
-    var fetchedResultController: NSFetchedResultsController<CountryData>?
-    
-    var delegate: NSFetchedResultsControllerDelegate? {
-        didSet {
-            fetchedResultController?.delegate = delegate
-            try? fetchedResultController?.performFetch()
-        }
-    }
-
     init(container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer!) {
         self.container = container
-        
-        if let context = container?.viewContext {
-            let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-            
-            fetchedResultController = NSFetchedResultsController<CountryData>(
-                fetchRequest: request,
-                managedObjectContext: context,
-                sectionNameKeyPath: nil,
-                cacheName: nil
-            )
-        }
     }
     
     func store(_ nextPageUrl: String) {
@@ -63,6 +42,21 @@ class CoreDataStorage {
         if let context = container?.viewContext {
             let nextPageUrl = try? StateData.getNextPageUrl(in: context)
             return nextPageUrl
+        }
+        
+        return nil
+    }
+    
+    func numberOfCountries() -> Int {
+        let possibleCount = widthrawInViewContext(handler: CountryData.numberOfCountries)
+        return possibleCount ?? 0
+    }
+    
+    private func widthrawInViewContext<T>(handler: @escaping (NSManagedObjectContext) throws ->(T)) -> T? {
+        if let context = container?.viewContext {
+            //TODO: Actual error handling
+            let result = try? handler(context)
+            return result ?? nil
         }
         
         return nil

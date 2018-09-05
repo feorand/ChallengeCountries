@@ -20,16 +20,8 @@ class CountryViewController: UIViewController {
     
     var countriesRepo: CountriesRepo?
     //var countryIndex: Int?
-    var countryIndexPath: IndexPath?
-    
-    var country: Country? {
-        if let indexPath = countryIndexPath {
-            return countriesRepo?.country(at: indexPath)
-        } else {
-            return nil
-        }
-    }
-    
+    var country: Country?
+        
     private var atLeastOneImageLoaded = false
     
     override var navigationController: CountriesNavigationController? {
@@ -40,7 +32,10 @@ class CountryViewController: UIViewController {
         super.viewDidLoad()
         
         updateView(with: country)
-        countriesRepo?.photosForCountry(at: countryIndexPath, eachCompletionHandler: showPhotoFromData)
+        
+        if let country = country {
+            countriesRepo?.photos(for: country, eachCompletionHandler: showPhotoFromData)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

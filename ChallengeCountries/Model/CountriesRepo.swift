@@ -27,17 +27,11 @@ class CountriesRepo {
     var hasNextPage: Bool {
         return !nextPageUrl.isEmpty
     }
-        
-    func numberOfCountries(in section: Int = 0) -> Int {
-        return storage.fetchedResultController?.sections?[section].numberOfObjects ?? 0
-        //return countriesListData.countries.count
-    }
     
-    func country(at indexPath: IndexPath) -> Country? {
-        return Country(from: storage.fetchedResultController?.object(at: indexPath))
-        //return countriesListData.countries[indexPath.row]
+    var numberOfCountries: Int {
+        return storage.numberOfCountries()
     }
-    
+            
     init(provider: CountriesProvider = CountriesNetworkProvider(),
          storage: CoreDataStorage = CoreDataStorage()) {
         self.provider = provider
@@ -50,11 +44,9 @@ class CountriesRepo {
         countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
     }
     
-    func nextPage(completionHandler: @escaping (Int) -> ()) {
-        guard hasNextPage else { return }
-                
-        getCountries() { countries in
-            self.countriesListData.countries += countries
+    func firstPage(completionHandler: @escaping (Int) -> ()) {
+        getCountries(from: NetworkSettings.initialUrl) { countries in
+            self.countriesListData.countries = countries
             self.storage.store(countries)
             
             completionHandler(countries.count)
@@ -65,14 +57,23 @@ class CountriesRepo {
         }
     }
     
-    func photosForCountry(at indexPath: IndexPath?,
-                          eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {
-        guard let indexPath = indexPath,
-            let country = country(at: indexPath)
-            else {
-                return
+    func nextPage(completionHandler: @escaping (Int) -> ()) {
+        guard hasNextPage else { return }
+                
+        getCountries(from: nextPageUrl) { countries in
+            self.countriesListData.countries += countries
+            self.storage.store(countries)
+            
+            completionHandler(countries.count)
         }
         
+        provider.nextPageUrl(from: nextPageUrl) { nextPageUrl in
+            self.nextPageUrl = nextPageUrl
+        }
+    }
+
+    func photos(for country: Country,
+                eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {        
         for photo in country.photos {
             if let imageData = photo.image {
                 completionHandler(imageData)
@@ -86,10 +87,8 @@ class CountriesRepo {
         }
     }
 
-    private func getCountries(completionHandler: @escaping ([Country]) -> ()) {
-        guard hasNextPage else { return }
-        
-        provider.countries(from: nextPageUrl) { [weak self] countries in
+    private func getCountries(from url: String, completionHandler: @escaping ([Country]) -> ()) {
+        provider.countries(from: url) { [weak self] countries in
             self?.attachFlags(to: countries) {
                 completionHandler(countries)
             }

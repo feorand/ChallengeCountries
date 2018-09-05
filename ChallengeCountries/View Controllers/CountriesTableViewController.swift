@@ -16,12 +16,56 @@ class CountriesTableViewController: UIViewController {
     
     private let countriesRepo = CountriesRepo()
     
+    private var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer {
+        didSet {
+            updateUI()
+        }
+    }
+
+    var fetchedResultController: NSFetchedResultsController<CountryData>?
+    
+    var delegate: NSFetchedResultsControllerDelegate? {
+        didSet {
+            fetchedResultController?.delegate = delegate
+            try? fetchedResultController?.performFetch()
+        }
+    }
+    
     private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
             CountriesTableSettings.bottomSpacing
     }
     
+    private func updateUI() {
+        if let context = container?.viewContext {
+            let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+            
+            fetchedResultController = NSFetchedResultsController<CountryData>(
+                fetchRequest: request,
+                managedObjectContext: context,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+            
+            fetchedResultController?.delegate = self
+            try? fetchedResultController?.performFetch()
+            tableView.reloadData()
+        }
+
+    }
+    
+//    func numberOfCountries(in section: Int = 0) -> Int {
+//        //return fetchedResultController?.sections?[section].numberOfObjects ?? 0
+//        return countriesListData.countries.count
+//    }
+    
+    func country(at indexPath: IndexPath) -> Country? {
+        return Country(from: fetchedResultController?.object(at: indexPath))
+        //return countriesListData.countries[indexPath.row]
+    }
+
     private lazy var refreshControl: UIRefreshControl = {
         let _refreshControl = UIRefreshControl(frame: CGRect.zero)
         _refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -31,14 +75,13 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countriesRepo.storage.delegate = self
-        
-        if countriesRepo.numberOfCountries() > 0 {
+        if countriesRepo.numberOfCountries > 0 {
             countriesListDownloadingComplete()
         } else {
-            countriesRepo.nextPage{ [weak self] numberOfCountries in
+            countriesRepo.firstPage{ [weak self] numberOfCountries in
                 self?.countriesListDownloadingComplete()
                 self?.insertRows(numberOfNewCountries: numberOfCountries)
+                self?.updateUI()
             }
         }
     }
@@ -50,7 +93,7 @@ class CountriesTableViewController: UIViewController {
                 let countryIndexPath = tableView.indexPath(for: initiatorCell) {
                 
                 destination.countriesRepo = countriesRepo
-                destination.countryIndexPath = countryIndexPath
+                destination.country = country(at: countryIndexPath)
             }
         }
     }
@@ -98,7 +141,7 @@ class CountriesTableViewController: UIViewController {
     
     @objc private func refresh() {
         countriesRepo.clearCountriesList()
-        countriesRepo.nextPage{ [weak self] numberOfCountries in
+        countriesRepo.firstPage{ [weak self] numberOfCountries in
             self?.tableView.reloadData()
             self?.refreshControl.endRefreshing()
         }
@@ -110,8 +153,8 @@ extension CountriesTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
-            let country = countriesRepo.country(at: indexPath)
+        guard countriesRepo.numberOfCountries > 0,
+            let country = country(at: indexPath)
         else {
             return 0
         }
@@ -155,19 +198,18 @@ extension CountriesTableViewController: UITableViewDelegate {
 extension CountriesTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countriesRepo.numberOfCountries(in: section)
+        return countriesRepo.numberOfCountries
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.numberOfCountries(in: indexPath.section) > 0,
+        guard countriesRepo.numberOfCountries > 0,
             let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
                                                      for: indexPath) as? CountryCell else {
                                                         return UITableViewCell()
         }
         
-        if let country = countriesRepo.country(at: indexPath) {
+        if let country = country(at: indexPath) {
             cell.country = country
         }
         

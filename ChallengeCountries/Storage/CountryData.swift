@@ -11,6 +11,12 @@ import CoreData
 
 class CountryData: NSManagedObject {
     
+    class func numberOfCountries(in context: NSManagedObjectContext) throws -> Int {
+        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+        let numberOfCountries = try context.count(for: fetchRequest)
+        return numberOfCountries
+    }
+    
     class func insertIfAbsent(_ country: Country, in context: NSManagedObjectContext) throws {
         guard try fetchCountry(named: country.name, in: context) == nil else { return }
         
