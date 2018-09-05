@@ -30,36 +30,4 @@ class Country {
         self.flag = DownloadablePhoto(url: flagUrl)
         self.photos = photosUrls.map{ DownloadablePhoto(url: $0) }
     }
-    
-    convenience init(from data: CountryData?) {
-        let flag = data!
-            .storedImages?
-            .compactMap{ $0 as? DownloadablePhotoData }
-            .filter{ $0.isFlag }
-            .first
-        
-        let photos = data!
-            .storedImages?
-            .compactMap{ $0 as? DownloadablePhotoData }
-            .filter{ !$0.isFlag }
-        
-        let photosUrls = photos!.map{ $0.url! }
-        
-        let photosImages = photos!.map { $0.image }
-
-        self.init(name: data!.name!,
-                  continent: data!.continent!,
-                  capital: data!.capital!,
-                  population: Int(data!.population),
-                  descriptionSmall: data!.countryDescriptionSmall!,
-                  description: data!.countryDescription!,
-                  flagUrl: flag!.url!,
-                  photosUrls: photosUrls)
-        
-        self.flag.image = flag!.image
-        
-        for i in 0..<self.photos.count {
-            self.photos[i].image = photosImages[i]
-        }
-    }
 }
