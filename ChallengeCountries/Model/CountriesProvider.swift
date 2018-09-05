@@ -15,5 +15,5 @@ protocol CountriesProvider {
     var reachedEnd: Bool { get }
     func firstPage(completionHandler: @escaping (String, [Country]) -> ())
     func nextPage(completionHandler: @escaping (String, [Country]) -> ())
-    func photo(from url: String, completionHandler: @escaping (Data)->())
+    func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->())
 }

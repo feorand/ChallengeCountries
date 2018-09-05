@@ -97,14 +97,13 @@ class CountriesNetworkProvider: CountriesProvider {
     
     private func attachFlag(to country: Country,
                             completionHandler: @escaping ()->()) {
-        photo(from: country.flag.url) { imageData in
+        getImage(of: country.flag) { imageData in
             country.flag.image = imageData
             completionHandler()
         }
     }
     
-    func photo(from url: String, completionHandler: @escaping (Data)->()) {
-        executeRequest(from: url, completionHandler: completionHandler)
+    func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->()) {
+        executeRequest(from: photo.url, completionHandler: completionHandler)
     }
-
 }

@@ -79,7 +79,7 @@ class CountriesRepo {
             if let imageData = photo.image {
                 completionHandler(imageData)
             } else {
-                provider.photo(from: photo.url) { imageData in
+                provider.getImage(of: photo) { imageData in
                     photo.image = imageData
                     self.storage.store(photo)
                     completionHandler(imageData)
