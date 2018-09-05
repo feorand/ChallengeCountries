@@ -12,58 +12,58 @@ import Foundation
 
 class CountriesRepo {
     
-    typealias CountriesListData = (countries: [Country], nextPageUrl: String)
-    
     var provider: CountriesProvider
     var storage: CoreDataStorage
     
-    private var countriesListData: CountriesListData
-    
     private var nextPageUrl: String {
-        get { return storage.widthrawNextPageUrl() ?? "" }
-        set { storage.store(newValue) }
+        didSet {
+            storage.store(nextPageUrl)
+        }
+    }
+    
+    private(set) var countries: [Country] {
+        didSet {
+            storage.store(countries)
+        }
     }
     
     var hasNextPage: Bool {
         return !nextPageUrl.isEmpty
     }
     
-    var numberOfCountries: Int {
-        return storage.numberOfCountries()
-    }
+//    var numberOfCountries: Int {
+//        return storage.numberOfCountries()
+//    }
             
     init(provider: CountriesProvider = CountriesNetworkProvider(),
          storage: CoreDataStorage = CoreDataStorage()) {
         self.provider = provider
         self.storage = storage
         
-        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)        
+        countries = storage.widthrawCountries()
+        nextPageUrl = storage.widthrawNextPageUrl()
     }
     
-    func clearCountriesList() {
-        countriesListData = CountriesListData(countries: [], nextPageUrl: NetworkSettings.initialUrl)
+    private func clear() {
+        countries = []
+        nextPageUrl = NetworkSettings.initialUrl
     }
     
     func firstPage(completionHandler: @escaping (Int) -> ()) {
-        getCountries(from: NetworkSettings.initialUrl) { countries in
-            self.countriesListData.countries = countries
-            self.storage.store(countries)
-            
-            completionHandler(countries.count)
+        let storedCountries = storage.widthrawCountries()
+        
+        if storedCountries.isEmpty{
+            nextPageUrl = NetworkSettings.initialUrl
+            nextPage(completionHandler: completionHandler)
         }
         
-        provider.nextPageUrl(from: nextPageUrl) { nextPageUrl in
-            self.nextPageUrl = nextPageUrl
-        }
+        countries = storedCountries
+        completionHandler(countries.count)
     }
     
     func nextPage(completionHandler: @escaping (Int) -> ()) {
-        guard hasNextPage else { return }
-                
         getCountries(from: nextPageUrl) { countries in
-            self.countriesListData.countries += countries
-            self.storage.store(countries)
-            
+            self.countries += countries
             completionHandler(countries.count)
         }
         

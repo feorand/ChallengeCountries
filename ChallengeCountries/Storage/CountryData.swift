@@ -17,6 +17,24 @@ class CountryData: NSManagedObject {
         return numberOfCountries
     }
     
+    class func clear(in context: NSManagedObjectContext) throws {
+        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+        
+        do {
+            _ = try context.execute(deleteRequest)
+        } catch {
+            throw error
+        }
+    }
+    
+    class func fetchAll(in context: NSManagedObjectContext) throws -> [CountryData] {
+        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let countries = try context.fetch(fetchRequest)
+        return countries
+    }
+
     class func insertIfAbsent(_ country: Country, in context: NSManagedObjectContext) throws {
         guard try fetchCountry(named: country.name, in: context) == nil else { return }
         

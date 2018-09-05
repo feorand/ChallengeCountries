@@ -16,54 +16,18 @@ class CountriesTableViewController: UIViewController {
     
     private let countriesRepo = CountriesRepo()
     
-    private var container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer {
-        didSet {
-            updateUI()
-        }
-    }
-
-    var fetchedResultController: NSFetchedResultsController<CountryData>?
-    
-    var delegate: NSFetchedResultsControllerDelegate? {
-        didSet {
-            fetchedResultController?.delegate = delegate
-            try? fetchedResultController?.performFetch()
-        }
-    }
-    
     private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
             CountriesTableSettings.bottomSpacing
     }
     
-    private func updateUI() {
-        if let context = container?.viewContext {
-            let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-            
-            fetchedResultController = NSFetchedResultsController<CountryData>(
-                fetchRequest: request,
-                managedObjectContext: context,
-                sectionNameKeyPath: nil,
-                cacheName: nil
-            )
-            
-            fetchedResultController?.delegate = self
-            try? fetchedResultController?.performFetch()
-            tableView.reloadData()
-        }
-
+    private var numberOfCountries: Int {
+        return countriesRepo.countries.count
     }
     
-//    func numberOfCountries(in section: Int = 0) -> Int {
-//        //return fetchedResultController?.sections?[section].numberOfObjects ?? 0
-//        return countriesListData.countries.count
-//    }
-    
-    func country(at indexPath: IndexPath) -> Country? {
-        return Country(from: fetchedResultController?.object(at: indexPath))
-        //return countriesListData.countries[indexPath.row]
+    private func country(at indexPath: IndexPath) -> Country? {
+        return countriesRepo.countries[indexPath.row]
     }
 
     private lazy var refreshControl: UIRefreshControl = {
@@ -75,14 +39,9 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if countriesRepo.numberOfCountries > 0 {
-            countriesListDownloadingComplete()
-        } else {
-            countriesRepo.firstPage{ [weak self] numberOfCountries in
-                self?.countriesListDownloadingComplete()
-                self?.insertRows(numberOfNewCountries: numberOfCountries)
-                self?.updateUI()
-            }
+        countriesRepo.firstPage{ [weak self] numberOfCountries in
+            self?.countriesLoaded()
+            self?.insertRows(numberOfNewCountries: numberOfCountries)
         }
     }
     
@@ -98,7 +57,7 @@ class CountriesTableViewController: UIViewController {
         }
     }
     
-    private func countriesListDownloadingComplete() {
+    private func countriesLoaded() {
         tableView.addSubview(self.refreshControl)
         spinner.stopAnimating()
         tableView.separatorStyle = .singleLine
@@ -109,6 +68,7 @@ class CountriesTableViewController: UIViewController {
 //        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
 //            .map { IndexPath(row: $0, section: 0) }
 //        tableView.insertRows(at: indexPaths, with: .automatic)
+        tableView.reloadData()
         
         updateCountryTableFooterView()
     }
@@ -140,7 +100,6 @@ class CountriesTableViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        countriesRepo.clearCountriesList()
         countriesRepo.firstPage{ [weak self] numberOfCountries in
             self?.tableView.reloadData()
             self?.refreshControl.endRefreshing()
@@ -153,7 +112,7 @@ extension CountriesTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.numberOfCountries > 0,
+        guard numberOfCountries > 0,
             let country = country(at: indexPath)
         else {
             return 0
@@ -198,12 +157,12 @@ extension CountriesTableViewController: UITableViewDelegate {
 extension CountriesTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countriesRepo.numberOfCountries
+        return numberOfCountries
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Nothing to do when countries haven't loaded yet
-        guard countriesRepo.numberOfCountries > 0,
+        guard numberOfCountries > 0,
             let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
                                                      for: indexPath) as? CountryCell else {
                                                         return UITableViewCell()
@@ -220,26 +179,3 @@ extension CountriesTableViewController: UITableViewDataSource {
         return cell
     }
 }
-
-extension CountriesTableViewController: NSFetchedResultsControllerDelegate {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .automatic)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
-        default:
-            break
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
-}
-

@@ -29,6 +29,10 @@ class CoreDataStorage {
             for country in countries {
                 try CountryData.insertIfAbsent(country, in: context)
             }
+            
+            if countries.isEmpty {
+                self.clear()
+            }
         }
     }
     
@@ -38,18 +42,30 @@ class CoreDataStorage {
         }
     }
     
-    func widthrawNextPageUrl() -> String? {
+    func widthrawNextPageUrl() -> String {
         if let context = container?.viewContext {
             let nextPageUrl = try? StateData.getNextPageUrl(in: context)
-            return nextPageUrl
+            return nextPageUrl ?? ""
         }
         
-        return nil
+        return ""
+    }
+    
+    func widthrawCountries() -> [Country] {
+        let countriesDatas = widthrawInViewContext(handler: CountryData.fetchAll) ?? []
+        let countries = countriesDatas.map{ Country(from: $0) }
+        return countries
     }
     
     func numberOfCountries() -> Int {
         let possibleCount = widthrawInViewContext(handler: CountryData.numberOfCountries)
         return possibleCount ?? 0
+    }
+    
+    private func clear() {
+        storeInBackground{ context in
+            try CountryData.clear(in: context)
+        }
     }
     
     private func widthrawInViewContext<T>(handler: @escaping (NSManagedObjectContext) throws ->(T)) -> T? {
