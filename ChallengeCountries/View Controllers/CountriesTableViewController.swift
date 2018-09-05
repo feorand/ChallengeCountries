@@ -16,20 +16,6 @@ class CountriesTableViewController: UIViewController {
     
     private let countriesRepo = CountriesRepo()
     
-    private var defaultCountryCellHeight: CGFloat {
-        return CountriesTableSettings.topSpacing +
-            CountriesTableSettings.flagHeight +
-            CountriesTableSettings.bottomSpacing
-    }
-    
-    private var numberOfCountries: Int {
-        return countriesRepo.countries.count
-    }
-    
-    private func country(at indexPath: IndexPath) -> Country? {
-        return countriesRepo.countries[indexPath.row]
-    }
-
     private lazy var refreshControl: UIRefreshControl = {
         let _refreshControl = UIRefreshControl(frame: CGRect.zero)
         _refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -56,6 +42,24 @@ class CountriesTableViewController: UIViewController {
                 destination.country = country(at: countryIndexPath)
             }
         }
+    }
+    
+    private var defaultCountryCellHeight: CGFloat {
+        return CountriesTableSettings.topSpacing +
+            CountriesTableSettings.flagHeight +
+            CountriesTableSettings.bottomSpacing
+    }
+    
+    private var numberOfCountries: Int {
+        return countriesRepo.countries.count
+    }
+    
+    private var hasCountries: Bool {
+        return numberOfCountries > 0
+    }
+    
+    private func country(at indexPath: IndexPath) -> Country? {
+        return countriesRepo.countries[indexPath.row]
     }
     
     private func countriesLoaded() {
@@ -110,9 +114,8 @@ class CountriesTableViewController: UIViewController {
 extension CountriesTableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         // Nothing to do when countries haven't loaded yet
-        guard numberOfCountries > 0,
+        guard hasCountries,
             let country = country(at: indexPath)
         else {
             return 0
@@ -162,7 +165,7 @@ extension CountriesTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Nothing to do when countries haven't loaded yet
-        guard numberOfCountries > 0,
+        guard hasCountries,
             let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell",
                                                      for: indexPath) as? CountryCell else {
                                                         return UITableViewCell()
