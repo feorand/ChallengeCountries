@@ -10,10 +10,14 @@ import Foundation
 
 class CountriesNetworkProvider: CountriesProvider {
     
-    private var nextPageUrl:String
+    var nextPageUrl: String
     
-    required init(_ nextPageUrl: String? = nil) {
-        self.nextPageUrl = nextPageUrl ?? NetworkSettings.initialUrl
+    var reachedEnd: Bool {
+        return nextPageUrl.isEmpty
+    }
+    
+    required init() {
+        nextPageUrl = NetworkSettings.initialUrl
     }
     
     func firstPage(completionHandler: @escaping (String, [Country]) -> ()) {
@@ -32,10 +36,10 @@ class CountriesNetworkProvider: CountriesProvider {
         }
     }
     
-    var reachedEnd: Bool {
-        return nextPageUrl.isEmpty
+    func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->()) {
+        executeRequest(from: photo.url, completionHandler: completionHandler)
     }
-
+    
     private func downloadPage(from url: String, completionHandler: @escaping (String, [Country]) -> ()) {
         executeRequest(from: url) { data in
             var result: (String, [Country])
@@ -101,9 +105,5 @@ class CountriesNetworkProvider: CountriesProvider {
             country.flag.image = imageData
             completionHandler()
         }
-    }
-    
-    func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->()) {
-        executeRequest(from: photo.url, completionHandler: completionHandler)
     }
 }

@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-class CoreDataStorage {
+class CoreDataStorage: Storage {
     
     private var container: NSPersistentContainer?
     
-    init(container: NSPersistentContainer? = AppDelegate.sharedPersistenseContainer!) {
+    required init(container: NSPersistentContainer? = StorageSettings.container) {
         self.container = container
     }
     
@@ -21,7 +21,6 @@ class CoreDataStorage {
         storeInBackground{ context in
             try StateData.setNextPageUrl(value: nextPageUrl, in: context)
         }
-
     }
     
     func store(_ countries: [Country]) {

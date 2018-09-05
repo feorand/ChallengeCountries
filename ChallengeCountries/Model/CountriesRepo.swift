@@ -12,8 +12,8 @@ import Foundation
 
 class CountriesRepo {
     
-    var provider: CountriesProvider
-    var storage: CoreDataStorage
+    private var provider: CountriesProvider
+    private var storage: Storage
     
     private(set) var countries: [Country] {
         didSet {
@@ -25,24 +25,16 @@ class CountriesRepo {
         return provider.reachedEnd
     }
     
-    init() {
-        self.storage = CoreDataStorage()
-        
-        let nextPageUrl = storage.widthrawNextPageUrl()
-        
-        self.provider = CountriesNetworkProvider(nextPageUrl)
+    init(provider: CountriesProvider = RepoSettings.provider.init(),
+         storage: Storage = RepoSettings.storage.init()) {
+        self.storage = storage
+        self.provider = provider
         
         countries = storage.widthrawCountries()
     }
     
-    private func clear() {
-        countries = []
-    }
-    
     func initialPage(completionHandler: @escaping (Int) -> ()) {
-        let storedCountries = storage.widthrawCountries()
-        
-        if storedCountries.isEmpty{
+        if countries.isEmpty{
             provider.firstPage() { nextPageUrl, countries in
                 self.countries = countries
                 self.storage.store(nextPageUrl)
@@ -52,7 +44,7 @@ class CountriesRepo {
             return 
         }
         
-        countries = storedCountries
+        provider.nextPageUrl = storage.widthrawNextPageUrl() ?? ""
         completionHandler(countries.count)
     }
     

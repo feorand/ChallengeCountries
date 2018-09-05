@@ -15,8 +15,8 @@
 		7A003C1E21392A790058F246 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C1D21392A790058F246 /* Settings.swift */; };
 		7A003C23213E705C0058F246 /* CountriesNetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */; };
 		7A003C25213E72510058F246 /* CountriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C24213E72510058F246 /* CountriesProvider.swift */; };
-		7A003C27213E8A570058F246 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C26213E8A570058F246 /* Storage.swift */; };
 		7A003C29213E8A7A0058F246 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */; };
+		7A003C2B214001870058F246 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C2A214001870058F246 /* Storage.swift */; };
 		7A596E9A213452A900A57627 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E99213452A900A57627 /* FileManager.swift */; };
 		7A596E9E2134707500A57627 /* DownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E9D2134707500A57627 /* DownloadablePhoto.swift */; };
 		7AFBC1A0210EF9CA00FDA653 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC19F210EF9CA00FDA653 /* AppDelegate.swift */; };
@@ -43,8 +43,8 @@
 		7A003C1D21392A790058F246 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesNetworkProvider.swift; sourceTree = "<group>"; };
 		7A003C24213E72510058F246 /* CountriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesProvider.swift; sourceTree = "<group>"; };
-		7A003C26213E8A570058F246 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		7A003C2A214001870058F246 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7A596E99213452A900A57627 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		7A596E9D2134707500A57627 /* DownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadablePhoto.swift; sourceTree = "<group>"; };
 		7AFBC19C210EF9CA00FDA653 /* ChallengeCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +83,6 @@
 				7A003C13213925760058F246 /* CountryData.swift */,
 				7A003C15213925C70058F246 /* DownloadablePhotoData.swift */,
 				7A003C1121391E4D0058F246 /* StateData.swift */,
-				7A003C26213E8A570058F246 /* Storage.swift */,
 				7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */,
 			);
 			path = Storage;
@@ -119,6 +118,7 @@
 				7A003C24213E72510058F246 /* CountriesProvider.swift */,
 				7AFBC1B52110674800FDA653 /* CountriesJSONParser.swift */,
 				7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */,
+				7A003C2A214001870058F246 /* Storage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -306,10 +306,10 @@
 				7A596E9E2134707500A57627 /* DownloadablePhoto.swift in Sources */,
 				7A003C23213E705C0058F246 /* CountriesNetworkProvider.swift in Sources */,
 				7A003C14213925760058F246 /* CountryData.swift in Sources */,
-				7A003C27213E8A570058F246 /* Storage.swift in Sources */,
 				7AFBC1B62110674800FDA653 /* CountriesJSONParser.swift in Sources */,
 				7A003C1E21392A790058F246 /* Settings.swift in Sources */,
 				7A003C1021391ACA0058F246 /* Countries.xcdatamodeld in Sources */,
+				7A003C2B214001870058F246 /* Storage.swift in Sources */,
 				7A596E9A213452A900A57627 /* FileManager.swift in Sources */,
 				7A003C25213E72510058F246 /* CountriesProvider.swift in Sources */,
 				7A003C16213925C70058F246 /* DownloadablePhotoData.swift in Sources */,

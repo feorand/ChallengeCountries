@@ -10,8 +10,7 @@ import Foundation
 
 protocol CountriesProvider {
     
-    init(_ nextPageUrl: String?)
-
+    var nextPageUrl: String { get set }
     var reachedEnd: Bool { get }
     func firstPage(completionHandler: @escaping (String, [Country]) -> ())
     func nextPage(completionHandler: @escaping (String, [Country]) -> ())

@@ -14,6 +14,12 @@ struct NetworkSettings {
 
 struct StorageSettings {
     static let nextPageUrlKey = "next_page_url"
+    static let container = AppDelegate.sharedPersistenseContainer
+}
+
+struct RepoSettings {
+    static let provider = CountriesNetworkProvider.self
+    static let storage = CoreDataStorage.self
 }
 
 struct CountriesTableSettings {
