@@ -30,20 +30,16 @@ class CountriesJSONParser {
         }
     }
     
-    func countries(from data: Data) throws -> [Country] {
-        let countriesData = try JSONDecoder().decode(CountriesFromJSON.self, from: data)        
-        return countriesData.countries.map(countryFromData)
-    }
-    
-    func nextPageUrl(from data: Data) throws -> String {
+    func page(from data: Data) throws -> (String, [Country]) {
         let countriesData = try JSONDecoder().decode(CountriesFromJSON.self, from: data)
-        return countriesData.next
+        let countries = countriesData.countries.map(countryFromData)
+        return (countriesData.next, countries)
     }
     
     private func countryFromData(_ data: CountriesFromJSON.CountryFromJSON) -> Country {
         let imagesUrls = data.country_info.images + [data.image]
         let nonEmptyImagesUrls = imagesUrls.filter{ !$0.isEmpty }
-        
+
         let country = Country(name: data.name,
                               continent: data.continent,
                               capital: data.capital,
@@ -53,7 +49,7 @@ class CountriesJSONParser {
                               flagUrl: data.country_info.flag,
                               photosUrls: nonEmptyImagesUrls
         )
-        
+
         return country
     }
 }

@@ -9,12 +9,11 @@
 import Foundation
 
 protocol CountriesProvider {
-    func nextPageUrl(from url: String,
-                     completionHandler: @escaping (String) -> ())
     
-    func countries(from url: String,
-                   completionHandler: @escaping ([Country]) -> ()) 
-    
-    func photo(from url:String,
-               completionHandler: @escaping (Data)->())
+    init(_ nextPageUrl: String?)
+
+    var reachedEnd: Bool { get }
+    func firstPage(completionHandler: @escaping (String, [Country]) -> ())
+    func nextPage(completionHandler: @escaping (String, [Country]) -> ())
+    func photo(from url: String, completionHandler: @escaping (Data)->())
 }

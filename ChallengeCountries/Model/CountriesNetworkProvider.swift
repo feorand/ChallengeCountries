@@ -10,29 +10,39 @@ import Foundation
 
 class CountriesNetworkProvider: CountriesProvider {
     
-    func nextPageUrl(from url: String,
-                     completionHandler: @escaping (String) -> ()) {
-        
-        executeRequest(from: url) { data in
-            do {
-                let nextPageUrl = try CountriesJSONParser().nextPageUrl(from: data)
-                completionHandler(nextPageUrl)
-            } catch {
-                print(error)
-                return
+    private var nextPageUrl:String
+    
+    required init(_ nextPageUrl: String? = nil) {
+        self.nextPageUrl = nextPageUrl ?? NetworkSettings.initialUrl
+    }
+    
+    func firstPage(completionHandler: @escaping (String, [Country]) -> ()) {
+        downloadPage(from: NetworkSettings.initialUrl) { nextPageUrl, countries in
+            self.nextPageUrl = nextPageUrl
+            self.attachFlags(to: countries) {
+                completionHandler(nextPageUrl, countries)
             }
         }
     }
     
-    func countries(from url: String,
-                     completionHandler: @escaping ([Country]) -> ()) {
-        
+    func nextPage(completionHandler: @escaping (String, [Country]) -> ()) {
+        downloadPage(from: nextPageUrl) { nextPageUrl, countries in
+            self.nextPageUrl = nextPageUrl
+            completionHandler(nextPageUrl, countries)
+        }
+    }
+    
+    var reachedEnd: Bool {
+        return nextPageUrl.isEmpty
+    }
+
+    private func downloadPage(from url: String, completionHandler: @escaping (String, [Country]) -> ()) {
         executeRequest(from: url) { data in
-            var countries: [Country]
+            var result: (String, [Country])
             
             do {
-                countries = try CountriesJSONParser().countries(from: data)
-                completionHandler(countries)
+                result = try CountriesJSONParser().page(from: data)
+                completionHandler(result.0, result.1)
             } catch {
                 print(error)
                 return
@@ -40,12 +50,6 @@ class CountriesNetworkProvider: CountriesProvider {
         }
     }
     
-    func photo(from url:String, completionHandler: @escaping (Data)->()) {
-        executeRequest(from: url) { data in
-            completionHandler(data)
-        }
-    }
-        
     private func executeRequest(from urlString: String,
                                       completionHandler handler: @escaping (Data) -> ()) {
         
@@ -73,4 +77,34 @@ class CountriesNetworkProvider: CountriesProvider {
         
         urlSession.resume()
     }
+    
+    private func attachFlags(to countries: [Country],
+                             completionHandler handler: @escaping ()->()) {
+        let countriesHandlersGroup = DispatchGroup()
+        
+        for country in countries {
+            countriesHandlersGroup.enter()
+            attachFlag(to: country) {
+                countriesHandlersGroup.leave()
+            }
+        }
+        
+        //Wait until all countries are updated
+        countriesHandlersGroup.notify(queue: .main) {
+            handler()
+        }
+    }
+    
+    private func attachFlag(to country: Country,
+                            completionHandler: @escaping ()->()) {
+        photo(from: country.flag.url) { imageData in
+            country.flag.image = imageData
+            completionHandler()
+        }
+    }
+    
+    func photo(from url: String, completionHandler: @escaping (Data)->()) {
+        executeRequest(from: url, completionHandler: completionHandler)
+    }
+
 }

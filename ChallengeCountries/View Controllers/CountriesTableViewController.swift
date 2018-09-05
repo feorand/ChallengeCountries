@@ -39,9 +39,10 @@ class CountriesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countriesRepo.firstPage{ [weak self] numberOfCountries in
+        countriesRepo.initialPage{ [weak self] numberOfCountries in
             self?.countriesLoaded()
-            self?.insertRows(numberOfNewCountries: numberOfCountries)
+            self?.tableView.reloadData()
+            self?.updateCountryTableFooterView()
         }
     }
     
@@ -64,20 +65,19 @@ class CountriesTableViewController: UIViewController {
     }
     
     private func insertRows(numberOfNewCountries: Int) {
-//        let rowsCount = tableView.numberOfRows(inSection: 0)
-//        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
-//            .map { IndexPath(row: $0, section: 0) }
-//        tableView.insertRows(at: indexPaths, with: .automatic)
-        tableView.reloadData()
+        let rowsCount = tableView.numberOfRows(inSection: 0)
+        let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
+            .map { IndexPath(row: $0, section: 0) }
+        tableView.insertRows(at: indexPaths, with: .automatic)
         
         updateCountryTableFooterView()
     }
     
     private func updateCountryTableFooterView() {
-        if countriesRepo.hasNextPage {
-            showCountryTableFooterView()
-        } else {
+        if countriesRepo.reachedEnd {
             hideCountryTableFooterView()
+        } else {
+            showCountryTableFooterView()
         }
     }
     
@@ -100,7 +100,7 @@ class CountriesTableViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        countriesRepo.firstPage{ [weak self] numberOfCountries in
+        countriesRepo.refresh{ [weak self] numberOfCountries in
             self?.tableView.reloadData()
             self?.refreshControl.endRefreshing()
         }

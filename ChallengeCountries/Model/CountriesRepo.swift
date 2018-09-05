@@ -15,46 +15,41 @@ class CountriesRepo {
     var provider: CountriesProvider
     var storage: CoreDataStorage
     
-    private var nextPageUrl: String {
-        didSet {
-            storage.store(nextPageUrl)
-        }
-    }
-    
     private(set) var countries: [Country] {
         didSet {
             storage.store(countries)
         }
     }
     
-    var hasNextPage: Bool {
-        return !nextPageUrl.isEmpty
+    var reachedEnd: Bool {
+        return provider.reachedEnd
     }
     
-//    var numberOfCountries: Int {
-//        return storage.numberOfCountries()
-//    }
-            
-    init(provider: CountriesProvider = CountriesNetworkProvider(),
-         storage: CoreDataStorage = CoreDataStorage()) {
-        self.provider = provider
-        self.storage = storage
+    init() {
+        self.storage = CoreDataStorage()
+        
+        let nextPageUrl = storage.widthrawNextPageUrl()
+        
+        self.provider = CountriesNetworkProvider(nextPageUrl)
         
         countries = storage.widthrawCountries()
-        nextPageUrl = storage.widthrawNextPageUrl()
     }
     
     private func clear() {
         countries = []
-        nextPageUrl = NetworkSettings.initialUrl
     }
     
-    func firstPage(completionHandler: @escaping (Int) -> ()) {
+    func initialPage(completionHandler: @escaping (Int) -> ()) {
         let storedCountries = storage.widthrawCountries()
         
         if storedCountries.isEmpty{
-            nextPageUrl = NetworkSettings.initialUrl
-            nextPage(completionHandler: completionHandler)
+            provider.firstPage() { nextPageUrl, countries in
+                self.countries = countries
+                self.storage.store(nextPageUrl)
+                completionHandler(countries.count)
+            }
+            
+            return 
         }
         
         countries = storedCountries
@@ -62,16 +57,22 @@ class CountriesRepo {
     }
     
     func nextPage(completionHandler: @escaping (Int) -> ()) {
-        getCountries(from: nextPageUrl) { countries in
+        provider.nextPage() { nextPageUrl, countries in
             self.countries += countries
+            self.storage.store(nextPageUrl)
             completionHandler(countries.count)
         }
-        
-        provider.nextPageUrl(from: nextPageUrl) { nextPageUrl in
-            self.nextPageUrl = nextPageUrl
+    }
+    
+    func refresh(completionHandler: @escaping (Int) -> ()) {
+        provider.firstPage() { nextPageUrl, countries in
+            self.storage.clear()
+            self.countries = countries
+            self.storage.store(nextPageUrl)
+            completionHandler(countries.count)
         }
     }
-
+    
     func photos(for country: Country,
                 eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {        
         for photo in country.photos {
@@ -84,39 +85,6 @@ class CountriesRepo {
                     completionHandler(imageData)
                 }
             }
-        }
-    }
-
-    private func getCountries(from url: String, completionHandler: @escaping ([Country]) -> ()) {
-        provider.countries(from: url) { [weak self] countries in
-            self?.attachFlags(to: countries) {
-                completionHandler(countries)
-            }
-        }
-    }
-    
-    private func attachFlags(to countries: [Country],
-                             completionHandler handler: @escaping ()->()) {
-        let countriesHandlersGroup = DispatchGroup()
-        
-        for country in countries {
-            countriesHandlersGroup.enter()
-            attachFlag(to: country) {
-                countriesHandlersGroup.leave()
-            }
-        }
-        
-        //Wait until all countries are updated
-        countriesHandlersGroup.notify(queue: .main) {
-            handler()
-        }
-    }
-    
-    private func attachFlag(to country: Country,
-                            completionHandler: @escaping ()->()) {
-        provider.photo(from: country.flag.url) { imageData in
-            country.flag.image = imageData
-            completionHandler()
         }
     }
 }
