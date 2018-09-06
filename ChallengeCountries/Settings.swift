@@ -35,8 +35,8 @@ struct CountriesTableSettings {
 }
 
 struct CountryDetailsSettings {
-    static let scrollViewOffset: CGFloat = -64
-    static let viewOffset: CGFloat = -64
+    static let topInset: CGFloat = -64
+    static let descriptionOffset: CGFloat = 46
 }
 
 struct ImageSliderSettings {
