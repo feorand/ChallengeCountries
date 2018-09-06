@@ -8,12 +8,7 @@
 
 import UIKit
 
-struct CountryDetailsConstants {
-    static let ScrollViewOffset: CGFloat = -64
-    static let ViewOffset: CGFloat = -64
-}
-
-class CountryDetailsViewController: UIViewController {
+class CountryViewController: UIViewController {
     
     @IBOutlet weak var imageSlider: ImageSliderView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -24,16 +19,8 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var aboutLabel: UILabel!
     
     var countriesRepo: CountriesRepo?
-    var countryIndex: Int?
-    
-    var country: Country? {
-        if let index = countryIndex {
-            return countriesRepo?.countries[index]
-        } else {
-            return nil
-        }
-    }
-    
+    var country: Country?
+        
     private var atLeastOneImageLoaded = false
     
     override var navigationController: CountriesNavigationController? {
@@ -44,7 +31,10 @@ class CountryDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         updateView(with: country)
-        countriesRepo?.getPhotosForCountry(index: countryIndex, eachCompletionHandler: showPhotoFromData)
+        
+        if let country = country {
+            countriesRepo?.photos(for: country, eachCompletionHandler: showPhotoFromData)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,7 +42,7 @@ class CountryDetailsViewController: UIViewController {
             navigationController?.setStyle(to: .opaque)
         }
     }
-        
+    
     private func updateView(with country: Country?) {
         nameLabel.text = country?.name
         capitalLabel.text = country?.capital
@@ -71,9 +61,9 @@ class CountryDetailsViewController: UIViewController {
     
     private func showPhotoFromData(data: Data?) {
         if let image = image(from: data) {
-            if !self.atLeastOneImageLoaded {
+            if !atLeastOneImageLoaded {
                 atLeastOneImageLoaded = true
-                self.navigationController?.setStyle(to: .transparent)
+                navigationController?.setStyle(to: .transparent)
             }
             
             imageSlider.images.append(image)
@@ -81,7 +71,7 @@ class CountryDetailsViewController: UIViewController {
     }
 }
 
-extension CountryDetailsViewController : UIScrollViewDelegate {
+extension CountryViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         setStyle(dependingOn: scrollView)
     }
@@ -91,8 +81,8 @@ extension CountryDetailsViewController : UIScrollViewDelegate {
         guard atLeastOneImageLoaded else { return }
         
         // Change style of Navigation bar depending on Scroll offset
-        let edgeOffset = CountryDetailsConstants.ScrollViewOffset +
-            CountryDetailsConstants.ViewOffset
+        let edgeOffset = CountryDetailsSettings.scrollViewOffset +
+            CountryDetailsSettings.viewOffset
         
         if  scrollView.contentOffset.y > imageSlider.frame.height + edgeOffset ||
             scrollView.contentOffset.y < edgeOffset {

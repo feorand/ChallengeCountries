@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DownloadablePhoto: Codable {
+class DownloadablePhoto {
     let url: String
     var image: Data?
     
