@@ -12,7 +12,7 @@ import CoreData
 class CountriesTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private let countriesRepo = CountriesRepo()
     
@@ -24,12 +24,7 @@ class CountriesTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        countriesRepo.initialPage{ [weak self] numberOfCountries in
-            self?.countriesLoaded()
-            self?.tableView.reloadData()
-            self?.updateCountryTableFooterView()
-        }
+        getInitialCountriesPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -44,6 +39,13 @@ class CountriesTableViewController: UIViewController {
         }
     }
     
+    private func getInitialCountriesPage() {
+        countriesRepo.initialPage{ [weak self] numberOfCountries in
+            self?.countriesLoaded()
+            self?.tableView.reloadData()
+            self?.updateCountryTableFooterView()
+        }
+    }
     private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
@@ -64,7 +66,7 @@ class CountriesTableViewController: UIViewController {
     
     private func countriesLoaded() {
         tableView.addSubview(self.refreshControl)
-        spinner.stopAnimating()
+        activityIndicator.stopAnimating()
         tableView.separatorStyle = .singleLine
     }
     
@@ -73,8 +75,6 @@ class CountriesTableViewController: UIViewController {
         let indexPaths = (rowsCount ..< rowsCount + numberOfNewCountries)
             .map { IndexPath(row: $0, section: 0) }
         tableView.insertRows(at: indexPaths, with: .automatic)
-        
-        updateCountryTableFooterView()
     }
     
     private func updateCountryTableFooterView() {
@@ -176,7 +176,10 @@ extension CountriesTableViewController: UITableViewDataSource {
         }
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            countriesRepo.nextPage(completionHandler: insertRows)
+            countriesRepo.nextPage() { [weak self] numberOfCountries in
+                self?.insertRows(numberOfNewCountries: numberOfCountries)
+                self?.updateCountryTableFooterView()
+            }
         }
         
         return cell
