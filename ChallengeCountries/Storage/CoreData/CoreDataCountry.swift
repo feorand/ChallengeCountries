@@ -9,16 +9,16 @@
 import Foundation
 import CoreData
 
-class CountryData: NSManagedObject {
+class CoreDataCountry: NSManagedObject {
     
     class func numberOfCountries(in context: NSManagedObjectContext) throws -> Int {
-        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+        let fetchRequest:NSFetchRequest<CoreDataCountry> = CoreDataCountry.fetchRequest()
         let numberOfCountries = try context.count(for: fetchRequest)
         return numberOfCountries
     }
     
     class func clear(in context: NSManagedObjectContext) throws {
-        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+        let fetchRequest:NSFetchRequest<CoreDataCountry> = CoreDataCountry.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
         
         do {
@@ -28,8 +28,8 @@ class CountryData: NSManagedObject {
         }
     }
     
-    class func fetchAll(in context: NSManagedObjectContext) throws -> [CountryData] {
-        let fetchRequest:NSFetchRequest<CountryData> = CountryData.fetchRequest()
+    class func fetchAll(in context: NSManagedObjectContext) throws -> [CoreDataCountry] {
+        let fetchRequest:NSFetchRequest<CoreDataCountry> = CoreDataCountry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let countries = try context.fetch(fetchRequest)
         return countries
@@ -38,7 +38,7 @@ class CountryData: NSManagedObject {
     class func insertIfAbsent(_ country: Country, in context: NSManagedObjectContext) throws {
         guard try fetchCountry(named: country.name, in: context) == nil else { return }
         
-        let countryData = CountryData(context: context)
+        let countryData = CoreDataCountry(context: context)
         countryData.name = country.name
         countryData.capital = country.capital
         countryData.continent = country.continent
@@ -46,18 +46,18 @@ class CountryData: NSManagedObject {
         countryData.countryDescription = country.countryDescription
         countryData.countryDescriptionSmall = country.countryDescriptionSmall
         
-        let flag = DownloadablePhotoData.from(country.flag, in: context)
+        let flag = CoreDataDownloadablePhoto.from(country.flag, in: context)
         flag.isFlag = true
         countryData.addToStoredImages(flag)
         
         for photo in country.photos {
-            let photoData = DownloadablePhotoData.from(photo, in: context)
+            let photoData = CoreDataDownloadablePhoto.from(photo, in: context)
             countryData.addToStoredImages(photoData)
         }
     }
         
-    private class func fetchCountry(named name: String, in context: NSManagedObjectContext) throws -> CountryData? {
-        let request: NSFetchRequest<CountryData> = CountryData.fetchRequest()
+    private class func fetchCountry(named name: String, in context: NSManagedObjectContext) throws -> CoreDataCountry? {
+        let request: NSFetchRequest<CoreDataCountry> = CoreDataCountry.fetchRequest()
         request.predicate = NSPredicate(format: "name = %@", name)
         
         do {

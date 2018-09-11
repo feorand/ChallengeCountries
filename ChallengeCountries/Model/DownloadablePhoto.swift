@@ -12,7 +12,12 @@ class DownloadablePhoto {
     let url: String
     var image: Data?
     
-    init(url: String) {
+    convenience init(url: String) {
+        self.init(url: url, image: nil)
+    }
+    
+    init(url: String, image: Data?) {
         self.url = url
+        self.image = image
     }
 }

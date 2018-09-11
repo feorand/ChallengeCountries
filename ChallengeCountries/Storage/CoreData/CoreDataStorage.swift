@@ -19,28 +19,28 @@ class CoreDataStorage: Storage {
     
     func store(_ nextPageUrl: String) {
         storeInBackground{ context in
-            try StateData.setNextPageUrl(value: nextPageUrl, in: context)
+            try CoreDataState.setNextPageUrl(value: nextPageUrl, in: context)
         }
     }
     
     func store(_ countries: [Country]) {
         storeInBackground{ context in
             for country in countries {
-                try CountryData.insertIfAbsent(country, in: context)
+                try CoreDataCountry.insertIfAbsent(country, in: context)
             }
-            print("After inserting: \(try! CountryData.numberOfCountries(in: context)) countries")
+            print("After inserting: \(try! CoreDataCountry.numberOfCountries(in: context)) countries")
         }
     }
     
     func store(_ photo: DownloadablePhoto) {
         storeInBackground { context in
-            try DownloadablePhotoData.update(photo, in: context)
+            try CoreDataDownloadablePhoto.update(photo, in: context)
         }
     }
     
     func widthrawNextPageUrl() -> String? {
         if let context = container?.viewContext {
-            let nextPageUrl = try? StateData.getNextPageUrl(in: context)
+            let nextPageUrl = try? CoreDataState.getNextPageUrl(in: context)
             return nextPageUrl
         }
         
@@ -48,15 +48,15 @@ class CoreDataStorage: Storage {
     }
     
     func widthrawCountries() -> [Country] {
-        let countriesDatas = widthrawInViewContext(handler: CountryData.fetchAll) ?? []
+        let countriesDatas = widthrawInViewContext(handler: CoreDataCountry.fetchAll) ?? []
         let countries = countriesDatas.map{ Country(from: $0) }
         return countries
     }
     
     func clear() {
         storeInBackground{ context in
-            try CountryData.clear(in: context)
-            print("After clear: \(try! CountryData.numberOfCountries(in: context)) countries")
+            try CoreDataCountry.clear(in: context)
+            print("After clear: \(try! CoreDataCountry.numberOfCountries(in: context)) countries")
         }
     }
     

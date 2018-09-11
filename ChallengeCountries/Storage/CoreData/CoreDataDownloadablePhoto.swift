@@ -9,9 +9,9 @@
 import Foundation
 import CoreData
 
-class DownloadablePhotoData: NSManagedObject {
-    class func from(_ photo: DownloadablePhoto, in context: NSManagedObjectContext) -> DownloadablePhotoData {
-        let photoData = DownloadablePhotoData(context: context)
+class CoreDataDownloadablePhoto: NSManagedObject {
+    class func from(_ photo: DownloadablePhoto, in context: NSManagedObjectContext) -> CoreDataDownloadablePhoto {
+        let photoData = CoreDataDownloadablePhoto(context: context)
         photoData.url = photo.url
         photoData.image = photo.image
         
@@ -23,8 +23,8 @@ class DownloadablePhotoData: NSManagedObject {
         photoData.image = photo.image
     }
     
-    private class func fetchPhoto(url: String, in context: NSManagedObjectContext) throws -> DownloadablePhotoData? {
-        let request: NSFetchRequest<DownloadablePhotoData> = DownloadablePhotoData.fetchRequest()
+    private class func fetchPhoto(url: String, in context: NSManagedObjectContext) throws -> CoreDataDownloadablePhoto? {
+        let request: NSFetchRequest<CoreDataDownloadablePhoto> = CoreDataDownloadablePhoto.fetchRequest()
         request.predicate = NSPredicate(format: "url = %@", url)
         
         do {
