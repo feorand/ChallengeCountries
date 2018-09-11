@@ -9,6 +9,7 @@
 import UIKit
 
 class CountriesNavigationController: UINavigationController, UINavigationControllerDelegate {
+    
     enum CountriesNavigationControllerStyle {
         case opaque, transparent
     }
@@ -19,9 +20,9 @@ class CountriesNavigationController: UINavigationController, UINavigationControl
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController is CountriesListViewController {
+        if viewController is CountriesTableViewController {
             setStyle(to: .opaque)
-        } else if viewController is CountryDetailsViewController {
+        } else if viewController is CountryViewController {
             setStyle(to: .transparent)
         }
     }

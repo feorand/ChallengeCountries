@@ -8,12 +8,6 @@
 
 import UIKit
 
-struct PageControlConstants {
-    static let CirclesHeightWidth: CGFloat = 6
-    static let BottomOffset: CGFloat = 8
-    static let Spacing: CGFloat = 5
-}
-
 class ImageSliderView: UIView {
     
     @IBOutlet private var imageView: UIImageView!
@@ -88,8 +82,8 @@ class ImageSliderView: UIView {
     
     private func getPageControlOffsetY() -> CGFloat {
         return bounds.maxY -
-            PageControlConstants.CirclesHeightWidth -
-            PageControlConstants.BottomOffset
+            ImageSliderSettings.dotsSize -
+            ImageSliderSettings.dotsBottomOffset
     }
     
     @objc private func showNextImage() {
@@ -138,7 +132,7 @@ class ImageSliderView: UIView {
     private func updatePageControl() {
         let defaultControlSpacing: CGFloat = 7 // Apple default spacing
         
-        let spacingFactor = PageControlConstants.Spacing / defaultControlSpacing
+        let spacingFactor = ImageSliderSettings.dotsSpacing / defaultControlSpacing
         let reverseSpacingFactor = CGFloat(1) / spacingFactor
         
         pageControl.transform = CGAffineTransform(scaleX: spacingFactor, y: spacingFactor)

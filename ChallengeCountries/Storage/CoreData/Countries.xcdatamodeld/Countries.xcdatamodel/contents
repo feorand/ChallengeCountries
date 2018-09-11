@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CoreDataCountry" representedClassName=".CoreDataCountry" syncable="YES" codeGenerationType="category">
+        <attribute name="capital" attributeType="String" syncable="YES"/>
+        <attribute name="continent" attributeType="String" syncable="YES"/>
+        <attribute name="countryDescription" attributeType="String" syncable="YES"/>
+        <attribute name="countryDescriptionSmall" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="population" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="storedImages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CoreDataDownloadablePhoto" inverseName="country" inverseEntity="CoreDataDownloadablePhoto" syncable="YES"/>
+    </entity>
+    <entity name="CoreDataDownloadablePhoto" representedClassName=".CoreDataDownloadablePhoto" syncable="YES" codeGenerationType="category">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="isFlag" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="url" attributeType="String" syncable="YES"/>
+        <relationship name="country" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDataCountry" inverseName="storedImages" inverseEntity="CoreDataCountry" syncable="YES"/>
+    </entity>
+    <entity name="CoreDataState" representedClassName=".CoreDataState" syncable="YES" codeGenerationType="category">
+        <attribute name="key" attributeType="String" syncable="YES"/>
+        <attribute name="value" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CoreDataCountry" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CoreDataDownloadablePhoto" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CoreDataState" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>

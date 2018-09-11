@@ -9,6 +9,7 @@
 import UIKit
 
 class CountryCell: UITableViewCell {
+    
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var capitalLabel: UILabel!
@@ -30,11 +31,12 @@ class CountryCell: UITableViewCell {
     private func updateCell(with country: Country?) {
         guard let country = country else { return }
     
-        if let flag = country.flag {
-        flagImageView.image = UIImage(data: flag)
+        if let flagData = country.flag.image {
+            flagImageView.image = UIImage(data: flagData)
         }
+        
         nameLabel.text = country.name
         capitalLabel.text = country.capital
-        descriptionLabel.text = country.descriptionSmall
+        descriptionLabel.text = country.countryDescriptionSmall
     }
 }
