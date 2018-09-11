@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-class StateData: NSManagedObject {
+class CoreDataState: NSManagedObject {
     
     class func getNextPageUrl(in context: NSManagedObjectContext) throws -> String {
         let fetchedSetting = try fetchNextPageUrl(in: context)
-        return fetchedSetting.value! // core data glitch
+        return fetchedSetting.value!
     }
     
     class func setNextPageUrl(value: String, in context: NSManagedObjectContext) throws {
@@ -21,8 +21,8 @@ class StateData: NSManagedObject {
         fetchedSetting.value = value
     }
     
-    private class func fetchNextPageUrl(in context: NSManagedObjectContext) throws -> StateData {
-        let request: NSFetchRequest<StateData> = StateData.fetchRequest()
+    private class func fetchNextPageUrl(in context: NSManagedObjectContext) throws -> CoreDataState {
+        let request: NSFetchRequest<CoreDataState> = CoreDataState.fetchRequest()
         request.predicate = NSPredicate(format: "key = %@", StorageSettings.nextPageUrlKey)
         
         do {
@@ -35,7 +35,7 @@ class StateData: NSManagedObject {
             throw error
         }
         
-        let nextPageUrl = StateData(context: context)
+        let nextPageUrl = CoreDataState(context: context)
         nextPageUrl.key = StorageSettings.nextPageUrlKey
         nextPageUrl.value = ""
         return nextPageUrl

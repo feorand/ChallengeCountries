@@ -9,16 +9,16 @@
 import Foundation
 
 extension Country {
-    convenience init(from data: CountryData?) {
+    convenience init(from data: CoreDataCountry?) {
         let flag = data!
             .storedImages?
-            .compactMap{ $0 as? DownloadablePhotoData }
+            .compactMap{ $0 as? CoreDataDownloadablePhoto }
             .filter{ $0.isFlag }
             .first
         
         let photos = data!
             .storedImages?
-            .compactMap{ $0 as? DownloadablePhotoData }
+            .compactMap{ $0 as? CoreDataDownloadablePhoto }
             .filter{ !$0.isFlag }
         
         let photosUrls = photos!.map{ $0.url! }
