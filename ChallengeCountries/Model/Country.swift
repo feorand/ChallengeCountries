@@ -19,15 +19,30 @@ class Country {
     let flag: DownloadablePhoto
     let photos: [DownloadablePhoto]
     
-    init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flagUrl: String, photosUrls: [String]) {
+    convenience init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flagUrl: String, photosUrls: [String]) {
+        let flag = DownloadablePhoto(url: flagUrl)
+        let photos = photosUrls.map{ DownloadablePhoto(url: $0) }
         
+        self.init(
+            name: name,
+            continent: continent,
+            capital: capital,
+            population: population,
+            descriptionSmall: descriptionSmall,
+            description: description,
+            flag: flag,
+            photos: photos
+        )
+    }
+    
+    init(name: String, continent: String, capital: String, population: Int, descriptionSmall: String, description: String, flag: DownloadablePhoto, photos: [DownloadablePhoto]) {
         self.name = name
         self.continent = continent
         self.capital = capital
         self.population = population
         self.countryDescription = description
         self.countryDescriptionSmall = descriptionSmall
-        self.flag = DownloadablePhoto(url: flagUrl)
-        self.photos = photosUrls.map{ DownloadablePhoto(url: $0) }
+        self.flag = flag
+        self.photos = photos
     }
 }

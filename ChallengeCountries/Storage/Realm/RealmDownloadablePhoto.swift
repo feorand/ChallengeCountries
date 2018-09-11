@@ -9,7 +9,27 @@
 import Foundation
 import RealmSwift
 
+@objcMembers
 class RealmDownloadablePhoto: Object {
-    @objc dynamic var url: String = ""
-    @objc dynamic var image: Data?
+    dynamic var url: String = ""
+    dynamic var image: Data?
+    
+    override static func primaryKey() -> String? {
+        return "url"
+    }
+    
+    class func from(_ downloadablePhoto: DownloadablePhoto) -> RealmDownloadablePhoto {
+        let realmPhoto = RealmDownloadablePhoto()
+        realmPhoto.url = downloadablePhoto.url
+        realmPhoto.image = downloadablePhoto.image
+        return realmPhoto
+    }
+    
+    class func photo (from realmDownloadablePhoto: RealmDownloadablePhoto) -> DownloadablePhoto {
+        let photo = DownloadablePhoto(
+            url: realmDownloadablePhoto.url,
+            image: realmDownloadablePhoto.image
+        )
+        return photo
+    }
 }

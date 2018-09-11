@@ -19,7 +19,7 @@ struct StorageSettings {
 
 struct RepoSettings {
     static let provider = CountriesNetworkProvider.self
-    static let storage = CoreDataStorage.self
+    static let storage = RealmStorage.self
 }
 
 struct CountriesTableSettings {

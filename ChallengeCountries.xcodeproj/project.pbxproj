@@ -21,6 +21,7 @@
 		7A003C4421479CC60058F246 /* RealmDownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */; };
 		7A003C4621479D640058F246 /* RealmState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4521479D640058F246 /* RealmState.swift */; };
 		7A003C4821479DDE0058F246 /* RealmCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4721479DDE0058F246 /* RealmCountry.swift */; };
+		7A003C4A21479EF60058F246 /* RealmStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4921479EF60058F246 /* RealmStorage.swift */; };
 		7A596E9A213452A900A57627 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E99213452A900A57627 /* FileManager.swift */; };
 		7A596E9E2134707500A57627 /* DownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E9D2134707500A57627 /* DownloadablePhoto.swift */; };
 		7AFBC1A0210EF9CA00FDA653 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFBC19F210EF9CA00FDA653 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 		7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDownloadablePhoto.swift; sourceTree = "<group>"; };
 		7A003C4521479D640058F246 /* RealmState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmState.swift; sourceTree = "<group>"; };
 		7A003C4721479DDE0058F246 /* RealmCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCountry.swift; sourceTree = "<group>"; };
+		7A003C4921479EF60058F246 /* RealmStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorage.swift; sourceTree = "<group>"; };
 		7A596E99213452A900A57627 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		7A596E9D2134707500A57627 /* DownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadablePhoto.swift; sourceTree = "<group>"; };
 		7AFBC19C210EF9CA00FDA653 /* ChallengeCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +165,7 @@
 				7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */,
 				7A003C4521479D640058F246 /* RealmState.swift */,
 				7A003C4721479DDE0058F246 /* RealmCountry.swift */,
+				7A003C4921479EF60058F246 /* RealmStorage.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				7A003C1021391ACA0058F246 /* Countries.xcdatamodeld in Sources */,
 				7A003C2B214001870058F246 /* Storage.swift in Sources */,
 				7A596E9A213452A900A57627 /* FileManager.swift in Sources */,
+				7A003C4A21479EF60058F246 /* RealmStorage.swift in Sources */,
 				7A003C25213E72510058F246 /* CountriesProvider.swift in Sources */,
 				7A003C16213925C70058F246 /* CoreDataDownloadablePhoto.swift in Sources */,
 				7A003C1221391E4D0058F246 /* CoreDataState.swift in Sources */,

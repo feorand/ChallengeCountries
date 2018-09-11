@@ -9,7 +9,12 @@
 import Foundation
 import RealmSwift
 
+@objcMembers
 class RealmState: Object {
-    @objc dynamic var key: String = ""
-    @objc dynamic var value: String = ""
+    dynamic var stateKey: String = ""
+    dynamic var value: String = ""
+    
+    override static func primaryKey() -> String? {
+        return "stateKey"
+    }
 }
