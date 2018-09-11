@@ -29,14 +29,14 @@ class RealmStorage: Storage {
     }
     
     func store(_ countries: [Country]) {
-        let realmCountries = countries.map(RealmCountry.from)
+        let realmCountries = countries.map(RealmCountry.init(from:))
         try! realm.write {
             realm.add(realmCountries, update: true)
         }
     }
     
     func store(_ photo: DownloadablePhoto) {
-        let realmPhoto = RealmDownloadablePhoto.from(photo)
+        let realmPhoto = RealmDownloadablePhoto(from: photo)
         try! realm.write {
             realm.add(realmPhoto, update: true)
         }
@@ -52,7 +52,7 @@ class RealmStorage: Storage {
     
     func widthrawCountries() -> [Country] {
         let realmCountries = realm.objects(RealmCountry.self)
-        return realmCountries.map(RealmCountry.country)
+        return realmCountries.map(Country.init(from:))
     }
     
     

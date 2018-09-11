@@ -25,32 +25,15 @@ class RealmCountry: Object {
         return "name"
     }
     
-    class func from(_ country: Country) -> RealmCountry {
-        let realmCountry = RealmCountry()
-        realmCountry.name = country.name
-        realmCountry.continent = country.continent
-        realmCountry.capital = country.capital
-        realmCountry.population = country.population
-        realmCountry.countryDescription = country.countryDescription
-        realmCountry.countryDescriptionSmall = country.countryDescriptionSmall
-        realmCountry.flag = RealmDownloadablePhoto.from(country.flag)
-        realmCountry.photos.append(objectsIn: country.photos.map(RealmDownloadablePhoto.from))
-        return realmCountry
-    }
-    
-    class func country(_ realmCountry: RealmCountry) -> Country {
-        let flag = RealmDownloadablePhoto.photo(from: realmCountry.flag!)
-        let photos = realmCountry.photos.map(RealmDownloadablePhoto.photo)
-        let country = Country(
-            name: realmCountry.name,
-            continent: realmCountry.continent,
-            capital: realmCountry.capital,
-            population: realmCountry.population,
-            descriptionSmall: realmCountry.countryDescriptionSmall,
-            description: realmCountry.description,
-            flag: flag,
-            photos: Array(photos)
-        )
-        return country
+    convenience init(from country: Country) {
+        self.init()
+        name = country.name
+        continent = country.continent
+        capital = country.capital
+        population = country.population
+        countryDescription = country.countryDescription
+        countryDescriptionSmall = country.countryDescriptionSmall
+        flag = RealmDownloadablePhoto(from: country.flag)
+        photos.append(objectsIn: country.photos.map(RealmDownloadablePhoto.init(from:)))
     }
 }
