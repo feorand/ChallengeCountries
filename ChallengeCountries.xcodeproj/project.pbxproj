@@ -264,6 +264,7 @@
 				TargetAttributes = {
 					7AFBC19B210EF9CA00FDA653 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -525,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pavelprokofyev.ChallengeCountries;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -544,7 +545,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pavelprokofyev.ChallengeCountries;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

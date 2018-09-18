@@ -54,7 +54,7 @@ class ImageSliderView: UIView {
         imageView = UIImageView(frame: bounds)
         addSubview(imageView)
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator.center = center
         isIndicatorAnimating = true
         addSubview(activityIndicator)
@@ -92,7 +92,7 @@ class ImageSliderView: UIView {
         let substititeImageView = UIImageView(frame: imageView.frame)
         substititeImageView.image = imageView.image
         addSubview(substititeImageView)
-        sendSubview(toBack: substititeImageView)
+        sendSubviewToBack(substititeImageView)
         
         imageView.frame.origin.x += imageView.frame.width
         
@@ -113,8 +113,8 @@ class ImageSliderView: UIView {
         let substituteImageView = UIImageView(frame: imageView.frame)
         substituteImageView.image = imageView.image
         addSubview(substituteImageView)
-        bringSubview(toFront: substituteImageView)
-        bringSubview(toFront: pageControl)
+        bringSubviewToFront(substituteImageView)
+        bringSubviewToFront(pageControl)
         
         imageView.frame.origin.x -= imageView.frame.width
         

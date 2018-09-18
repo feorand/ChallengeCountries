@@ -85,7 +85,7 @@ class CountriesTableViewController: UIViewController {
     }
     
     private func showCountryTableFooterView() {
-        let footerSpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let footerSpinner = UIActivityIndicatorView(style: .gray)
         footerSpinner.hidesWhenStopped = true
         
         let footerView = UIView(frame: CGRect(x: 0, y: 0,
@@ -130,7 +130,7 @@ extension CountriesTableViewController: UITableViewDelegate {
     private func heightForCountryWithSmallDescription(country: Country) -> CGFloat {
         let description = country.countryDescriptionSmall as NSString
         
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: CountriesTableSettings.descriptionFontSize)]
+        let attributes = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: CountriesTableSettings.descriptionFontSize)]
         
         let descriptionWidth = view.bounds.width -
             CountriesTableSettings.leftSpacing -

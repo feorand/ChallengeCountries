@@ -39,7 +39,7 @@ class CountriesNavigationController: UINavigationController, UINavigationControl
     private func setStyleOpaque() {
         navigationBar.barStyle = .default
         navigationBar.tintColor = nil
-        navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationBar.setBackgroundImage(nil, for: .default)
         navigationBar.shadowImage = nil
     }
