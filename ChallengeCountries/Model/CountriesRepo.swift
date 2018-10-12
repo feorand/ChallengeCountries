@@ -45,6 +45,7 @@ class CountriesRepo {
         }
         
         provider.nextPageUrl = storage.widthrawNextPageUrl() ?? ""
+        
         completionHandler(countries.count)
     }
     
@@ -65,16 +66,15 @@ class CountriesRepo {
         }
     }
     
-    func photos(for country: Country,
-                eachCompletionHandler completionHandler: @escaping (Data?) -> ()) {        
+    func photos(for country: Country, eachCompletionHandler: @escaping (Data?) -> ()) {
         for photo in country.photos {
             if let imageData = photo.image {
-                completionHandler(imageData)
+                eachCompletionHandler(imageData)
             } else {
                 provider.getImage(of: photo) { imageData in
                     photo.image = imageData
                     self.storage.store(photo)
-                    completionHandler(imageData)
+                    eachCompletionHandler(imageData)
                 }
             }
         }

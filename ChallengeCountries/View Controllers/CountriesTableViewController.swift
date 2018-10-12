@@ -45,6 +45,7 @@ class CountriesTableViewController: UIViewController {
             self?.updateCountryTableFooterView()
         }
     }
+    
     private var defaultCountryCellHeight: CGFloat {
         return CountriesTableSettings.topSpacing +
             CountriesTableSettings.flagHeight +
