@@ -40,14 +40,15 @@ class CountriesJSONParser {
         let imagesUrls = data.country_info.images + [data.image]
         let nonEmptyImagesUrls = imagesUrls.filter{ !$0.isEmpty }
 
-        let country = Country(name: data.name,
-                              continent: data.continent,
-                              capital: data.capital,
-                              population: data.population,
-                              descriptionSmall: data.description_small,
-                              description: data.description,
-                              flagUrl: data.country_info.flag,
-                              photosUrls: nonEmptyImagesUrls
+        let country = Country(
+            name: data.name,
+            continent: data.continent,
+            capital: data.capital,
+            population: data.population,
+            descriptionSmall: data.description_small,
+            description: data.description,
+            flagUrl: data.country_info.flag,
+            photosUrls: nonEmptyImagesUrls
         )
 
         return country
