@@ -9,7 +9,7 @@
 import UIKit
 
 struct NetworkSettings {
-    static let initialUrl = "https://rawgit.com/NikitaAsabin/799e4502c9fc3e0ea7af439b2dfd88fa/raw/7f5c6c66358501f72fada21e04d75f64474a7888/page1.json"
+    static let initialUrl = "https://feorand.github.io/ChallengeCountries/page1.json"
     static let downloader = NetworkDownloader.self
 }
 

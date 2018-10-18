@@ -15,7 +15,7 @@ class CountriesJSONParserTests: XCTestCase {
         let json =
             """
             {
-            "next":"https://rawgit.com/NikitaAsabin/b37bf67c8668d54a517e02fdf0e0d435/raw/2021870812a13c6dbae1f8a0e9845661396c1e8d/page2.json",
+            "next":"https://feorand.github.io/ChallengeCountries/page2.json",
             "countries":[
             {
             "name": "Абхазия",
@@ -52,7 +52,7 @@ class CountriesJSONParserTests: XCTestCase {
         
         let result = try! parser.page(from: data)
         
-        XCTAssertEqual("https://rawgit.com/NikitaAsabin/b37bf67c8668d54a517e02fdf0e0d435/raw/2021870812a13c6dbae1f8a0e9845661396c1e8d/page2.json", result.0, "wrong next page url")
+        XCTAssertEqual("https://feorand.github.io/ChallengeCountries/page2.json", result.0, "wrong next page url")
         XCTAssertEqual(2, result.1.count, "wrong number of countries")
         XCTAssertEqual("Австралия", result.1[1].name, "wrong country name")
         XCTAssertEqual(2, result.1[1].photos.count, "wrong number of photos of country")

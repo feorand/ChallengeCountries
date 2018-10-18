@@ -36,7 +36,7 @@ class CountryViewController: UITableViewController {
         
         if let country = country {
             updateView(with: country)
-            countriesRepo?.photos(for: country, eachCompletionHandler: showPhotoFromData)
+            countriesRepo?.photos(for: country, eachCompletionHandler: showPhoto)
         }
     }
     
@@ -108,8 +108,8 @@ class CountryViewController: UITableViewController {
         }
     }
     
-    private func showPhotoFromData(data: Data?) {
-        if let image = image(from: data) {
+    private func showPhoto(_ photo: DownloadablePhoto) {
+        if let image = image(from: photo.image) {
             if !atLeastOneImageLoaded {
                 navigationController?.setStyle(to: .transparent)
             }

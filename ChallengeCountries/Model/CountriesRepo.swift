@@ -35,18 +35,10 @@ class CountriesRepo {
     
     func initialPage(completionHandler: @escaping (Int) -> ()) {
         if countries.isEmpty{
-            provider.firstPage() { nextPageUrl, countries in
-                self.countries = countries
-                self.storage.store(nextPageUrl)
-                completionHandler(countries.count)
-            }
-            
-            return 
+            newInitialPage(completionHandler: completionHandler)
+        } else {
+            cachedInitialPage(completionHandler: completionHandler)
         }
-        
-        provider.nextPageUrl = storage.widthrawNextPageUrl() ?? ""
-        
-        completionHandler(countries.count)
     }
     
     func nextPage(completionHandler: @escaping (Int) -> ()) {
@@ -66,17 +58,30 @@ class CountriesRepo {
         }
     }
     
-    func photos(for country: Country, eachCompletionHandler: @escaping (Data?) -> ()) {
+    func photos(for country: Country, eachCompletionHandler: @escaping (DownloadablePhoto) -> ()) {
         for photo in country.photos {
-            if let imageData = photo.image {
-                eachCompletionHandler(imageData)
+            if photo.image != nil {
+                eachCompletionHandler(photo)
             } else {
                 provider.getImage(of: photo) { imageData in
                     photo.image = imageData
                     self.storage.store(photo)
-                    eachCompletionHandler(imageData)
+                    eachCompletionHandler(photo)
                 }
             }
         }
+    }
+    
+    private func newInitialPage(completionHandler: @escaping (Int) -> ()) {
+        provider.firstPage() { nextPageUrl, countries in
+            self.countries = countries
+            self.storage.store(nextPageUrl)
+            completionHandler(countries.count)
+        }
+    }
+    
+    private func cachedInitialPage(completionHandler: @escaping (Int) -> ()) {
+        provider.nextPageUrl = storage.widthrawNextPageUrl() ?? ""
+        completionHandler(countries.count)
     }
 }
