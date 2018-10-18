@@ -17,9 +17,12 @@ class CountriesNetworkProvider: CountriesProvider {
     }
 
     private var downloader: Downloader
+    private var parser: Parser
     
-    required init(downloader: Downloader = NetworkSettings.downloader.init()) {
+    required init(downloader: Downloader = NetworkSettings.downloader.init(),
+                  parser: Parser = NetworkSettings.parser.init()) {
         self.downloader = downloader
+        self.parser = parser
         nextPageUrl = NetworkSettings.initialUrl
     }
     
@@ -48,7 +51,7 @@ class CountriesNetworkProvider: CountriesProvider {
             var result: (String, [Country])
             
             do {
-                result = try CountriesJSONParser().page(from: data)
+                result = try self.parser.page(from: data)
                 completionHandler(result.0, result.1)
             } catch {
                 print(error)

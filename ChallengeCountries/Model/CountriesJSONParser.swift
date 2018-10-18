@@ -8,8 +8,9 @@
 
 import Foundation
 
-class CountriesJSONParser {
+class CountriesJSONParser: Parser {
     private struct CountriesFromJSON: Decodable {
+        
         let next: String
         let countries: [CountryFromJSON]
         
@@ -29,6 +30,8 @@ class CountriesJSONParser {
             }
         }
     }
+    
+    required init() {} //required for constructing with metatype value
     
     func page(from data: Data) throws -> (String, [Country]) {
         let countriesData = try JSONDecoder().decode(CountriesFromJSON.self, from: data)

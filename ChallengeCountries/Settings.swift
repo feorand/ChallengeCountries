@@ -11,6 +11,7 @@ import UIKit
 struct NetworkSettings {
     static let initialUrl = "https://feorand.github.io/ChallengeCountries/page1.json"
     static let downloader = NetworkDownloader.self
+    static let parser = CountriesJSONParser.self
 }
 
 struct StorageSettings {
