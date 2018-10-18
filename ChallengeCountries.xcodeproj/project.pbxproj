@@ -8,23 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		25D5036AB8B33C4006878EBA /* Pods_ChallengeCountries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D91832DDBA78183F7FAD727 /* Pods_ChallengeCountries.framework */; };
-		7A003C1021391ACA0058F246 /* Countries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C0E21391ACA0058F246 /* Countries.xcdatamodeld */; };
-		7A003C1221391E4D0058F246 /* CoreDataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C1121391E4D0058F246 /* CoreDataState.swift */; };
-		7A003C14213925760058F246 /* CoreDataCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C13213925760058F246 /* CoreDataCountry.swift */; };
-		7A003C16213925C70058F246 /* CoreDataDownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C15213925C70058F246 /* CoreDataDownloadablePhoto.swift */; };
+		56B34357DED8D5DD5FE9CFA4 /* RealmDownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B343F190CB6C387B53250F /* RealmDownloadablePhoto.swift */; };
+		56B343F45D71BE116D5C99EF /* RealmCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B346A300346C6EACA5E38C /* RealmCountry.swift */; };
+		56B345831482EBC0A51C0D71 /* CoreDataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B34FC899EE2A9B97C8669E /* CoreDataState.swift */; };
+		56B3470120EB7B8C69C49D61 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B340D395D1A6194D2C23E8 /* CoreDataStorage.swift */; };
+		56B3479F1D2A3E2551BD4C62 /* CoreDataCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B348F141552BE056789666 /* CoreDataCountry.swift */; };
+		56B348465E92D6B28D07E9CE /* RealmStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B340111A58A8FE95359FAA /* RealmStorage.swift */; };
+		56B3491BDC13171682C7957D /* Country+RealmExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B34D44BF2D5C53DAFCFC0E /* Country+RealmExtension.swift */; };
+		56B34A0DCED40A53397B4B42 /* Countries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56B346D206B32105AFB53A04 /* Countries.xcdatamodeld */; };
+		56B34BCE3995D79AF47C3DBD /* CoreDataDownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B343E4B73A7A4BE531CCC3 /* CoreDataDownloadablePhoto.swift */; };
+		56B34C19B3A3E770EAF333CE /* DownloadablePhoto+RealmExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B346C8E1FB66E91AFF394A /* DownloadablePhoto+RealmExtension.swift */; };
+		56B34C1CDA92AC35E66ED9F8 /* RealmState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B344993842F7A88D36D104 /* RealmState.swift */; };
+		56B34DB832D990EDB3A6ED7E /* Country+CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B340806D6E236FEA9028A0 /* Country+CoreDataExtension.swift */; };
+		56B34EE39018FCA7EAB4673F /* DownloadablePhoto+CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B34F61770E506F61AB68DA /* DownloadablePhoto+CoreDataExtension.swift */; };
 		7A003C1E21392A790058F246 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C1D21392A790058F246 /* Settings.swift */; };
 		7A003C23213E705C0058F246 /* CountriesNetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */; };
 		7A003C25213E72510058F246 /* CountriesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C24213E72510058F246 /* CountriesProvider.swift */; };
-		7A003C29213E8A7A0058F246 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */; };
 		7A003C2B214001870058F246 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C2A214001870058F246 /* Storage.swift */; };
-		7A003C2D214003250058F246 /* Country+CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C2C214003250058F246 /* Country+CoreDataExtension.swift */; };
-		7A003C4421479CC60058F246 /* RealmDownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */; };
-		7A003C4621479D640058F246 /* RealmState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4521479D640058F246 /* RealmState.swift */; };
-		7A003C4821479DDE0058F246 /* RealmCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4721479DDE0058F246 /* RealmCountry.swift */; };
-		7A003C4A21479EF60058F246 /* RealmStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4921479EF60058F246 /* RealmStorage.swift */; };
-		7A003C4C2147C1E70058F246 /* DownloadablePhoto+CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4B2147C1E70058F246 /* DownloadablePhoto+CoreDataExtension.swift */; };
-		7A003C4E2147C31F0058F246 /* DownloadablePhoto+RealmExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4D2147C31F0058F246 /* DownloadablePhoto+RealmExtension.swift */; };
-		7A003C502147C5260058F246 /* Country+RealmExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A003C4F2147C5260058F246 /* Country+RealmExtension.swift */; };
 		7A596E9A213452A900A57627 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E99213452A900A57627 /* FileManager.swift */; };
 		7A596E9E2134707500A57627 /* DownloadablePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596E9D2134707500A57627 /* DownloadablePhoto.swift */; };
 		7A98D7242170848600BB32B6 /* CountryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A98D7232170848600BB32B6 /* CountryTests.swift */; };
@@ -58,23 +58,23 @@
 /* Begin PBXFileReference section */
 		36F3D6A79C74248C57313CDF /* Pods-ChallengeCountries.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChallengeCountries.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChallengeCountries/Pods-ChallengeCountries.debug.xcconfig"; sourceTree = "<group>"; };
 		4D91832DDBA78183F7FAD727 /* Pods_ChallengeCountries.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChallengeCountries.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A003C0F21391ACA0058F246 /* Countries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Countries.xcdatamodel; sourceTree = "<group>"; };
-		7A003C1121391E4D0058F246 /* CoreDataState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataState.swift; sourceTree = "<group>"; };
-		7A003C13213925760058F246 /* CoreDataCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCountry.swift; sourceTree = "<group>"; };
-		7A003C15213925C70058F246 /* CoreDataDownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDownloadablePhoto.swift; sourceTree = "<group>"; };
+		56B340111A58A8FE95359FAA /* RealmStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmStorage.swift; sourceTree = "<group>"; };
+		56B340806D6E236FEA9028A0 /* Country+CoreDataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Country+CoreDataExtension.swift"; sourceTree = "<group>"; };
+		56B340D395D1A6194D2C23E8 /* CoreDataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		56B343E4B73A7A4BE531CCC3 /* CoreDataDownloadablePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataDownloadablePhoto.swift; sourceTree = "<group>"; };
+		56B343F190CB6C387B53250F /* RealmDownloadablePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmDownloadablePhoto.swift; sourceTree = "<group>"; };
+		56B344993842F7A88D36D104 /* RealmState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmState.swift; sourceTree = "<group>"; };
+		56B346A300346C6EACA5E38C /* RealmCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCountry.swift; sourceTree = "<group>"; };
+		56B346C8E1FB66E91AFF394A /* DownloadablePhoto+RealmExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DownloadablePhoto+RealmExtension.swift"; sourceTree = "<group>"; };
+		56B348F141552BE056789666 /* CoreDataCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataCountry.swift; sourceTree = "<group>"; };
+		56B34CEDA8E00009BD71B5EA /* Countries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Countries.xcdatamodel; sourceTree = "<group>"; };
+		56B34D44BF2D5C53DAFCFC0E /* Country+RealmExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Country+RealmExtension.swift"; sourceTree = "<group>"; };
+		56B34F61770E506F61AB68DA /* DownloadablePhoto+CoreDataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DownloadablePhoto+CoreDataExtension.swift"; sourceTree = "<group>"; };
+		56B34FC899EE2A9B97C8669E /* CoreDataState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataState.swift; sourceTree = "<group>"; };
 		7A003C1D21392A790058F246 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesNetworkProvider.swift; sourceTree = "<group>"; };
 		7A003C24213E72510058F246 /* CountriesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesProvider.swift; sourceTree = "<group>"; };
-		7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		7A003C2A214001870058F246 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		7A003C2C214003250058F246 /* Country+CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Country+CoreDataExtension.swift"; sourceTree = "<group>"; };
-		7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDownloadablePhoto.swift; sourceTree = "<group>"; };
-		7A003C4521479D640058F246 /* RealmState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmState.swift; sourceTree = "<group>"; };
-		7A003C4721479DDE0058F246 /* RealmCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCountry.swift; sourceTree = "<group>"; };
-		7A003C4921479EF60058F246 /* RealmStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorage.swift; sourceTree = "<group>"; };
-		7A003C4B2147C1E70058F246 /* DownloadablePhoto+CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadablePhoto+CoreDataExtension.swift"; sourceTree = "<group>"; };
-		7A003C4D2147C31F0058F246 /* DownloadablePhoto+RealmExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadablePhoto+RealmExtension.swift"; sourceTree = "<group>"; };
-		7A003C4F2147C5260058F246 /* Country+RealmExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Country+RealmExtension.swift"; sourceTree = "<group>"; };
 		7A596E99213452A900A57627 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		7A596E9D2134707500A57627 /* DownloadablePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadablePhoto.swift; sourceTree = "<group>"; };
 		7A98D7212170848600BB32B6 /* ChallengeCountriesUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChallengeCountriesUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,13 +119,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7A003C18213926970058F246 /* Storage */ = {
+		56B343D60F06D5866469AC4F /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				7A003C4221479CAB0058F246 /* Realm */,
-				7A003C41214796FE0058F246 /* CoreData */,
+				56B34B5C595DAFEED106E7B1 /* Realm */,
+				56B34A95BCF28176F35993FE /* CoreData */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		56B34A95BCF28176F35993FE /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				56B340806D6E236FEA9028A0 /* Country+CoreDataExtension.swift */,
+				56B34F61770E506F61AB68DA /* DownloadablePhoto+CoreDataExtension.swift */,
+				56B346D206B32105AFB53A04 /* Countries.xcdatamodeld */,
+				56B348F141552BE056789666 /* CoreDataCountry.swift */,
+				56B343E4B73A7A4BE531CCC3 /* CoreDataDownloadablePhoto.swift */,
+				56B34FC899EE2A9B97C8669E /* CoreDataState.swift */,
+				56B340D395D1A6194D2C23E8 /* CoreDataStorage.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		56B34B5C595DAFEED106E7B1 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				56B343F190CB6C387B53250F /* RealmDownloadablePhoto.swift */,
+				56B344993842F7A88D36D104 /* RealmState.swift */,
+				56B346A300346C6EACA5E38C /* RealmCountry.swift */,
+				56B340111A58A8FE95359FAA /* RealmStorage.swift */,
+				56B346C8E1FB66E91AFF394A /* DownloadablePhoto+RealmExtension.swift */,
+				56B34D44BF2D5C53DAFCFC0E /* Country+RealmExtension.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		7A003C192139276D0058F246 /* Supporting Files */ = {
@@ -159,6 +186,7 @@
 				7A003C2A214001870058F246 /* Storage.swift */,
 				7AFBC1B52110674800FDA653 /* CountriesJSONParser.swift */,
 				7A003C22213E705C0058F246 /* CountriesNetworkProvider.swift */,
+				56B343D60F06D5866469AC4F /* Storage */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,33 +205,6 @@
 				7AFBC1C5211ADA3F00FDA653 /* ImageSliderView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		7A003C41214796FE0058F246 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				7A003C2C214003250058F246 /* Country+CoreDataExtension.swift */,
-				7A003C4B2147C1E70058F246 /* DownloadablePhoto+CoreDataExtension.swift */,
-				7A003C0E21391ACA0058F246 /* Countries.xcdatamodeld */,
-				7A003C13213925760058F246 /* CoreDataCountry.swift */,
-				7A003C15213925C70058F246 /* CoreDataDownloadablePhoto.swift */,
-				7A003C1121391E4D0058F246 /* CoreDataState.swift */,
-				7A003C28213E8A7A0058F246 /* CoreDataStorage.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		7A003C4221479CAB0058F246 /* Realm */ = {
-			isa = PBXGroup;
-			children = (
-				7A003C4321479CC60058F246 /* RealmDownloadablePhoto.swift */,
-				7A003C4521479D640058F246 /* RealmState.swift */,
-				7A003C4721479DDE0058F246 /* RealmCountry.swift */,
-				7A003C4921479EF60058F246 /* RealmStorage.swift */,
-				7A003C4D2147C31F0058F246 /* DownloadablePhoto+RealmExtension.swift */,
-				7A003C4F2147C5260058F246 /* Country+RealmExtension.swift */,
-			);
-			path = Realm;
 			sourceTree = "<group>";
 		};
 		7A98D7222170848600BB32B6 /* ChallengeCountriesUnitTests */ = {
@@ -245,7 +246,6 @@
 				7A003C1A213927D50058F246 /* View Controllers */,
 				7A003C1F21392BB60058F246 /* Views */,
 				7A003C1B213927EA0058F246 /* Model */,
-				7A003C18213926970058F246 /* Storage */,
 				7A003C1C213927FD0058F246 /* Foundation Extensions */,
 				7A003C1D21392A790058F246 /* Settings.swift */,
 				7AFBC1AB210EF9CB00FDA653 /* Info.plist */,
@@ -427,34 +427,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A003C4E2147C31F0058F246 /* DownloadablePhoto+RealmExtension.swift in Sources */,
-				7A003C29213E8A7A0058F246 /* CoreDataStorage.swift in Sources */,
 				7A596E9E2134707500A57627 /* DownloadablePhoto.swift in Sources */,
-				7A003C4421479CC60058F246 /* RealmDownloadablePhoto.swift in Sources */,
 				7A003C23213E705C0058F246 /* CountriesNetworkProvider.swift in Sources */,
-				7A003C4C2147C1E70058F246 /* DownloadablePhoto+CoreDataExtension.swift in Sources */,
-				7A003C14213925760058F246 /* CoreDataCountry.swift in Sources */,
 				7AFBC1B62110674800FDA653 /* CountriesJSONParser.swift in Sources */,
-				7A003C2D214003250058F246 /* Country+CoreDataExtension.swift in Sources */,
 				7A003C1E21392A790058F246 /* Settings.swift in Sources */,
-				7A003C4621479D640058F246 /* RealmState.swift in Sources */,
-				7A003C1021391ACA0058F246 /* Countries.xcdatamodeld in Sources */,
 				7A003C2B214001870058F246 /* Storage.swift in Sources */,
 				7A596E9A213452A900A57627 /* FileManager.swift in Sources */,
-				7A003C4A21479EF60058F246 /* RealmStorage.swift in Sources */,
 				7A003C25213E72510058F246 /* CountriesProvider.swift in Sources */,
-				7A003C16213925C70058F246 /* CoreDataDownloadablePhoto.swift in Sources */,
-				7A003C1221391E4D0058F246 /* CoreDataState.swift in Sources */,
 				7AFBC1BA2111D34200FDA653 /* CountryViewController.swift in Sources */,
 				7AFBC1A2210EF9CA00FDA653 /* CountriesTableViewController.swift in Sources */,
-				7A003C502147C5260058F246 /* Country+RealmExtension.swift in Sources */,
 				7AFBC1B821119D5D00FDA653 /* CountryCell.swift in Sources */,
-				7A003C4821479DDE0058F246 /* RealmCountry.swift in Sources */,
 				7AFBC1BC21131A5500FDA653 /* CountriesNavigationController.swift in Sources */,
 				7AFBC1B2210EFD2E00FDA653 /* Country.swift in Sources */,
 				7AFBC1B4210F035D00FDA653 /* CountriesRepo.swift in Sources */,
 				7AFBC1A0210EF9CA00FDA653 /* AppDelegate.swift in Sources */,
 				7AFBC1C6211ADA3F00FDA653 /* ImageSliderView.swift in Sources */,
+				56B34357DED8D5DD5FE9CFA4 /* RealmDownloadablePhoto.swift in Sources */,
+				56B34C1CDA92AC35E66ED9F8 /* RealmState.swift in Sources */,
+				56B343F45D71BE116D5C99EF /* RealmCountry.swift in Sources */,
+				56B348465E92D6B28D07E9CE /* RealmStorage.swift in Sources */,
+				56B34C19B3A3E770EAF333CE /* DownloadablePhoto+RealmExtension.swift in Sources */,
+				56B3491BDC13171682C7957D /* Country+RealmExtension.swift in Sources */,
+				56B34DB832D990EDB3A6ED7E /* Country+CoreDataExtension.swift in Sources */,
+				56B34EE39018FCA7EAB4673F /* DownloadablePhoto+CoreDataExtension.swift in Sources */,
+				56B34A0DCED40A53397B4B42 /* Countries.xcdatamodeld in Sources */,
+				56B3479F1D2A3E2551BD4C62 /* CoreDataCountry.swift in Sources */,
+				56B34BCE3995D79AF47C3DBD /* CoreDataDownloadablePhoto.swift in Sources */,
+				56B345831482EBC0A51C0D71 /* CoreDataState.swift in Sources */,
+				56B3470120EB7B8C69C49D61 /* CoreDataStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,12 +718,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		7A003C0E21391ACA0058F246 /* Countries.xcdatamodeld */ = {
+		56B346D206B32105AFB53A04 /* Countries.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				7A003C0F21391ACA0058F246 /* Countries.xcdatamodel */,
+				56B34CEDA8E00009BD71B5EA /* Countries.xcdatamodel */,
 			);
-			currentVersion = 7A003C0F21391ACA0058F246 /* Countries.xcdatamodel */;
+			currentVersion = 56B34CEDA8E00009BD71B5EA /* Countries.xcdatamodel */;
 			path = Countries.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
