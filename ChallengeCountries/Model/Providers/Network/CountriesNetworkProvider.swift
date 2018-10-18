@@ -16,10 +16,10 @@ class CountriesNetworkProvider: CountriesProvider {
         return nextPageUrl.isEmpty
     }
 
-    private var downloader: NetworkDownloader
+    private var downloader: Downloader
     
-    required init() {
-        downloader = NetworkDownloader()
+    required init(downloader: Downloader = NetworkSettings.downloader.init()) {
+        self.downloader = downloader
         nextPageUrl = NetworkSettings.initialUrl
     }
     
@@ -40,11 +40,11 @@ class CountriesNetworkProvider: CountriesProvider {
     }
     
     func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->()) {
-        downloader.executeRequest(from: photo.url, completionHandler: completionHandler)
+        downloader.download(from: photo.url, completionHandler: completionHandler)
     }
     
     private func downloadPage(from url: String, completionHandler: @escaping (String, [Country]) -> ()) {
-        downloader.executeRequest(from: url) { data in
+        downloader.download(from: url) { data in
             var result: (String, [Country])
             
             do {

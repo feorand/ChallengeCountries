@@ -5,10 +5,13 @@
 
 import Foundation
 
-class NetworkDownloader {
+class NetworkDownloader: Downloader {
 
-    func executeRequest( from urlString: String,
-                         completionHandler handler: @escaping (Data) -> ()) {
+    //required for constructing with metatype value
+    required init() {}
+
+    func download(from urlString: String,
+                  completionHandler handler: @escaping (Data) -> ()) {
 
         guard let url = URL(string: urlString) else { return }
 

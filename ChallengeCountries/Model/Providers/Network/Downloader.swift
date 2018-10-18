@@ -6,4 +6,6 @@
 import Foundation
 
 protocol Downloader {
+    func download(from urlString: String,
+                  completionHandler handler: @escaping (Data) -> ())
 }
