@@ -15,8 +15,11 @@ class CountriesNetworkProvider: CountriesProvider {
     var reachedEnd: Bool {
         return nextPageUrl.isEmpty
     }
+
+    private var downloader: NetworkDownloader
     
     required init() {
+        downloader = NetworkDownloader()
         nextPageUrl = NetworkSettings.initialUrl
     }
     
@@ -37,11 +40,11 @@ class CountriesNetworkProvider: CountriesProvider {
     }
     
     func getImage(of photo:DownloadablePhoto, completionHandler: @escaping (Data)->()) {
-        executeRequest(from: photo.url, completionHandler: completionHandler)
+        downloader.executeRequest(from: photo.url, completionHandler: completionHandler)
     }
     
     private func downloadPage(from url: String, completionHandler: @escaping (String, [Country]) -> ()) {
-        executeRequest(from: url) { data in
+        downloader.executeRequest(from: url) { data in
             var result: (String, [Country])
             
             do {
@@ -52,34 +55,6 @@ class CountriesNetworkProvider: CountriesProvider {
                 return
             }
         }
-    }
-    
-    private func executeRequest(from urlString: String,
-                                      completionHandler handler: @escaping (Data) -> ()) {
-        
-        guard let url = URL(string: urlString) else { return }
-        
-        let urlRequest = URLRequest(url: url)
-        
-        let urlSession = URLSession.shared.dataTask(with: urlRequest) {
-            (data, urlResponse, error) in
-            
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            guard let data = data else {
-                print("Empty data received")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                handler(data)
-            }
-        }
-        
-        urlSession.resume()
     }
     
     private func attachFlags(to countries: [Country],
